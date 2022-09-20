@@ -1,0 +1,1 @@
+C:\Users\jorun\Source\Repos\psi1-project\mobileApp\mobileApp\mobileApp.csproj;x64
