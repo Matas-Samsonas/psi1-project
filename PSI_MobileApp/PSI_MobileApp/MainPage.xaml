@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PSI_MobileApp.MainPage"
+             xmlns:viewmodel="clr-namespace:PSI_MobileApp.ViewModels"
+             x:DataType="viewmodel:MainPageViewModel">
+    <Border>
+        <VerticalStackLayout VerticalOptions="End">
+            <HorizontalStackLayout Spacing="5">
+                <Button Text="Home"
+                        TextColor="Green"
+                        CornerRadius="0">
+                </Button>
+                <Button Text="Suppliers"
+                        TextColor="Black"
+                        CornerRadius="0"
+                        Command="{Binding GoSupplierListPageCommand}">
+                </Button>
+                <Button Text="Search"
+                        TextColor="Black"
+                        CornerRadius="0">
+                </Button>
+                <Button Text="Profile"
+                        TextColor="Black"
+                        CornerRadius="0">
+                </Button>
+                <Button Text="Settings"
+                        TextColor="Black"
+                        CornerRadius="0">
+                </Button>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </Border>
+    
+
+
+
+
+
+</ContentPage>
