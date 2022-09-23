@@ -6,8 +6,22 @@
     xmlns:local="clr-namespace:PSI_MobileApp"
     Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <TabBar>
+        <Tab Title="Home">
+            <ShellContent ContentTemplate="{DataTemplate local:MainPage}">
+                
+            </ShellContent>
+        </Tab>
+        <Tab Title="Suppliers">
+            <ShellContent ContentTemplate="{DataTemplate local:SupplierListPage}">
+                
+            </ShellContent>
+        </Tab>
+        <Tab Title="Search">
+            <ShellContent ContentTemplate="{DataTemplate local:SearchPage}">
+                
+            </ShellContent>
+        </Tab>
+    </TabBar>
 
 </Shell>
