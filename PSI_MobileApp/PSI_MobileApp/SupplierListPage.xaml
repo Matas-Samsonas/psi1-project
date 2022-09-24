@@ -5,32 +5,8 @@
              Title="Supplier List"
              xmlns:viewmodel="clr-namespace:PSI_MobileApp.ViewModels"
              x:DataType="viewmodel:SupplierPageViewModel">
-
-    <Border>
-        <VerticalStackLayout VerticalOptions="End">
-            <HorizontalStackLayout Spacing="-2">
-                <Button Text="Home"
-                        TextColor="Black"
-                        CornerRadius="0"
-                        Command="{Binding GoHomeCommand}">
-                </Button>
-                <Button Text="Supplier List"
-                        TextColor="Green"
-                        CornerRadius="0">
-                </Button>
-                <Button Text="Search"
-                        TextColor="Black"
-                        CornerRadius="0">
-                </Button>
-                <Button Text="Profile"
-                        TextColor="Black"
-                        CornerRadius="0">
-                </Button>
-                <Button Text="Settings"
-                        TextColor="Black"
-                        CornerRadius="0">
-                </Button>
-            </HorizontalStackLayout>
-        </VerticalStackLayout>
-    </Border>
+    
+    
+    
+    
 </ContentPage>
