@@ -6,7 +6,6 @@ namespace PSI_MobileApp.ViewModels
 {
     public partial class DetailPageViewModel : ObservableObject, IQueryAttributable
     {
-        Profile user = new();
 
         [ObservableProperty]
         string name;
