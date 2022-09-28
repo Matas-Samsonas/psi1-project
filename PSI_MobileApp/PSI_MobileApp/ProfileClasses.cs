@@ -1,58 +1,35 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Org.Apache.Http.Authentication;
+using System;
+using System.Runtime.CompilerServices;
 
 namespace ProfileClasses
 {
-    public class Profile : ObservableObject
+    public class Account : ObservableObject
     {
-        private string username;
+        // public AccountStatus { get; private set; } TODO: Sukurti ProfileStatus enum (Pvz. enum ProfileStatus { Client, Distributor })
+        private string userName;
         private string password;
+        public string UserName { get => userName; set => SetProperty(ref userName, value); } // For ProfileStatus == Client it is a user created name and for Distributors - the name of their establishment
+
+        public string Password { get => password; set => SetProperty(ref password, value); }
+
+        public Account() { }
+    }
+
+    public class Profile : Account 
+    {
+
+        // public Kitchen[] Kitchens // For ProfileStatus == Client it is preferred kitchens to eat and for Distributors it is the Kitchens that they serve
         private string email;
-        public string UserName { 
-            get => username; 
-            set => SetProperty(ref username, value); 
-        }
+        private string phoneNumber;
+        public string Email { get => email; set => SetProperty(ref email, value); }
 
-        public string Password { 
-            get => password;
-            set => SetProperty(ref password, value); 
-        }
-
-        public string Email { 
-            get => email; 
-            set => SetProperty(ref email, value); 
-        }
-
-        public string PhoneNumber { get; set; }
+        public string PhoneNumber { get => phoneNumber; set => SetProperty(ref phoneNumber, value); }
 
         // public Address Location TODO: Sukurti Address class / struct.
 
         public Profile() { }
     }
 
-    public class Client : Profile
-    {
-        public string Name { get; set; }
-
-        public string Surname { get; set; }
-
-        // public Kitchen [] PreferredKitchen Virtuvių tipus darysime kaip enum ar ne (PVZ. enum Kitchen {Traditional, Chinese, Thai...})?
-
-        public Distributor [] Subscriptions;
-
-        public Client() { }  
-    }
-
-    public class Distributor : Profile
-    {
-        public string EstablishmentName { get; set; }
-
-        public double Ratings { get; set; }
-
-        public int amountOfReviews;
-
-        // public Kitchen [] OfferedKitchens;
-
-        public Distributor() { }
-    }
-    
 }
