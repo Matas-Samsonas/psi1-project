@@ -11,10 +11,11 @@ Iki 2022-09-28:
  
  
 Iki 2022-10-05:
- - [ ] Sukurti primityvią duombazę
- - [ ] Patobulinti sąrašą in SupliersViewModel
- - [ ] Search bar 
+ - [ ] Sukurti primityvią duombazę.
+ - [ ] SupliersView rodytų tik sukurtus suplier profilius.
+ - [ ] Search bar.
  - [ ] Paprastą su duomenų baze bendrauti skirtą klasę.
+ - ..?
  
  Long-term:
  - Implementuoti reikalavimus iš kimutis.lt
