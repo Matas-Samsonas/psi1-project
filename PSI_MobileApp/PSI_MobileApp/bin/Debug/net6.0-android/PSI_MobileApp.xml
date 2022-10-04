@@ -4,5 +4,65 @@
         <name>PSI_MobileApp</name>
     </assembly>
     <members>
+        <member name="P:PSI_MobileApp.ViewModels.DetailPageViewModel.Name">
+            <inheritdoc cref="F:PSI_MobileApp.ViewModels.DetailPageViewModel.name"/>
+        </member>
+        <member name="P:PSI_MobileApp.ViewModels.DetailPageViewModel.Password">
+            <inheritdoc cref="F:PSI_MobileApp.ViewModels.DetailPageViewModel.password"/>
+        </member>
+        <member name="P:PSI_MobileApp.ViewModels.DetailPageViewModel.Email">
+            <inheritdoc cref="F:PSI_MobileApp.ViewModels.DetailPageViewModel.email"/>
+        </member>
+        <member name="F:PSI_MobileApp.ViewModels.DetailPageViewModel.goBackCommand">
+            <summary>The backing field for <see cref="P:PSI_MobileApp.ViewModels.DetailPageViewModel.GoBackCommand"/>.</summary>
+        </member>
+        <member name="P:PSI_MobileApp.ViewModels.DetailPageViewModel.GoBackCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:PSI_MobileApp.ViewModels.DetailPageViewModel.GoBack"/>.</summary>
+        </member>
+        <member name="P:PSI_MobileApp.ViewModels.NewUserViewModel.Profile">
+            <inheritdoc cref="F:PSI_MobileApp.ViewModels.NewUserViewModel.profile"/>
+        </member>
+        <member name="P:PSI_MobileApp.ViewModels.NewUserViewModel.ConPassword">
+            <inheritdoc cref="F:PSI_MobileApp.ViewModels.NewUserViewModel.conPassword"/>
+        </member>
+        <member name="F:PSI_MobileApp.ViewModels.NewUserViewModel.addCommand">
+            <summary>The backing field for <see cref="P:PSI_MobileApp.ViewModels.NewUserViewModel.AddCommand"/>.</summary>
+        </member>
+        <member name="P:PSI_MobileApp.ViewModels.NewUserViewModel.AddCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:PSI_MobileApp.ViewModels.NewUserViewModel.Add"/>.</summary>
+        </member>
+        <member name="P:PSI_MobileApp.ViewModels.SupplierPageViewModel.Users">
+            <inheritdoc cref="F:PSI_MobileApp.ViewModels.SupplierPageViewModel.users"/>
+        </member>
+        <member name="F:PSI_MobileApp.ViewModels.SupplierPageViewModel.goHomeCommand">
+            <summary>The backing field for <see cref="P:PSI_MobileApp.ViewModels.SupplierPageViewModel.GoHomeCommand"/>.</summary>
+        </member>
+        <member name="P:PSI_MobileApp.ViewModels.SupplierPageViewModel.GoHomeCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:PSI_MobileApp.ViewModels.SupplierPageViewModel.GoHome"/>.</summary>
+        </member>
+        <member name="F:PSI_MobileApp.ViewModels.SupplierPageViewModel.addUserCommand">
+            <summary>The backing field for <see cref="P:PSI_MobileApp.ViewModels.SupplierPageViewModel.AddUserCommand"/>.</summary>
+        </member>
+        <member name="P:PSI_MobileApp.ViewModels.SupplierPageViewModel.AddUserCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:PSI_MobileApp.ViewModels.SupplierPageViewModel.AddUser"/>.</summary>
+        </member>
+        <member name="F:PSI_MobileApp.ViewModels.SupplierPageViewModel.tapCommand">
+            <summary>The backing field for <see cref="P:PSI_MobileApp.ViewModels.SupplierPageViewModel.TapCommand"/>.</summary>
+        </member>
+        <member name="P:PSI_MobileApp.ViewModels.SupplierPageViewModel.TapCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand`1"/> instance wrapping <see cref="M:PSI_MobileApp.ViewModels.SupplierPageViewModel.Tap(ProfileClasses.Profile)"/>.</summary>
+        </member>
+        <member name="P:ProfileClasses.Account.UserName">
+            <inheritdoc cref="F:ProfileClasses.Account.userName"/>
+        </member>
+        <member name="P:ProfileClasses.Account.Password">
+            <inheritdoc cref="F:ProfileClasses.Account.password"/>
+        </member>
+        <member name="P:ProfileClasses.Profile.Email">
+            <inheritdoc cref="F:ProfileClasses.Profile.email"/>
+        </member>
+        <member name="P:ProfileClasses.Profile.PhoneNumber">
+            <inheritdoc cref="F:ProfileClasses.Profile.phoneNumber"/>
+        </member>
     </members>
 </doc>

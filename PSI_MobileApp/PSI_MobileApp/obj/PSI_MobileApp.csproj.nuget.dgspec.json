@@ -1,24 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Jorūnas\\Source\\Repos\\psi1-project\\PSI_MobileApp\\PSI_MobileApp\\PSI_MobileApp.csproj": {}
+    "C:\\Users\\Rokas\\Desktop\\PSI\\repos\\PSI_MobileApp\\PSI_MobileApp\\PSI_MobileApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Jorūnas\\Source\\Repos\\psi1-project\\PSI_MobileApp\\PSI_MobileApp\\PSI_MobileApp.csproj": {
+    "C:\\Users\\Rokas\\Desktop\\PSI\\repos\\PSI_MobileApp\\PSI_MobileApp\\PSI_MobileApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Jorūnas\\Source\\Repos\\psi1-project\\PSI_MobileApp\\PSI_MobileApp\\PSI_MobileApp.csproj",
+        "projectUniqueName": "C:\\Users\\Rokas\\Desktop\\PSI\\repos\\PSI_MobileApp\\PSI_MobileApp\\PSI_MobileApp.csproj",
         "projectName": "PSI_MobileApp",
-        "projectPath": "C:\\Users\\Jorūnas\\Source\\Repos\\psi1-project\\PSI_MobileApp\\PSI_MobileApp\\PSI_MobileApp.csproj",
-        "packagesPath": "C:\\Users\\Jorūnas\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Jorūnas\\Source\\Repos\\psi1-project\\PSI_MobileApp\\PSI_MobileApp\\obj\\",
+        "projectPath": "C:\\Users\\Rokas\\Desktop\\PSI\\repos\\PSI_MobileApp\\PSI_MobileApp\\PSI_MobileApp.csproj",
+        "packagesPath": "C:\\Users\\Rokas\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Rokas\\Desktop\\PSI\\repos\\PSI_MobileApp\\PSI_MobileApp\\obj\\",
         "projectStyle": "PackageReference",
         "crossTargeting": true,
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Jorūnas\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Rokas\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
