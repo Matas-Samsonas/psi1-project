@@ -52,5 +52,17 @@
         <member name="P:PSI_MobileApp.ViewModels.SupplierPageViewModel.TapCommand">
             <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand`1"/> instance wrapping <see cref="M:PSI_MobileApp.ViewModels.SupplierPageViewModel.Tap(ProfileClasses.Profile)"/>.</summary>
         </member>
+        <member name="P:ProfileClasses.Account.UserName">
+            <inheritdoc cref="F:ProfileClasses.Account.userName"/>
+        </member>
+        <member name="P:ProfileClasses.Account.Password">
+            <inheritdoc cref="F:ProfileClasses.Account.password"/>
+        </member>
+        <member name="P:ProfileClasses.Profile.Email">
+            <inheritdoc cref="F:ProfileClasses.Profile.email"/>
+        </member>
+        <member name="P:ProfileClasses.Profile.PhoneNumber">
+            <inheritdoc cref="F:ProfileClasses.Profile.phoneNumber"/>
+        </member>
     </members>
 </doc>
