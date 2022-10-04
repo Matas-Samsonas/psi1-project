@@ -1,7 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Org.Apache.Http.Authentication;
-using System;
-using System.Runtime.CompilerServices;
 
 namespace ProfileClasses
 {

@@ -1,4 +1,5 @@
-﻿using PSI_MobileApp.ViewModels;
+﻿using CommunityToolkit.Maui;
+using PSI_MobileApp.ViewModels;
 
 namespace PSI_MobileApp;
 
@@ -14,6 +15,9 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
+		builder.UseMauiCommunityToolkit();
+
+		builder.Services.AddSingleton<IConnectivity>(Connectivity.Current);
 
 		builder.Services.AddSingleton<MainPage>();
 		builder.Services.AddSingleton<MainPageViewModel>();
