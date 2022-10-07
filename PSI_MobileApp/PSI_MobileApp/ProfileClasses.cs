@@ -1,39 +1,25 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Org.Apache.Http.Authentication;
-using System;
-using System.Runtime.CompilerServices;
+using System.Collections;
 
 namespace ProfileClasses
 {
-    public partial class Account : ObservableObject
+    public struct Account
     {
-        // public AccountStatus { get; private set; } TODO: Sukurti ProfileStatus enum (Pvz. enum ProfileStatus { Client, Distributor })
-        [ObservableProperty]
-        private string userName;
-        [ObservableProperty]
-        private string password;
-       // public string UserName { get => userName; set => SetProperty(ref userName, value); } // For ProfileStatus == Client it is a user created name and for Distributors - the name of their establishment
-        //public string UserName;
-       // public string Password;
-
-        public Account() { }
+        private string _userName;
+        private string _password;
+        public string UserName { get; private set; }
+        public string Password { get; private set; }
     }
 
-    public partial class Profile : Account 
+    public partial class Profile
     {
-
-        // public Kitchen[] Kitchens // For ProfileStatus == Client it is preferred kitchens to eat and for Distributors it is the Kitchens that they serve
-        [ObservableProperty]
-        private string email;
-        [ObservableProperty]
-        private string phoneNumber;
-       // public string Email;
-
-        //public string PhoneNumber;
-
-        // public Address Location TODO: Sukurti Address class / struct.
-
-        public Profile() { }
+        private string _email;
+        private string _password;
+        private Account _account;
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
+        
+        
     }
 
 }

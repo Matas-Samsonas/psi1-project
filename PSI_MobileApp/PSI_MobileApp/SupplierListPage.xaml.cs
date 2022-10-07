@@ -6,7 +6,8 @@ public partial class SupplierListPage : ContentPage
 {
 	public SupplierListPage(SupplierPageViewModel vm)
 	{
-		InitializeComponent();
+        
+        InitializeComponent();
 		BindingContext = vm;
 	}
 }

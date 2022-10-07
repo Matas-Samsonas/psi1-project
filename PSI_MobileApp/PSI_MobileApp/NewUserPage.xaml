@@ -5,7 +5,7 @@
              Title="NewUserPage"
              xmlns:viewmodel="clr-namespace:PSI_MobileApp.ViewModels"
              x:DataType="viewmodel:NewUserViewModel">
-    
+    <!--
     <Grid ColumnDefinitions="*"
           Padding="10"
           RowSpacing="10"
@@ -61,6 +61,7 @@
 
 
     </Grid>
+    -->
      
     
     
