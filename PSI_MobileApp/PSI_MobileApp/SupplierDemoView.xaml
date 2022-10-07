@@ -11,9 +11,9 @@
             <Frame>
                 <Image BindingContext="{Binding SupplierImageSource}"/>
             </Frame>
-            <Label Text="{Binding SupplierName, FallbackValue='Supplier name'}"
+        <Label Text="{Binding SupplierName, FallbackValue='Supplier name'}"
                    Padding="5,0,5,0"/>
-            <Label Text="{Binding SupplierRating, FallbackValue=0}"
+        <Label Text="{Binding SupplierRating, FallbackValue=0}"
                    Padding="5,0,5,0"/>
             <Label Text="{Binding SupplierEmail, FallbackValue='no email'}"
                    Padding="5,0,5,0"/>

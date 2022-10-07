@@ -20,8 +20,8 @@
                     <ViewCell>
                         <controls:SupplierDemoView SupplierEmail="{Binding Email}"
                                                    SupplierPhoneNumber="{Binding PhoneNumber}"
-                                                   SupplierRating="4.5"
-                                                   >
+                                                   SupplierRating="{Binding Rating}"
+                                                   SupplierName="{Binding Name}">
                         </controls:SupplierDemoView>
                     </ViewCell>
                 </DataTemplate>
