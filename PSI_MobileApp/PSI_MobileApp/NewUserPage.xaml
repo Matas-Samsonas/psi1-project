@@ -14,9 +14,6 @@
         <Style x:Key="ValidEntryStyle" TargetType="Entry">
             <Setter Property="TextColor" Value="Black" />
         </Style>
-        <ResourceDictionary>
-            <toolkit:BoolToObjectConverter x:Key="BoolToObjectConverter" TrueObject="True" FalseObject="False"/>
-        </ResourceDictionary>
     </ContentPage.Resources>
 
 
@@ -142,7 +139,7 @@
                Grid.Row="4"
                Grid.RowSpan="2"
                Grid.ColumnSpan="2"
-               LineBreakMode="CharacterWrap"
+               LineBreakMode="WordWrap"
                IsVisible="{Binding InvalidLabelVisibility}"
               />
 

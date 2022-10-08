@@ -1,9 +1,6 @@
-﻿using CommunityToolkit.Maui.Behaviors;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Maui.Networking;
 using ProfileClasses;
-using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 
 namespace PSI_MobileApp.ViewModels
@@ -85,11 +82,12 @@ namespace PSI_MobileApp.ViewModels
                     {
                         // possibly we should move the connectivity checking into somwhere before the functionalities of the program.
                         // this should only be temporrary.
-                        await Shell.Current.DisplayAlert("No internet connection.", "Plesase check your internet connection and try again.", "OK");
+                        await Shell.Current.DisplayAlert("No internet connection.", "Please check your internet connection and try again.", "OK");
                         return;
                     }
 
                     //await Shell.Current.DisplayAlert(profile.UserName, profile.Password, profile.Email);
+                    //add to file
                     await Shell.Current.GoToAsync($"..?Name={profile.UserName}&Password={profile.Password}&Email={profile.Email}");
                 }
                 else
