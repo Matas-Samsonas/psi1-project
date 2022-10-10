@@ -1,56 +1,55 @@
-﻿using Newtonsoft.Json;
+using System.Collections.ObjectModel;
+using Newtonsoft.Json;
 // ReSharper disable StringCompareIsCultureSpecific.1
 namespace AccountDataSerializer;
 
 using ProfileClasses;
-using PSI_MobileApp;
+using ConsoleApp1;
 
-public class AccountDataSerializer<t> where t : class, IUsingUUID
+public class AccountDataSerializer<T> where T : class, IUsingUUID
 {
-    private string path;
-    private LinkedList<t> list;
-    public void Add(t newInstance)
+    private string _path;
+    private Collection<T> _list;
+    public void Add(T newInstance)
     {
-        list.AddLast(newInstance);
+        _list.Add(newInstance);
         Reserialize();
     }
 
-    private LinkedList<t> GetList()
+    private Collection<T> GetList()
     {
-        if (!File.Exists(path))
+        if (!File.Exists(_path))
         {
-            using (File.Create(path)) { }
+            using (File.Create(_path)) { }
         }
 
-        return JsonConvert.DeserializeObject<LinkedList<t>>(File.ReadAllText(path));
+        return JsonConvert.DeserializeObject<Collection<T>>(File.ReadAllText(_path));
     }
 
-    public t GetById(string id)
+    public T GetFirstById(string id)
     {
-        foreach (var instance in list)
-        {
-            if (string.Compare(instance.Uuid, id) == 0)
-            {
-                return instance;
-            }
-        }
-
-        return null;
+        return _list.First(instance => instance.Uuid == id);
     }
-    public void Delete(t instanceToDelete)
+
+    public Collection<T> GetAllById(string id)
     {
-        list.Remove(instanceToDelete);
+        return new Collection<T>(_list.Where(instance => instance.Uuid == id).ToList());
+    }
+    
+    public void Delete(T instanceToDelete)
+    {
+        _list.Remove(instanceToDelete);
         Reserialize();
     }
 
     public void Reserialize()
     {
-        File.WriteAllText(path, JsonConvert.SerializeObject(list));
+        File.WriteAllText(_path, JsonConvert.SerializeObject(_list));
     }
 
     public AccountDataSerializer (string path)
     {
-        this.path = path;
-        this.list = GetList();
+        this._path = path;
+        this._list = GetList();
     }
 }
