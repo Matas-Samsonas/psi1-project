@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 namespace AccountDataSerializer;
 
 using ProfileClasses;
-using ConsoleApp1;
 
 public class AccountDataSerializer<T> where T : class, IUsingUUID
 {
