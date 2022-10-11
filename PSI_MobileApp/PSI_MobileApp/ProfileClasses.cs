@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using PSI_MobileApp;
 using System.Collections;
 
 namespace ProfileClasses
@@ -11,10 +12,9 @@ namespace ProfileClasses
         public string Password { get; private set; }
     }
 
-    public class Profile
+    public class Profile : IUsingUUID
     {
-        private Account _account;
-
+        private string _uuid;
         private string _email;
         private string _phoneNumber;
         private string _name;
@@ -23,9 +23,7 @@ namespace ProfileClasses
         public string PhoneNumber { get { return _phoneNumber; } set { _phoneNumber = value; } }
         public string Name { get { return _name; } set { _name = value; } }
         public double Rating { get { return _rating; } set { _rating = value; } }
-        public Account Account { get { return _account; } }
-        
-        
+        public string Uuid { get { return _uuid; } set { _uuid = value; } }
     }
 
 }

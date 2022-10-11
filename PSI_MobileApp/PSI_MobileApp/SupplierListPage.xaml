@@ -8,13 +8,16 @@
              xmlns:controls="clr-namespace:PSI_MobileApp">
 
     <StackLayout>
-        <SearchBar BackgroundColor="Grey"
+        <SearchBar x:Name="searchBar"
+                   BackgroundColor="Grey"
                    PlaceholderColor="LightGray"
                    Placeholder="Enter text..."
+                   SearchCommand="{Binding searchCommand}"
+                   SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"
                    >
             
         </SearchBar>
-        <ListView ItemsSource="{Binding Profiles}">
+        <ListView ItemsSource="{Binding SearchResults}">
             <ListView.ItemTemplate>
                 <DataTemplate >
                     <ViewCell>
