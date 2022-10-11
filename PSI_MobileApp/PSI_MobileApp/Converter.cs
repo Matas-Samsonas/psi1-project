@@ -2,15 +2,20 @@ using System.Globalization;
 
 namespace PSI_MobileApp;
 
-public class Converter : IValueConverter
+public class Converter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is Enum)
+        string EnumString;
+        try
         {
-            return value.ToString();
+            EnumString = Enum.GetName(value.GetType(), value);
+            return EnumString;
         }
-        else return "";
+        catch
+        {
+            return String.Empty;
+        }
     }
     
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
