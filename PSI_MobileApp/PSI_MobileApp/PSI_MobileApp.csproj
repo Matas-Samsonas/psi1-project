@@ -49,6 +49,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\S1.jfif" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Compile Update="SupplierListPage.xaml.cs">
 	    <DependentUpon>SupplierListPage.xaml</DependentUpon>
 	  </Compile>
@@ -62,6 +66,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="SearchPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="ViewModels\SupplierDemoView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="SupplierListPage.xaml">

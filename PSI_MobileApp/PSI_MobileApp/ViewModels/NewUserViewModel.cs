@@ -8,7 +8,7 @@ namespace PSI_MobileApp.ViewModels
     public partial class NewUserViewModel : ObservableObject
     {
        
-        [ObservableProperty]
+        /*[ObservableProperty]
         Profile profile = new();
 
         [ObservableProperty]
@@ -31,6 +31,6 @@ namespace PSI_MobileApp.ViewModels
             //await Shell.Current.DisplayAlert(profile.UserName, profile.Password, profile.Email);
             await Shell.Current.GoToAsync($"..?Name={profile.UserName}&Password={profile.Password}&Email={profile.Email}");
             
-        }
+        }*/
     }
 }
