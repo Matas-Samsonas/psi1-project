@@ -4,7 +4,7 @@
              x:Name="this"
              x:Class="PSI_MobileApp.SupplierDemoView">
 
-    <FlexLayout BindingContext="{x:Reference this}"
+    <StackLayout BindingContext="{x:Reference this}"
                 Margin="5"
                 >
         
@@ -20,6 +20,6 @@
             <Label Text="{Binding SupplierPhoneNumber, FallbackValue='no number'}"
                    Padding="5,0,5,0"/>
             
-    </FlexLayout>
+    </StackLayout>
     
 </ContentView>
