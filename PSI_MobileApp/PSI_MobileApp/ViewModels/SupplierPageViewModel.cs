@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
 using ProfileClasses;
-using CommunityToolkit.Mvvm.Input;
+
 
 namespace PSI_MobileApp.ViewModels
 {
@@ -14,9 +14,19 @@ namespace PSI_MobileApp.ViewModels
 
         public SupplierPageViewModel()
         {
+            Address testAddress = new() {city="Vilnius", streetName="Didlaukio g.", streetNumber=47 };
             Profiles = new ObservableCollection<Profile>()
             {
-                new Profile{Email = "test1", PhoneNumber = "test12", Name = "Name1", Rating = 4},
+                new Profile{Email = "test1", PhoneNumber = "test12", Name = "Name1", Rating = 4, Address=testAddress, 
+                    Advertisements=new ObservableCollection<Advertisement>(){
+                        new Advertisement{MealName="Pizza", TimeOfMaking="18:15", PickupTimeSpan="2h", Tags=new Kitchen[]{Kitchen.Lithuanian }},
+                        new Advertisement{MealName="Pizza", TimeOfMaking="18:15", PickupTimeSpan="2h", Tags=new Kitchen[]{Kitchen.Lithuanian }},
+                        new Advertisement{MealName="Pizza", TimeOfMaking="18:15", PickupTimeSpan="2h", Tags=new Kitchen[]{Kitchen.Lithuanian }},
+                        new Advertisement{MealName="Pizza", TimeOfMaking="18:15", PickupTimeSpan="2h", Tags=new Kitchen[]{Kitchen.Lithuanian }},
+                        new Advertisement{MealName="Pizza", TimeOfMaking="18:15", PickupTimeSpan="2h", Tags=new Kitchen[]{Kitchen.Lithuanian }},
+                        new Advertisement{MealName="Pizza", TimeOfMaking="18:15", PickupTimeSpan="2h", Tags=new Kitchen[]{Kitchen.Lithuanian }}
+                    }
+                },
                 new Profile{Email = "test2", PhoneNumber = "test12", Name = "Name1", Rating = 4},
                 new Profile{Email = "test3", PhoneNumber = "test12", Name = "Name1", Rating = 4.0},
                 new Profile{Email = "test4", PhoneNumber = "test12", Name = "Name1", Rating = 4.0},

@@ -4,6 +4,21 @@
         <name>PSI_MobileApp</name>
     </assembly>
     <members>
+        <member name="P:PSI_MobileApp.Advertisement.IsReserved">
+            <inheritdoc cref="F:PSI_MobileApp.Advertisement.isReserved"/>
+        </member>
+        <member name="P:PSI_MobileApp.Advertisement.MealName">
+            <inheritdoc cref="F:PSI_MobileApp.Advertisement.mealName"/>
+        </member>
+        <member name="P:PSI_MobileApp.Advertisement.PickupTimeSpan">
+            <inheritdoc cref="F:PSI_MobileApp.Advertisement.pickupTimeSpan"/>
+        </member>
+        <member name="P:PSI_MobileApp.Advertisement.Tags">
+            <inheritdoc cref="F:PSI_MobileApp.Advertisement.tags"/>
+        </member>
+        <member name="P:PSI_MobileApp.Advertisement.TimeOfMaking">
+            <inheritdoc cref="F:PSI_MobileApp.Advertisement.timeOfMaking"/>
+        </member>
         <member name="P:PSI_MobileApp.ViewModels.DetailPageViewModel.Name">
             <inheritdoc cref="F:PSI_MobileApp.ViewModels.DetailPageViewModel.name"/>
         </member>
@@ -24,6 +39,51 @@
         </member>
         <member name="P:PSI_MobileApp.ViewModels.SupplierDetailViewModel.SupplierImage">
             <inheritdoc cref="F:PSI_MobileApp.ViewModels.SupplierDetailViewModel.supplierImage"/>
+        </member>
+        <member name="P:PSI_MobileApp.ViewModels.SupplierDetailViewModel.SelectedAdvert">
+            <inheritdoc cref="F:PSI_MobileApp.ViewModels.SupplierDetailViewModel.selectedAdvert"/>
+        </member>
+        <member name="P:PSI_MobileApp.ViewModels.SupplierDetailViewModel.Address">
+            <inheritdoc cref="F:PSI_MobileApp.ViewModels.SupplierDetailViewModel.address"/>
+        </member>
+        <member name="F:PSI_MobileApp.ViewModels.SupplierDetailViewModel.confirmOrderCommand">
+            <summary>The backing field for <see cref="P:PSI_MobileApp.ViewModels.SupplierDetailViewModel.ConfirmOrderCommand"/>.</summary>
+        </member>
+        <member name="P:PSI_MobileApp.ViewModels.SupplierDetailViewModel.ConfirmOrderCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:PSI_MobileApp.ViewModels.SupplierDetailViewModel.ConfirmOrder"/>.</summary>
+        </member>
+        <member name="F:PSI_MobileApp.ViewModels.SupplierDetailViewModel.addOrderCommand">
+            <summary>The backing field for <see cref="P:PSI_MobileApp.ViewModels.SupplierDetailViewModel.AddOrderCommand"/>.</summary>
+        </member>
+        <member name="P:PSI_MobileApp.ViewModels.SupplierDetailViewModel.AddOrderCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:PSI_MobileApp.ViewModels.SupplierDetailViewModel.AddOrder"/>.</summary>
+        </member>
+        <member name="F:PSI_MobileApp.ViewModels.SupplierDetailViewModel.removeOrderCommand">
+            <summary>The backing field for <see cref="P:PSI_MobileApp.ViewModels.SupplierDetailViewModel.RemoveOrderCommand"/>.</summary>
+        </member>
+        <member name="P:PSI_MobileApp.ViewModels.SupplierDetailViewModel.RemoveOrderCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:PSI_MobileApp.ViewModels.SupplierDetailViewModel.RemoveOrder"/>.</summary>
+        </member>
+        <member name="P:ProfileClasses.Profile.Account">
+            <inheritdoc cref="F:ProfileClasses.Profile.account"/>
+        </member>
+        <member name="P:ProfileClasses.Profile.Email">
+            <inheritdoc cref="F:ProfileClasses.Profile.email"/>
+        </member>
+        <member name="P:ProfileClasses.Profile.PhoneNumber">
+            <inheritdoc cref="F:ProfileClasses.Profile.phoneNumber"/>
+        </member>
+        <member name="P:ProfileClasses.Profile.Name">
+            <inheritdoc cref="F:ProfileClasses.Profile.name"/>
+        </member>
+        <member name="P:ProfileClasses.Profile.Rating">
+            <inheritdoc cref="F:ProfileClasses.Profile.rating"/>
+        </member>
+        <member name="P:ProfileClasses.Profile.Address">
+            <inheritdoc cref="F:ProfileClasses.Profile.address"/>
+        </member>
+        <member name="P:ProfileClasses.Profile.Advertisements">
+            <inheritdoc cref="F:ProfileClasses.Profile.advertisements"/>
         </member>
     </members>
 </doc>

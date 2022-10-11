@@ -2,9 +2,14 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodel="clr-namespace:PSI_MobileApp.ViewModels"
+             xmlns:local="clr-namespace:PSI_MobileApp"
              x:Class="PSI_MobileApp.SupplierDetailPage"
              x:DataType="viewmodel:SupplierDetailViewModel"
-             Title="SupplierDetailPage">
+             Title="Details">
+    <!--<ContentPage.Resources>
+        <local:Converter x:Key="arrayToString"/>
+    </ContentPage.Resources>-->
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -12,22 +17,95 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Frame>
             <Image BindingContext="{Binding SupplierImage}"/>
         </Frame>
 
-        <Label Text="{Binding SupplierProfile.Name, StringFormat='Supplier Name: {0}'}"
+        <Label Text="{Binding SupplierProfile.Name, StringFormat='Name: {0}'}"
                Grid.Row="1"/>
-        <Label Text="{Binding SupplierProfile.Email}"
+        <Label Text="{Binding SupplierProfile.Email, StringFormat='Contact Email: {0}'}"
                Grid.Row="2"/>
-        <Label Text="{Binding SupplierProfile.PhoneNumber}"
+        <Label Text="{Binding SupplierProfile.PhoneNumber, StringFormat='Contact Phone Number: {0}'}"
                Grid.Row="3"/>
-        <Label Text="{Binding SupplierProfile.Rating}"
+        <Label Text="{Binding SupplierProfile.Rating, StringFormat='Rating: {0}'}"
                Grid.Row="4"/>
+        
+        
+            <Label Grid.Row="5" Text="{Binding Address}"/>
+            
+        
+        
+        <Label Text="Food List"
+               FontSize="Body"
+               FontAttributes="Bold"
+               Grid.Row="6"/>
 
+        <Grid ColumnDefinitions=".2*,.2*,.2*,.2*,.2*"
+              RowDefinitions="Auto,*" 
+              Grid.Row="7">
+            <Label Text="Meal Name" 
+                   Padding="5,0,5,0"
+                   FontAttributes="Bold"
+                   Grid.Column="0"/>
+            <Label Text="Creation time"
+                   Padding="5,0,5,0"
+                   FontAttributes="Bold"
+                   Grid.Column="1"/>
+            <Label Text="Time left"
+                   Padding="5,0,5,0"
+                   FontAttributes="Bold"
+                   Grid.Column="2"/>
+            <Label Text="Reserved"
+                   Padding="5,0,5,0"
+                   FontAttributes="Bold"
+                   Grid.Column="3"/>
+            <Label Text="Tags"
+                   Padding="5,0,5,0"
+                   FontAttributes="Bold"
+                   Grid.Column="4"/>
+        </Grid>
 
+        <CollectionView ItemsSource="{Binding SupplierProfile.Advertisements}" 
+                        Grid.Row="8" 
+                        SelectionMode="Single" 
+                        SelectedItem="{Binding SelectedAdvert}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="local:Advertisement">
+
+                    <Grid ColumnDefinitions=".2*,.2*,.2*,.2*,.2*"
+                          RowDefinitions="*">
+
+                        <Label Text="{Binding MealName}" 
+                               Padding="5,0,5,0"
+                               LineBreakMode="WordWrap"
+                               Grid.Column="0"/>
+                        <Label Text="{Binding TimeOfMaking}"
+                               Padding="5,0,5,0"
+                               Grid.Column="1"/>
+                        <Label Text="{Binding PickupTimeSpan}"
+                               Padding="5,0,5,0"
+                               Grid.Column="2"/>
+                        <Label Text="{Binding IsReserved}"
+                               Padding="5,0,5,0"
+                               Grid.Column="3"/>
+                        <Label Text="{Binding Tags}"
+                               Padding="5,0,5,0"
+                               Grid.Column="4"/>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button Text="Book order" Command="{Binding ConfirmOrderCommand}" Grid.Row="9"/>
+        <Button Text="Add order" Command="{Binding AddOrderCommand}" Grid.Row="10"/>
+        <Button Text="Remove order" Command="{Binding RemoveOrderCommand}" Grid.Row="11"/>
     </Grid>
 </ContentPage>

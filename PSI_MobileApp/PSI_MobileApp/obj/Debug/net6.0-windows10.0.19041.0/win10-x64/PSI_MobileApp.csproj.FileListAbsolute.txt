@@ -1384,3 +1384,6 @@ C:\Users\Rokas\Desktop\PSI\repos\PSI_MobileApp\PSI_MobileApp\obj\Debug\net6.0-wi
 C:\Users\Rokas\Desktop\PSI\repos\PSI_MobileApp\PSI_MobileApp\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\qualifiers.txt.intermediate
 C:\Users\Rokas\Desktop\PSI\repos\PSI_MobileApp\PSI_MobileApp\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\MultipleQualifiersPerDimensionFound.txt
 C:\Users\Rokas\Desktop\PSI\repos\PSI_MobileApp\PSI_MobileApp\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\ProjectArchitectures.txt
+C:\Users\Rokas\Desktop\PSI\repos\PSI_MobileApp\PSI_MobileApp\bin\Debug\net6.0-windows10.0.19041.0\win10-x64\Newtonsoft.Json.dll
+C:\Users\Rokas\Desktop\PSI\repos\PSI_MobileApp\PSI_MobileApp\bin\Debug\net6.0-windows10.0.19041.0\win10-x64\Newtonsoft.Json.Bson.dll
+C:\Users\Rokas\Desktop\PSI\repos\PSI_MobileApp\PSI_MobileApp\bin\Debug\net6.0-windows10.0.19041.0\win10-x64\Newtonsoft.Json.Schema.dll
