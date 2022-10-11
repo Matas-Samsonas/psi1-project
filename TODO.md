@@ -7,7 +7,7 @@ Galimos problemos: maisto galiojimo laikas (?)
  - Arčiausių vietų paieška
  - Kliento profilis
  - Tiekėjų profilis
- - Reitingai
+ - Reitingai + įvertinimų skaičius
  - Paieška pagal virtuvę
  - Atsakomybę už maistą prisiima tiekėjai
  - Už maistą sumokama tik atsiėmus
