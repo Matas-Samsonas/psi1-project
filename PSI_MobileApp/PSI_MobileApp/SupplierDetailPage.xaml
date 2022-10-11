@@ -40,11 +40,11 @@
                Grid.Row="4"/>
         
         
-            <Label Grid.Row="5" Text="{Binding Address}"/>
+        <Label Grid.Row="5" Text="{Binding Address}"/>
             
         
         
-        <Label Text="Food List"
+        <Label Text="Dish List"
                FontSize="Body"
                FontAttributes="Bold"
                Grid.Row="6"/>
@@ -97,9 +97,14 @@
                         <Label Text="{Binding IsReserved}"
                                Padding="5,0,5,0"
                                Grid.Column="3"/>
-                        <Label Text="{Binding Tags}"
-                               Padding="5,0,5,0"
-                               Grid.Column="4"/>
+                        <!--<ListView ItemsSource="{Binding Tags}" Grid.Column="4">
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="local:Kitchen">
+                                    <Label Text="{Binding ., Converter={StaticResource arrayToString}}"/>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>-->
+                        <Label Text="{Binding Tags}" Grid.Column="4"/>
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

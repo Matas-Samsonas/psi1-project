@@ -2,26 +2,15 @@
 
 namespace PSI_MobileApp;
 
-public class EnumArrayToStringConverter : IValueConverter
+public class Converter : IValueConverter
 {
-
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        //string newString = "";
-        //foreach (var member in array)
-        //{
-        //    if (newString != String.Empty)
-        //    {
-        //        newString += ", ";
-        //    }
-
-        //    newString += member.ToString();
-        //}
-
-        //newString += ".";
-        //return newString;
-        throw new NotImplementedException();
-
+        if (value is Enum)
+        {
+            return value.ToString();
+        }
+        else return "";
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
