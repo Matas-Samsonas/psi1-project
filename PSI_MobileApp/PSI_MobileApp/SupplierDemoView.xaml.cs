@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Maui.Controls;
 
 namespace PSI_MobileApp;
 
@@ -47,6 +48,7 @@ public partial class SupplierDemoView : ContentView
 		get => (string)GetValue(SupplierPhoneNumberProperty);
 		set => SetValue(SupplierPhoneNumberProperty, value);
 	}
+
 	
 
 	public SupplierDemoView()

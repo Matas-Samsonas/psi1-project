@@ -4,13 +4,12 @@
              x:Name="this"
              x:Class="PSI_MobileApp.SupplierDemoView">
 
-    <FlexLayout BindingContext="{x:Reference this}"
-                Margin="5"
-                >
+    <HorizontalStackLayout BindingContext="{x:Reference this}"
+                Margin="3">
         
-            <Frame>
-                <Image BindingContext="{Binding SupplierImageSource}"/>
-            </Frame>
+        <Frame>
+            <Image BindingContext="{Binding SupplierImageSource}"/>
+        </Frame>
         <Label Text="{Binding SupplierName, FallbackValue='Supplier name'}"
                    Padding="5,0,5,0"/>
         <Label Text="{Binding SupplierRating, FallbackValue=0}"
@@ -20,6 +19,6 @@
             <Label Text="{Binding SupplierPhoneNumber, FallbackValue='no number'}"
                    Padding="5,0,5,0"/>
             
-    </FlexLayout>
+    </HorizontalStackLayout>
     
 </ContentView>

@@ -1,1 +1,1 @@
-C:\Users\jorun\source\repos\psi1\PSI_MobileApp\PSI_MobileApp\PSI_MobileApp.csproj;x64
+C:\Users\Rokas\Desktop\PSI\repos\PSI_MobileApp\PSI_MobileApp\PSI_MobileApp.csproj;x64

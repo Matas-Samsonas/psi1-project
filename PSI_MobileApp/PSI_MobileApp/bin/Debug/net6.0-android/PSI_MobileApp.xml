@@ -19,5 +19,11 @@
         <member name="P:PSI_MobileApp.ViewModels.DetailPageViewModel.GoBackCommand">
             <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:PSI_MobileApp.ViewModels.DetailPageViewModel.GoBack"/>.</summary>
         </member>
+        <member name="P:PSI_MobileApp.ViewModels.SupplierDetailViewModel.SupplierProfile">
+            <inheritdoc cref="F:PSI_MobileApp.ViewModels.SupplierDetailViewModel.supplierProfile"/>
+        </member>
+        <member name="P:PSI_MobileApp.ViewModels.SupplierDetailViewModel.SupplierImage">
+            <inheritdoc cref="F:PSI_MobileApp.ViewModels.SupplierDetailViewModel.supplierImage"/>
+        </member>
     </members>
 </doc>

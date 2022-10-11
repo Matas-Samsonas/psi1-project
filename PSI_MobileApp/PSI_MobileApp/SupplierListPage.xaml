@@ -5,7 +5,8 @@
              x:Class="PSI_MobileApp.SupplierListPage"
              Title="Supplier List"
              xmlns:viewmodel="clr-namespace:PSI_MobileApp.ViewModels"
-             xmlns:controls="clr-namespace:PSI_MobileApp">
+             xmlns:controls="clr-namespace:PSI_MobileApp"
+             x:DataType="viewmodel:SupplierPageViewModel">
 
     <StackLayout>
         <SearchBar BackgroundColor="Grey"
@@ -14,14 +15,15 @@
                    >
             
         </SearchBar>
-        <ListView ItemsSource="{Binding Profiles}">
+        <ListView ItemsSource="{Binding Profiles}" ItemTapped="ListView_ItemTapped">
             <ListView.ItemTemplate>
-                <DataTemplate >
+                <DataTemplate x:DataType="local:Profile">
                     <ViewCell>
                         <controls:SupplierDemoView SupplierEmail="{Binding Email}"
                                                    SupplierPhoneNumber="{Binding PhoneNumber}"
                                                    SupplierRating="{Binding Rating}"
-                                                   SupplierName="{Binding Name}">
+                                                   SupplierName="{Binding Name}"
+                                                   >
                         </controls:SupplierDemoView>
                     </ViewCell>
                 </DataTemplate>

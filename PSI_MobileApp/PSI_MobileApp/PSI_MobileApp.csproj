@@ -68,6 +68,9 @@
 	  <MauiXaml Update="SearchPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="SupplierDetailPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="ViewModels\SupplierDemoView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

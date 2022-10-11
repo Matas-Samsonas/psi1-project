@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
 using ProfileClasses;
+using CommunityToolkit.Mvvm.Input;
 
 namespace PSI_MobileApp.ViewModels
 {
@@ -29,8 +30,7 @@ namespace PSI_MobileApp.ViewModels
             };
         }
 
-        
-        
+
     }
 
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:PSI_MobileApp.ViewModels"
+             x:Class="PSI_MobileApp.SupplierDetailPage"
+             x:DataType="viewmodel:SupplierDetailViewModel"
+             Title="SupplierDetailPage">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Frame>
+            <Image BindingContext="{Binding SupplierImage}"/>
+        </Frame>
+
+        <Label Text="{Binding SupplierProfile.Name, StringFormat='Supplier Name: {0}'}"
+               Grid.Row="1"/>
+        <Label Text="{Binding SupplierProfile.Email}"
+               Grid.Row="2"/>
+        <Label Text="{Binding SupplierProfile.PhoneNumber}"
+               Grid.Row="3"/>
+        <Label Text="{Binding SupplierProfile.Rating}"
+               Grid.Row="4"/>
+
+
+    </Grid>
+</ContentPage>
