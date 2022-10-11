@@ -1,21 +1,20 @@
+using System.Globalization;
+
 namespace PSI_MobileApp;
 
-public static class Converter : IValueConverter
+public class Converter : IValueConverter
 {
-    public static string ArrayToString(this Array array)
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        string newString = "";
-        foreach (var member in array)
+        if (value is Enum)
         {
-            if (newString != String.Empty)
-            {
-                newString += ", ";
-            }
-
-            newString += member.ToString();
+            return value.ToString();
         }
-
-        newString += ".";
-        return newString;
+        else return "";
+    }
+    
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
     }
 }
