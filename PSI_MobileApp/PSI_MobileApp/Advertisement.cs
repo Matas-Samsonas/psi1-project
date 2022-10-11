@@ -1,7 +1,7 @@
 namespace PSI_MobileApp;
 
 
-public class Advertisement : IUsingUUID
+public partial class Advertisement : IUsingUUID, ObservableObject
 {
     public string Uuid { get; set; }
 
