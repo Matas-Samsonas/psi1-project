@@ -1,6 +1,6 @@
 namespace PSI_MobileApp;
 
-public static class Converter
+public static class Converter : IValueConverter
 {
     public static string ArrayToString(this Array array)
     {
