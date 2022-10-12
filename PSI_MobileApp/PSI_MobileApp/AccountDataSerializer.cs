@@ -4,25 +4,28 @@ using Newtonsoft.Json;
 namespace AccountDataSerializer;
 
 using ProfileClasses;
+using PSI_MobileApp;
 
 public class AccountDataSerializer<T> where T : class, IUsingUUID
 {
     private string _path;
-    private Collection<T> _list;
+    private ObservableCollection<T> _list;
+
+    public ObservableCollection<T> List { get { return _list; } set { _list = value; } }
     public void Add(T newInstance)
     {
         _list.Add(newInstance);
         Reserialize();
     }
 
-    private Collection<T> GetList()
+    public ObservableCollection<T> GetList()
     {
         if (!File.Exists(_path))
         {
             using (File.Create(_path)) { }
         }
 
-        return JsonConvert.DeserializeObject<Collection<T>>(File.ReadAllText(_path));
+        return JsonConvert.DeserializeObject<ObservableCollection<T>>(File.ReadAllText(_path));
     }
 
     public T GetFirstById(string id)
@@ -30,9 +33,9 @@ public class AccountDataSerializer<T> where T : class, IUsingUUID
         return _list.First(instance => instance.Uuid == id);
     }
 
-    public Collection<T> GetAllById(string id)
+    public ObservableCollection<T> GetAllById(string id)
     {
-        return new Collection<T>(_list.Where(instance => instance.Uuid == id).ToList());
+        return new ObservableCollection<T>(_list.Where(instance => instance.Uuid == id).ToList());
     }
     
     public void Delete(T instanceToDelete)
