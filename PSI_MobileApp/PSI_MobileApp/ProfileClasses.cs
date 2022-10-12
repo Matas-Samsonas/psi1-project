@@ -9,7 +9,7 @@ namespace ProfileClasses
     {
         private string userName;
         private string password;
-
+        private string uuid;
     }
 
     public partial class Profile : ObservableObject

@@ -6,7 +6,7 @@ using System.ComponentModel;
 
 namespace PSI_MobileApp.ViewModels
 {
-    public partial class SupplierDetailViewModel : ObservableObject, IQueryAttributable, INotifyPropertyChanged
+    public partial class SupplierDetailViewModel : ObservableObject, IQueryAttributable
     {
         [ObservableProperty]
         private Profile supplierProfile;
@@ -59,7 +59,7 @@ namespace PSI_MobileApp.ViewModels
             
             do
             { 
-                advertisement.PickupTimeSpan = await Shell.Current.DisplayPromptAsync("Pickup time limit", "What is the dishes pickup time limit?", keyboard: Keyboard.Numeric, maxLength: 1) + "h";
+                advertisement.PickupTimeSpan = await Shell.Current.DisplayPromptAsync("Pickup time limit", "What is the dishes pickup time limit? (From 0-9)", keyboard: Keyboard.Numeric, maxLength: 1) + "h";
                 if (advertisement.PickupTimeSpan == null)
                     return;                    
             }

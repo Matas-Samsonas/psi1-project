@@ -6,10 +6,10 @@
              x:Class="PSI_MobileApp.SupplierDetailPage"
              x:DataType="viewmodel:SupplierDetailViewModel"
              Title="Details">
-    <!--<ContentPage.Resources>
+    <ContentPage.Resources>
         <local:Converter x:Key="arrayToString"/>
-    </ContentPage.Resources>-->
-    
+    </ContentPage.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -40,7 +40,7 @@
                Grid.Row="4"/>
         
         
-        <Label Grid.Row="5" Text="{Binding Address}"/>
+        <Label Grid.Row="5" Text="{Binding Address, StringFormat='Address: {0}'}"/>
             
         
         
@@ -104,7 +104,7 @@
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>-->
-                        <Label Text="{Binding Tags}" Grid.Column="4"/>
+                        <Label Text="{Binding Tags}" Grid.Column="4" />
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
