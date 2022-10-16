@@ -61,6 +61,18 @@
         "net6.0-android31.0": {
           "targetAlias": "net6.0-android",
           "dependencies": {
+            "CommunityToolkit.Maui": {
+              "target": "Package",
+              "version": "[1.3.0, )"
+            },
+            "CommunityToolkit.Maui.Core": {
+              "target": "Package",
+              "version": "[1.3.0, )"
+            },
+            "CommunityToolkit.Maui.Markup": {
+              "target": "Package",
+              "version": "[1.1.1, )"
+            },
             "CommunityToolkit.Mvvm": {
               "target": "Package",
               "version": "[8.0.0, )"
@@ -77,11 +89,11 @@
             },
             "Newtonsoft.Json.Bson": {
               "target": "Package",
-              "version": "[1.0.2, )"
+              "version": "[1.0.3-beta1, )"
             },
             "Newtonsoft.Json.Schema": {
               "target": "Package",
-              "version": "[3.0.14, )"
+              "version": "[3.0.15-beta2, )"
             }
           },
           "imports": [
@@ -117,6 +129,18 @@
         "net6.0-ios15.4": {
           "targetAlias": "net6.0-ios",
           "dependencies": {
+            "CommunityToolkit.Maui": {
+              "target": "Package",
+              "version": "[1.3.0, )"
+            },
+            "CommunityToolkit.Maui.Core": {
+              "target": "Package",
+              "version": "[1.3.0, )"
+            },
+            "CommunityToolkit.Maui.Markup": {
+              "target": "Package",
+              "version": "[1.1.1, )"
+            },
             "CommunityToolkit.Mvvm": {
               "target": "Package",
               "version": "[8.0.0, )"
@@ -133,11 +157,11 @@
             },
             "Newtonsoft.Json.Bson": {
               "target": "Package",
-              "version": "[1.0.2, )"
+              "version": "[1.0.3-beta1, )"
             },
             "Newtonsoft.Json.Schema": {
               "target": "Package",
-              "version": "[3.0.14, )"
+              "version": "[3.0.15-beta2, )"
             },
             "System.Runtime.InteropServices.NFloat.Internal": {
               "target": "Package",
@@ -178,6 +202,18 @@
         "net6.0-maccatalyst15.4": {
           "targetAlias": "net6.0-maccatalyst",
           "dependencies": {
+            "CommunityToolkit.Maui": {
+              "target": "Package",
+              "version": "[1.3.0, )"
+            },
+            "CommunityToolkit.Maui.Core": {
+              "target": "Package",
+              "version": "[1.3.0, )"
+            },
+            "CommunityToolkit.Maui.Markup": {
+              "target": "Package",
+              "version": "[1.1.1, )"
+            },
             "CommunityToolkit.Mvvm": {
               "target": "Package",
               "version": "[8.0.0, )"
@@ -194,11 +230,11 @@
             },
             "Newtonsoft.Json.Bson": {
               "target": "Package",
-              "version": "[1.0.2, )"
+              "version": "[1.0.3-beta1, )"
             },
             "Newtonsoft.Json.Schema": {
               "target": "Package",
-              "version": "[3.0.14, )"
+              "version": "[3.0.15-beta2, )"
             },
             "System.Runtime.InteropServices.NFloat.Internal": {
               "target": "Package",
@@ -240,6 +276,18 @@
         "net6.0-windows10.0.19041": {
           "targetAlias": "net6.0-windows10.0.19041.0",
           "dependencies": {
+            "CommunityToolkit.Maui": {
+              "target": "Package",
+              "version": "[1.3.0, )"
+            },
+            "CommunityToolkit.Maui.Core": {
+              "target": "Package",
+              "version": "[1.3.0, )"
+            },
+            "CommunityToolkit.Maui.Markup": {
+              "target": "Package",
+              "version": "[1.1.1, )"
+            },
             "CommunityToolkit.Mvvm": {
               "target": "Package",
               "version": "[8.0.0, )"
@@ -262,11 +310,11 @@
             },
             "Newtonsoft.Json.Bson": {
               "target": "Package",
-              "version": "[1.0.2, )"
+              "version": "[1.0.3-beta1, )"
             },
             "Newtonsoft.Json.Schema": {
               "target": "Package",
-              "version": "[3.0.14, )"
+              "version": "[3.0.15-beta2, )"
             }
           },
           "imports": [

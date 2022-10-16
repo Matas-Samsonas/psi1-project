@@ -49,7 +49,7 @@
                FontAttributes="Bold"
                Grid.Row="6"/>
 
-        <Grid ColumnDefinitions=".2*,.2*,.2*,.2*,.2*"
+        <Grid ColumnDefinitions=".25*,.25*,.25*,.25*"
               RowDefinitions="Auto,*" 
               Grid.Row="7">
             <Label Text="Meal Name" 
@@ -68,10 +68,6 @@
                    Padding="5,0,5,0"
                    FontAttributes="Bold"
                    Grid.Column="3"/>
-            <Label Text="Tags"
-                   Padding="5,0,5,0"
-                   FontAttributes="Bold"
-                   Grid.Column="4"/>
         </Grid>
 
         <CollectionView ItemsSource="{Binding SupplierProfile.Advertisements}" 
@@ -81,7 +77,7 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="local:Advertisement">
 
-                    <Grid ColumnDefinitions=".2*,.2*,.2*,.2*,.2*"
+                    <Grid ColumnDefinitions=".25*,.25*,.25*,.25*"
                           RowDefinitions="*">
 
                         <Label Text="{Binding MealName}" 
@@ -97,19 +93,11 @@
                         <Label Text="{Binding IsReserved}"
                                Padding="5,0,5,0"
                                Grid.Column="3"/>
-                        <!--<ListView ItemsSource="{Binding Tags}" Grid.Column="4">
-                            <ListView.ItemTemplate>
-                                <DataTemplate x:DataType="local:Kitchen">
-                                    <Label Text="{Binding ., Converter={StaticResource arrayToString}}"/>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>-->
-                        <Label Text="{Binding Tags}" Grid.Column="4" />
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <Button Text="Book order" Command="{Binding ConfirmOrderCommand}" Grid.Row="9"/>
+        <Button Text="Book order" Command="{Binding ConfirmOrderCommand}" Grid.Row="9" IsVisible="true"/>
         <Button Text="Add order" Command="{Binding AddOrderCommand}" Grid.Row="10"/>
         <Button Text="Remove order" Command="{Binding RemoveOrderCommand}" Grid.Row="11"/>
     </Grid>

@@ -8,5 +8,6 @@ public partial class SupplierDetailPage : ContentPage
 	{
 		InitializeComponent();
 		BindingContext = vm;
+		
 	}
 }

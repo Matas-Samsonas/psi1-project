@@ -6,10 +6,17 @@ public class Converter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        string EnumString;
+        string EnumString = "";
         try
         {
-            EnumString = Enum.GetName(value.GetType(), value);
+            foreach (var item in (Array)value)
+            {
+                if (EnumString != "")
+                {
+                    EnumString += " ";
+                }
+                EnumString += item.ToString();
+            }
             return EnumString;
         }
         catch

@@ -63,6 +63,9 @@
 	  <MauiXaml Update="DetailPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="NewOrderPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="NewUserPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -85,9 +88,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="CommunityToolkit.Maui" Version="1.3.0" />
+	  <PackageReference Include="CommunityToolkit.Maui.Core" Version="1.3.0" />
+	  <PackageReference Include="CommunityToolkit.Maui.Markup" Version="1.1.1" />
 	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
-	  <PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.2" />
-	  <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.14" />
+	  <PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.3-beta1" />
+	  <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.15-beta2" />
 	</ItemGroup>
 
 </Project>

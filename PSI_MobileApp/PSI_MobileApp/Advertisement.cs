@@ -3,9 +3,8 @@
 namespace PSI_MobileApp;
 
 
-public partial class Advertisement : ObservableObject, IUsingUUID
+public partial class Advertisement : ObservableObject
 {
-    public string Uuid { get; set; }
 
     [ObservableProperty]
     private bool isReserved;
@@ -14,11 +13,11 @@ public partial class Advertisement : ObservableObject, IUsingUUID
     private string mealName;
 
     [ObservableProperty]
-    private string pickupTimeSpan;
+    private TimeSpan pickupTimeSpan;
 
     [ObservableProperty]
     private Kitchen[] tags;
 
     [ObservableProperty]
-    private string timeOfMaking;
+    private TimeSpan timeOfMaking;
 }

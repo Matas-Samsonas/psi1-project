@@ -7,6 +7,8 @@ namespace PSI_MobileApp.ViewModels
 {
     public class SupplierPageViewModel : ObservableObject
     {
+        static bool isRuning;
+
         public ObservableCollection<Profile> Profiles
         {
             get; private set;
@@ -19,12 +21,12 @@ namespace PSI_MobileApp.ViewModels
             {
                 new Profile{Email = "test1", PhoneNumber = "test12", Name = "Name1", Rating = 4, Address=testAddress, 
                     Advertisements=new ObservableCollection<Advertisement>(){
-                        new Advertisement{MealName="Pizza", TimeOfMaking="18:15", PickupTimeSpan="2h", Tags=new Kitchen[]{Kitchen.Lithuanian }},
-                        new Advertisement{MealName="Pizza", TimeOfMaking="18:15", PickupTimeSpan="2h", Tags=new Kitchen[]{Kitchen.Lithuanian }},
-                        new Advertisement{MealName="Pizza", TimeOfMaking="18:15", PickupTimeSpan="2h", Tags=new Kitchen[]{Kitchen.Lithuanian }},
-                        new Advertisement{MealName="Pizza", TimeOfMaking="18:15", PickupTimeSpan="2h", Tags=new Kitchen[]{Kitchen.Lithuanian }},
-                        new Advertisement{MealName="Pizza", TimeOfMaking="18:15", PickupTimeSpan="2h", Tags=new Kitchen[]{Kitchen.Lithuanian }},
-                        new Advertisement{MealName="Pizza", TimeOfMaking="18:15", PickupTimeSpan="2h", Tags=new Kitchen[]{Kitchen.Lithuanian }}
+                        new Advertisement{MealName="Pizza", TimeOfMaking=TimeSpan.Zero, PickupTimeSpan=TimeSpan.Zero, Tags=new Kitchen[]{Kitchen.Lithuanian }},
+                        new Advertisement{MealName="Pizza", TimeOfMaking=TimeSpan.Zero, PickupTimeSpan=TimeSpan.Zero, Tags=new Kitchen[]{Kitchen.Lithuanian }},
+                        new Advertisement{MealName="Pizza", TimeOfMaking=TimeSpan.Zero, PickupTimeSpan=TimeSpan.Zero, Tags=new Kitchen[]{Kitchen.Lithuanian }},
+                        new Advertisement{MealName="Pizza", TimeOfMaking=TimeSpan.Zero, PickupTimeSpan=TimeSpan.Zero, Tags=new Kitchen[]{Kitchen.Lithuanian }},
+                        new Advertisement{MealName="Pizza", TimeOfMaking=TimeSpan.Zero, PickupTimeSpan=TimeSpan.Zero, Tags=new Kitchen[]{Kitchen.Lithuanian }},
+                        new Advertisement{MealName="Pizza", TimeOfMaking=TimeSpan.Zero, PickupTimeSpan=TimeSpan.Zero, Tags=new Kitchen[]{Kitchen.Lithuanian }}
                     }
                 },
                 new Profile{Email = "test2", PhoneNumber = "test12", Name = "Name1", Rating = 4},
@@ -38,9 +40,48 @@ namespace PSI_MobileApp.ViewModels
                 new Profile{Email = "test10", PhoneNumber = "test12", Name = "Name1", Rating = 4.0},
                 
             };
+            TimeSpanHandler();
         }
 
 
+        async void TimeSpanHandler()
+        {
+
+            await Task.Run(async () =>
+            {
+                if (!isRuning)
+                {
+                    var timer = new PeriodicTimer(TimeSpan.FromSeconds(1));
+                    isRuning = true;
+                    while (await timer.WaitForNextTickAsync())
+                    {
+                        foreach (var j in Profiles)
+                        {
+                            if (j.Advertisements == null)
+                                j.Advertisements = new();
+
+                            foreach (var i in j.Advertisements.ToList())
+                            {
+                                if (i.PickupTimeSpan.Equals(TimeSpan.Zero))
+                                {
+                                    j.Advertisements.Remove(i);
+                                }
+                                else
+                                {
+                                    i.PickupTimeSpan = i.PickupTimeSpan.Subtract(TimeSpan.FromSeconds(1));
+                                }
+
+
+                            }
+                            
+                        }
+                    }
+                }
+            });
+        }
+
     }
+
+
 
 }

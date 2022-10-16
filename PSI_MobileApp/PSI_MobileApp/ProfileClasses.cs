@@ -1,21 +1,20 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using PSI_MobileApp;
-using System.Collections;
 using System.Collections.ObjectModel;
 
 namespace ProfileClasses
 {
     public struct Account
     {
-        private string userName;
-        private string password;
-        private string uuid;
+        public string userName;
+        public string password;
+        public string uuid;
     }
 
     public partial class Profile : ObservableObject
     {
         [ObservableProperty]
-        private Account account;
+        public Account account;
         [ObservableProperty]
         private string email;
         [ObservableProperty]

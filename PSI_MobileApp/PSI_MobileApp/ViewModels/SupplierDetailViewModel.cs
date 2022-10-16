@@ -1,13 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Maui.Layouts;
 using ProfileClasses;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
+
 
 namespace PSI_MobileApp.ViewModels
 {
     public partial class SupplierDetailViewModel : ObservableObject, IQueryAttributable
     {
+
         [ObservableProperty]
         private Profile supplierProfile;
 
@@ -19,11 +20,29 @@ namespace PSI_MobileApp.ViewModels
 
         [ObservableProperty]
         private string address;
+
+       
+
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
-            SupplierProfile = query["profile"] as Profile;
-            OnPropertyChanged("profile");
-            Address = SupplierProfile.Address.city + ", " + SupplierProfile.Address.streetName + " " + SupplierProfile.Address.streetNumber;
+            if (query.ContainsKey("profile") && (SupplierProfile == null))
+            {
+                SupplierProfile = query["profile"] as Profile;
+                OnPropertyChanged("profile");
+                if (SupplierProfile.Advertisements == null)
+                    SupplierProfile.Advertisements = new();
+                Address = SupplierProfile.Address.city + ", " + SupplierProfile.Address.streetName + " " + SupplierProfile.Address.streetNumber;
+               
+            }
+            if (query.ContainsKey("advertisement"))
+            {
+                var tmp = query["advertisement"] as Advertisement;
+                OnPropertyChanged("profile");
+                supplierProfile.Advertisements.Add(tmp);
+            }
+         
+            query.Clear();
+
         }
 
         [RelayCommand]
@@ -48,33 +67,7 @@ namespace PSI_MobileApp.ViewModels
         [RelayCommand]
         public async void AddOrder()
         {
-            Advertisement advertisement = new();
-            do
-            {
-                advertisement.MealName = await Shell.Current.DisplayPromptAsync("Name", "What is the dish called?");
-                if (advertisement.MealName == null)
-                    return;
-            }
-            while (advertisement.MealName == "");
-            
-            do
-            { 
-                advertisement.PickupTimeSpan = await Shell.Current.DisplayPromptAsync("Pickup time limit", "What is the dishes pickup time limit? (From 0-9)", keyboard: Keyboard.Numeric, maxLength: 1) + "h";
-                if (advertisement.PickupTimeSpan == null)
-                    return;                    
-            }
-            while (advertisement.PickupTimeSpan == "h");
-
-            advertisement.TimeOfMaking = DateTime.Now.ToString("HH:mm");
-            if (supplierProfile.Advertisements != null)
-            {
-                supplierProfile.Advertisements.Add(advertisement);
-            }
-            else
-            {
-                supplierProfile.Advertisements = new ObservableCollection<Advertisement>();
-                supplierProfile.Advertisements.Add(advertisement);
-            }
+            await Shell.Current.GoToAsync(nameof(NewOrderPage));
         }
 
         [RelayCommand]
@@ -89,5 +82,7 @@ namespace PSI_MobileApp.ViewModels
                     return;
             }
         }
+
+        
     }
 }
