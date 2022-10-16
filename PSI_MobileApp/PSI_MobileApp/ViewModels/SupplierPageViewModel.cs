@@ -3,22 +3,24 @@ using System.Collections.ObjectModel;
 using ProfileClasses;
 using AccountDataSerializer;
 using System.Windows.Input;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Diagnostics;
+using Microsoft.Maui.Controls;
+using System.Linq;
 
 namespace PSI_MobileApp.ViewModels
 {
-    public class SupplierPageViewModel : ObservableObject
-    { 
+    public partial class SupplierPageViewModel : ObservableObject
+    {
         private AccountDataSerializer<Profile> _dataSerializer;
-
-        public ICommand searchCommand => new Command<string>((query) =>
-        {
-            SearchResults = DataSearch.getSearchResults<Profile>(Profiles,searchQuery: query);
-        });
-
         private ObservableCollection<Profile> _searchResult;
+        private List<string> _cuisineTags = Enum.GetNames(typeof(Cuisines)).ToList();
+        private string _lastSearch = "";
+
+        public List<string> CuisineTags
+        {
+            get { return _cuisineTags; }
+            set { _cuisineTags = value; }
+        }
         public ObservableCollection<Profile> SearchResults
         {
             get
@@ -35,6 +37,27 @@ namespace PSI_MobileApp.ViewModels
         {
             get; private set;
         }
+
+        public ICommand searchCommand => new Command<string>((query) =>
+        {
+            _lastSearch = query;
+            SearchResults = DataSearch.getSearchResults<Profile>(Profiles,searchQuery: query);
+        });
+
+        public ICommand OnTagClicked => new Command<string>((tag) =>
+        {
+                SearchResults = DataSearch.getSearchResults<Profile>(Profiles, searchQuery: _lastSearch,
+                    con: (Profile profile) => profile.Cuisines.Contains(tag)
+                    );
+        });
+
+        public ICommand RemoveTag => new Command<CollectionView>((tag) =>
+        {
+            tag.SelectedItem = null;
+            SearchResults = DataSearch.getSearchResults<Profile>(Profiles, searchQuery: _lastSearch
+                    );
+        });
+        
 
         public SupplierPageViewModel()
         {
