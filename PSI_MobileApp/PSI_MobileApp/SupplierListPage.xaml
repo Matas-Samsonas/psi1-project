@@ -5,18 +5,36 @@
              x:Class="PSI_MobileApp.SupplierListPage"
              Title="Supplier List"
              xmlns:viewmodel="clr-namespace:PSI_MobileApp.ViewModels"
-             xmlns:controls="clr-namespace:PSI_MobileApp">
+             xmlns:controls="clr-namespace:PSI_MobileApp"
+             BackgroundColor="SandyBrown">
 
     <StackLayout>
         <SearchBar x:Name="searchBar"
                    BackgroundColor="Grey"
-                   PlaceholderColor="LightGray"
+                   PlaceholderColor="Transparent"
                    Placeholder="Enter text..."
                    SearchCommand="{Binding searchCommand}"
                    SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"
                    >
-            
+
         </SearchBar>
+        <CollectionView x:Name="tagCollection"
+                        ItemsSource="{Binding CuisineTags}"
+                        ItemsLayout="HorizontalList"
+                        SelectionMode="Single"
+                        SelectionChangedCommand="{Binding OnTagClicked}"
+                        SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference tagCollection}}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Label Text="{Binding}">
+                    </Label>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button Text="Remove tag"
+                Command="{Binding RemoveTag}"
+                CommandParameter="{x:Reference tagCollection}">
+        </Button>
         <ListView ItemsSource="{Binding SearchResults}">
             <ListView.ItemTemplate>
                 <DataTemplate >

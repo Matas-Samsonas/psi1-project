@@ -1654,7 +1654,6 @@ C:\Users\jorun\source\repos\psi1-project\psi\PSI_MobileApp\PSI_MobileApp\bin\Deb
 C:\Users\jorun\source\repos\psi1-project\psi\PSI_MobileApp\PSI_MobileApp\bin\Debug\net6.0-windows10.0.19041.0\win10-x64\hostfxr.dll
 C:\Users\jorun\source\repos\psi1-project\psi\PSI_MobileApp\PSI_MobileApp\bin\Debug\net6.0-windows10.0.19041.0\win10-x64\hostpolicy.dll
 C:\Users\jorun\source\repos\psi1-project\psi\PSI_MobileApp\PSI_MobileApp\bin\Debug\net6.0-windows10.0.19041.0\win10-x64\mscordaccore.dll
-C:\Users\jorun\source\repos\psi1-project\psi\PSI_MobileApp\PSI_MobileApp\bin\Debug\net6.0-windows10.0.19041.0\win10-x64\mscordaccore_amd64_amd64_6.0.922.41905.dll
 C:\Users\jorun\source\repos\psi1-project\psi\PSI_MobileApp\PSI_MobileApp\bin\Debug\net6.0-windows10.0.19041.0\win10-x64\mscordbi.dll
 C:\Users\jorun\source\repos\psi1-project\psi\PSI_MobileApp\PSI_MobileApp\bin\Debug\net6.0-windows10.0.19041.0\win10-x64\mscorrc.dll
 C:\Users\jorun\source\repos\psi1-project\psi\PSI_MobileApp\PSI_MobileApp\bin\Debug\net6.0-windows10.0.19041.0\win10-x64\msquic.dll
@@ -1731,3 +1730,4 @@ C:\Users\jorun\source\repos\psi1-project\psi\PSI_MobileApp\PSI_MobileApp\obj\Deb
 C:\Users\jorun\source\repos\psi1-project\psi\PSI_MobileApp\PSI_MobileApp\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\qualifiers.txt.intermediate
 C:\Users\jorun\source\repos\psi1-project\psi\PSI_MobileApp\PSI_MobileApp\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\MultipleQualifiersPerDimensionFound.txt
 C:\Users\jorun\source\repos\psi1-project\psi\PSI_MobileApp\PSI_MobileApp\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\ProjectArchitectures.txt
+C:\Users\jorun\source\repos\psi1-project\psi\PSI_MobileApp\PSI_MobileApp\bin\Debug\net6.0-windows10.0.19041.0\win10-x64\mscordaccore_amd64_amd64_6.0.1022.47605.dll
