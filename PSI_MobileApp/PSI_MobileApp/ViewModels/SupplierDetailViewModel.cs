@@ -2,7 +2,8 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Layouts;
 using ProfileClasses;
-
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace PSI_MobileApp.ViewModels
 {
@@ -21,7 +22,6 @@ namespace PSI_MobileApp.ViewModels
         [ObservableProperty]
         private string address;
 
-       
 
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
@@ -40,7 +40,7 @@ namespace PSI_MobileApp.ViewModels
                 OnPropertyChanged("profile");
                 supplierProfile.Advertisements.Add(tmp);
             }
-         
+            
             query.Clear();
 
         }
@@ -83,6 +83,8 @@ namespace PSI_MobileApp.ViewModels
             }
         }
 
+
         
+
     }
 }

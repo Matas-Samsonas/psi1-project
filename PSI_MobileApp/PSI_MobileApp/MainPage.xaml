@@ -5,7 +5,17 @@
              Title="Home Page"
              xmlns:viewmodel="clr-namespace:PSI_MobileApp.ViewModels"
              x:DataType="viewmodel:MainPageViewModel">
+
     
+
+    <Grid RowDefinitions="Auto, Auto, Auto, *">
+         
+        <Label Text="{Binding ViewPoint, StringFormat='Current viewpoint: {0}'}" Grid.Row="0"/>
+        <Button Text="Switch perspectives" Command="{Binding SwitchPrespectivesCommand}" Grid.Row="1"/>
+        <Button Text="Add User" Command="{Binding AddUserCommand}" Grid.Row="2"/>
+
+
+    </Grid>
     
    
 </ContentPage>

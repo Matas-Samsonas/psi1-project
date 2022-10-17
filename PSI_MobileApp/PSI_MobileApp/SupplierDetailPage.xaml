@@ -97,8 +97,8 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <Button Text="Book order" Command="{Binding ConfirmOrderCommand}" Grid.Row="9" IsVisible="true"/>
-        <Button Text="Add order" Command="{Binding AddOrderCommand}" Grid.Row="10"/>
-        <Button Text="Remove order" Command="{Binding RemoveOrderCommand}" Grid.Row="11"/>
+        <Button Text="Book order" Command="{Binding ConfirmOrderCommand}" Grid.Row="9" />
+        <Button Text="Add order" Command="{Binding AddOrderCommand}" Grid.Row="10" IsVisible="{x:Static viewmodel:MainPageViewModel.isSupplier}"/>
+        <Button Text="Remove order" Command="{Binding RemoveOrderCommand}" Grid.Row="11"  IsVisible="{x:Static viewmodel:MainPageViewModel.isSupplier}"   />
     </Grid>
 </ContentPage>
