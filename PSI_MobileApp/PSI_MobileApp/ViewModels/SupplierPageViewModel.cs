@@ -1,57 +1,87 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using ProfileClasses;
 
+
 namespace PSI_MobileApp.ViewModels
 {
-    public partial class SupplierPageViewModel : ObservableObject, IQueryAttributable
+    public class SupplierPageViewModel : ObservableObject
     {
+        static bool isRuning;
 
-        // collectioon of users/profiles
-        [ObservableProperty]
-        ObservableCollection<Profile> users = new();
-
-
-        [RelayCommand]
-        async Task GoHome()
+        public ObservableCollection<Profile> Profiles
         {
-            await Shell.Current.GoToAsync("..");
+            get; private set;
         }
 
-        [RelayCommand]
-        async Task AddUser()
+        public SupplierPageViewModel()
         {
-            await Shell.Current.GoToAsync($"{nameof(NewUserPage)}");
-        }
-
-        [RelayCommand]
-        async Task Tap(Profile p)
-        {
-            //await Shell.Current.DisplayAlert(users[0].UserName, users[0].Password, users[0].Email);
-            await Shell.Current.GoToAsync($"{nameof(DetailPage)}?Name={p.UserName}&Password={p.Password}&Email={p.Email}");
-        }
-
-        public void ApplyQueryAttributes(IDictionary<string, object> query)
-        {
-            if (query.Count() > 0)
+            Address testAddress = new() {city="Vilnius", streetName="Didlaukio g.", streetNumber=47 };
+            Profiles = new ObservableCollection<Profile>()
             {
-                if ((query["Name"] != null) && (query["Password"] != null) && (query["Email"] != null))
-                {
-                    Profile tmp = new()
-                    {
-                        UserName = query["Name"] as string,
-                        Password = query["Password"] as string,
-                        Email = query["Email"] as string
-                    };
-
-                    Users.Add(tmp);
-                    query.Clear();
-                }
-                else
-                    throw new NotImplementedException();
-            }
+                new Profile{Email = "test1", PhoneNumber = "test12", Name = "Name1", Rating = 4, Address=testAddress, 
+                    Advertisements=new ObservableCollection<Advertisement>(){
+                        new Advertisement{MealName="Pizza", TimeOfMaking=TimeSpan.Zero, PickupTimeSpan=TimeSpan.Zero, Tags=new Kitchen[]{Kitchen.Lithuanian }},
+                        new Advertisement{MealName="Pizza", TimeOfMaking=TimeSpan.Zero, PickupTimeSpan=TimeSpan.Zero, Tags=new Kitchen[]{Kitchen.Lithuanian }},
+                        new Advertisement{MealName="Pizza", TimeOfMaking=TimeSpan.Zero, PickupTimeSpan=TimeSpan.Zero, Tags=new Kitchen[]{Kitchen.Lithuanian }},
+                        new Advertisement{MealName="Pizza", TimeOfMaking=TimeSpan.Zero, PickupTimeSpan=TimeSpan.Zero, Tags=new Kitchen[]{Kitchen.Lithuanian }},
+                        new Advertisement{MealName="Pizza", TimeOfMaking=TimeSpan.Zero, PickupTimeSpan=TimeSpan.Zero, Tags=new Kitchen[]{Kitchen.Lithuanian }},
+                        new Advertisement{MealName="Pizza", TimeOfMaking=TimeSpan.Zero, PickupTimeSpan=TimeSpan.Zero, Tags=new Kitchen[]{Kitchen.Lithuanian }}
+                    }
+                },
+                new Profile{Email = "test2", PhoneNumber = "test12", Name = "Name1", Rating = 4},
+                new Profile{Email = "test3", PhoneNumber = "test12", Name = "Name1", Rating = 4.0},
+                new Profile{Email = "test4", PhoneNumber = "test12", Name = "Name1", Rating = 4.0},
+                new Profile{Email = "test5", PhoneNumber = "test12", Name = "Name1", Rating = 4.0},
+                new Profile{Email = "test6", PhoneNumber = "test12", Name = "Name1", Rating = 4.0},
+                new Profile{Email = "test7", PhoneNumber = "test12", Name = "Name1", Rating = 4.0},
+                new Profile{Email = "test8", PhoneNumber = "test12", Name = "Name1", Rating = 4.0},
+                new Profile{Email = "test9", PhoneNumber = "test12", Name = "Name1", Rating = 4.0},
+                new Profile{Email = "test10", PhoneNumber = "test12", Name = "Name1", Rating = 4.0},
+                
+            };
+            TimeSpanHandler();
         }
+
+
+        async void TimeSpanHandler()
+        {
+
+            await Task.Run(async () =>
+            {
+                if (!isRuning)
+                {
+                    var timer = new PeriodicTimer(TimeSpan.FromSeconds(1));
+                    isRuning = true;
+                    while (await timer.WaitForNextTickAsync())
+                    {
+                        foreach (var j in Profiles)
+                        {
+                            if (j.Advertisements == null)
+                                j.Advertisements = new();
+
+                            foreach (var i in j.Advertisements.ToList())
+                            {
+                                if (i.PickupTimeSpan.Equals(TimeSpan.Zero))
+                                {
+                                    j.Advertisements.Remove(i);
+                                }
+                                else
+                                {
+                                    i.PickupTimeSpan = i.PickupTimeSpan.Subtract(TimeSpan.FromSeconds(1));
+                                }
+
+
+                            }
+                            
+                        }
+                    }
+                }
+            });
+        }
+
     }
+
+
 
 }

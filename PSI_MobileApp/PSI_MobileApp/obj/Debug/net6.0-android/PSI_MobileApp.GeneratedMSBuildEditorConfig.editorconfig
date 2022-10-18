@@ -33,6 +33,12 @@ build_metadata.AdditionalFiles.ManifestResourceName = PSI_MobileApp.MainPage.xam
 build_metadata.AdditionalFiles.TargetPath = MainPage.xaml
 build_metadata.AdditionalFiles.RelativePath = MainPage.xaml
 
+[C:/Users/Rokas/Desktop/PSI/repos/PSI_MobileApp/PSI_MobileApp/NewOrderPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = PSI_MobileApp.NewOrderPage.xaml
+build_metadata.AdditionalFiles.TargetPath = NewOrderPage.xaml
+build_metadata.AdditionalFiles.RelativePath = NewOrderPage.xaml
+
 [C:/Users/Rokas/Desktop/PSI/repos/PSI_MobileApp/PSI_MobileApp/NewUserPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = PSI_MobileApp.NewUserPage.xaml
@@ -56,6 +62,18 @@ build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = PSI_MobileApp.SearchPage.xaml
 build_metadata.AdditionalFiles.TargetPath = SearchPage.xaml
 build_metadata.AdditionalFiles.RelativePath = SearchPage.xaml
+
+[C:/Users/Rokas/Desktop/PSI/repos/PSI_MobileApp/PSI_MobileApp/SupplierDemoView.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = PSI_MobileApp.SupplierDemoView.xaml
+build_metadata.AdditionalFiles.TargetPath = SupplierDemoView.xaml
+build_metadata.AdditionalFiles.RelativePath = SupplierDemoView.xaml
+
+[C:/Users/Rokas/Desktop/PSI/repos/PSI_MobileApp/PSI_MobileApp/SupplierDetailPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = PSI_MobileApp.SupplierDetailPage.xaml
+build_metadata.AdditionalFiles.TargetPath = SupplierDetailPage.xaml
+build_metadata.AdditionalFiles.RelativePath = SupplierDetailPage.xaml
 
 [C:/Users/Rokas/Desktop/PSI/repos/PSI_MobileApp/PSI_MobileApp/SupplierListPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml

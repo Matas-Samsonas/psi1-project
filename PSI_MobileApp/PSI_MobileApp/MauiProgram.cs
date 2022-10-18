@@ -1,4 +1,7 @@
-﻿using PSI_MobileApp.ViewModels;
+﻿using CommunityToolkit.Maui;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Markup;
+using PSI_MobileApp.ViewModels;
 
 namespace PSI_MobileApp;
 
@@ -13,7 +16,8 @@ public static class MauiProgram
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-			});
+			})
+			.UseMauiCommunityToolkit();
 
 		builder.Services.AddSingleton<MainPage>();
 		builder.Services.AddSingleton<MainPageViewModel>();
@@ -26,6 +30,12 @@ public static class MauiProgram
 
         builder.Services.AddTransient<DetailPage>();
         builder.Services.AddTransient<DetailPageViewModel>();
+
+        builder.Services.AddTransient<SupplierDetailPage>();
+        builder.Services.AddTransient<SupplierDetailViewModel>();
+
+        builder.Services.AddTransient<NewOrderPage>();
+        builder.Services.AddTransient<NewOrderViewModel>();
 
         return builder.Build();
 	}

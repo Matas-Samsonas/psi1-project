@@ -265,3 +265,10 @@ C:\Users\Rokas\Desktop\PSI\repos\PSI_MobileApp\PSI_MobileApp\obj\Debug\net6.0-io
 C:\Users\Rokas\Desktop\PSI\repos\PSI_MobileApp\PSI_MobileApp\obj\Debug\net6.0-ios\iossimulator-x64\PSI_MobileApp.pdb
 C:\Users\Rokas\Desktop\PSI\repos\PSI_MobileApp\PSI_MobileApp\obj\Debug\net6.0-ios\iossimulator-x64\PSI_MobileApp.genruntimeconfig.cache
 C:\Users\Rokas\Desktop\PSI\repos\PSI_MobileApp\PSI_MobileApp\obj\Debug\net6.0-ios\iossimulator-x64\ref\PSI_MobileApp.dll
+C:\Users\Rokas\Desktop\PSI\repos\PSI_MobileApp\PSI_MobileApp\bin\Debug\net6.0-ios\iossimulator-x64\CommunityToolkit.Maui.dll
+C:\Users\Rokas\Desktop\PSI\repos\PSI_MobileApp\PSI_MobileApp\bin\Debug\net6.0-ios\iossimulator-x64\CommunityToolkit.Maui.Core.dll
+C:\Users\Rokas\Desktop\PSI\repos\PSI_MobileApp\PSI_MobileApp\bin\Debug\net6.0-ios\iossimulator-x64\CommunityToolkit.Maui.Markup.dll
+C:\Users\Rokas\Desktop\PSI\repos\PSI_MobileApp\PSI_MobileApp\bin\Debug\net6.0-ios\iossimulator-x64\Newtonsoft.Json.dll
+C:\Users\Rokas\Desktop\PSI\repos\PSI_MobileApp\PSI_MobileApp\bin\Debug\net6.0-ios\iossimulator-x64\Newtonsoft.Json.Bson.dll
+C:\Users\Rokas\Desktop\PSI\repos\PSI_MobileApp\PSI_MobileApp\bin\Debug\net6.0-ios\iossimulator-x64\Newtonsoft.Json.Schema.dll
+C:\Users\Rokas\Desktop\PSI\repos\PSI_MobileApp\PSI_MobileApp\obj\Debug\net6.0-ios\iossimulator-x64\resizetizer\r\Resources\s1.jfif

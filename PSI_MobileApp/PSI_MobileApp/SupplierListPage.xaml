@@ -5,53 +5,33 @@
              x:Class="PSI_MobileApp.SupplierListPage"
              Title="Supplier List"
              xmlns:viewmodel="clr-namespace:PSI_MobileApp.ViewModels"
+             xmlns:controls="clr-namespace:PSI_MobileApp"
              x:DataType="viewmodel:SupplierPageViewModel">
 
-    <Grid RowDefinitions="Auto, Auto, *"
-          ColumnDefinitions=".75*, .25*"
-          Padding="10"
-          RowSpacing="10"
-          ColumnSpacing="10">
-
-        <Button Text="Add profile"
-                Command="{Binding AddUserCommand}"
-                Grid.Row="1"
-                Grid.ColumnSpan="2"/>
-
-        <CollectionView Grid.Row="2" Grid.ColumnSpan="2"
-                        ItemsSource="{Binding Users}"
-                        SelectionMode="None">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="{x:Type local:Profile}">
-                    <SwipeView>
-                        <SwipeView.RightItems>
-                            <SwipeItems>
-                                <SwipeItem Text="Delete"
-                                           BackgroundColor="Red"
-                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:SupplierPageViewModel}}, Path=DeleteCommand}"
-                                           CommandParameter="{Binding .}"/>
-                            </SwipeItems>
-                        </SwipeView.RightItems>
-                        <Grid Padding="0.5">
-                            <Frame>
-                                <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer 
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:SupplierPageViewModel}}, Path=TapCommand}"
-                                        CommandParameter="{Binding .}"/>
-                                </Frame.GestureRecognizers>
-                                <Label Text="{Binding UserName}"
-                                       FontSize="24"/>
-                            </Frame>
-                        </Grid>
-                    </SwipeView>
+    <StackLayout>
+        <SearchBar BackgroundColor="Grey"
+                   PlaceholderColor="LightGray"
+                   Placeholder="Enter text..."
+                   >
+            
+        </SearchBar>
+        <ListView ItemsSource="{Binding Profiles}" ItemTapped="ListView_ItemTapped">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="local:Profile">
+                    <ViewCell>
+                        <controls:SupplierDemoView SupplierEmail="{Binding Email}"
+                                                   SupplierPhoneNumber="{Binding PhoneNumber}"
+                                                   SupplierRating="{Binding Rating}"
+                                                   SupplierName="{Binding Name}"
+                                                   >
+                        </controls:SupplierDemoView>
+                    </ViewCell>
                 </DataTemplate>
-            </CollectionView.ItemTemplate>
+            </ListView.ItemTemplate>
             
-            
-        </CollectionView>        
-        
-    </Grid>
-    
-    
-    
+        </ListView>
+    </StackLayout>
+
+
+
 </ContentPage>
