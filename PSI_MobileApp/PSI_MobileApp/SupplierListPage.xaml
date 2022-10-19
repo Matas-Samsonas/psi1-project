@@ -35,7 +35,7 @@
                 Command="{Binding RemoveTag}"
                 CommandParameter="{x:Reference tagCollection}">
         </Button>
-        <ListView ItemsSource="{Binding SearchResults}">
+        <ListView ItemsSource="{Binding SearchResults}" ItemTapped="ListView_ItemTapped">
             <ListView.ItemTemplate>
                 <DataTemplate >
                     <ViewCell>

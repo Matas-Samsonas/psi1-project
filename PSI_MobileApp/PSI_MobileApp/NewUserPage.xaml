@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="PSI_MobileApp.NewUserPage"
-             Title="NewUserPage"
+             Title="Create Your Profile"
              xmlns:viewmodel="clr-namespace:PSI_MobileApp.ViewModels"
              x:DataType="viewmodel:NewUserViewModel">
-    <!--
-    <Grid ColumnDefinitions="*"
+
+    <ContentPage.Resources>
+        <Style x:Key="InvalidEntryStyle" TargetType="Entry">
+            <Setter Property="TextColor" Value="Red" />
+        </Style>
+        <Style x:Key="ValidEntryStyle" TargetType="Entry">
+            <Setter Property="TextColor" Value="Black" />
+        </Style>
+    </ContentPage.Resources>
+
+
+    <Grid ColumnDefinitions="Auto, *"
           Padding="10"
           RowSpacing="10"
           ColumnSpacing="10">
@@ -17,52 +28,130 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        
+
+        <Label Text="Username:"
+               TextColor="Black"
+               Grid.Row="0"
+               Grid.Column="0"
+               VerticalTextAlignment="Center"/>
+
         <Entry Placeholder="Enter username"
-               Text="{Binding Profile.UserName}"
+               Text="{Binding Username}"
                BackgroundColor="Transparent"
                IsSpellCheckEnabled="False"
                IsTextPredictionEnabled="False"
                MaxLength="20"
-               Grid.Row="0"/>
+               Grid.Row="0"
+               Grid.Column="1">
+            <Entry.Behaviors>
+                <toolkit:TextValidationBehavior
+                    InvalidStyle="{StaticResource InvalidEntryStyle}"
+                    ValidStyle="{StaticResource ValidEntryStyle}"
+                    Flags="ValidateOnValueChanged"
+                    DecorationFlags="Trim"
+                    RegexPattern="^[\S]*$"/>
+            </Entry.Behaviors>
+        </Entry>
 
-        <Entry Placeholder="Enter password"
-               Text="{Binding Profile.Password}"
-               BackgroundColor="Transparent"
+
+        <Label Text="Email:"
+               TextColor="Black"
                Grid.Row="1"
-               IsPassword="True"
-               IsSpellCheckEnabled="False"
-               IsTextPredictionEnabled="False"
-               MaxLength="20"/>
-
-        <Entry Placeholder="Confirm password"
-               Text="{Binding ConPassword}"
-               BackgroundColor="Transparent"
-               Grid.Row="2"
-               IsPassword="True"
-               IsSpellCheckEnabled="False"
-               IsTextPredictionEnabled="False"
-               MaxLength="20"/>
+               Grid.Column="0"
+               VerticalTextAlignment="Center"/>
 
         <Entry Placeholder="Enter email"
-               Text="{Binding Profile.Email}"
+               Text="{Binding Email}"
                BackgroundColor="Transparent"
-               Grid.Row="3"
+               Grid.Row="1"
+               Grid.Column="1"
                IsSpellCheckEnabled="False"
                IsTextPredictionEnabled="False"
-               MaxLength="30"/>
+               MaxLength="30">
+            <Entry.Behaviors >
+                <toolkit:EmailValidationBehavior
+                    InvalidStyle="{StaticResource InvalidEntryStyle}"
+                    ValidStyle="{StaticResource ValidEntryStyle}"
+                    Flags="ValidateOnValueChanged"/>
+            </Entry.Behaviors>
+        </Entry>
+
+
+        <Label Text="Password:"
+               TextColor="Black"
+               Grid.Row="2"
+               Grid.Column="0"
+               VerticalTextAlignment="Center"/>
+
+        <Entry Placeholder="Enter password"
+               Text="{Binding Password}"
+               BackgroundColor="Transparent"
+               Grid.Row="2"
+               Grid.Column="1"
+               IsPassword="True"
+               IsSpellCheckEnabled="False"
+               IsTextPredictionEnabled="False"
+               MaxLength="20">
+            <Entry.Behaviors>
+                <toolkit:TextValidationBehavior
+                    InvalidStyle="{StaticResource InvalidEntryStyle}"
+                    ValidStyle="{StaticResource ValidEntryStyle}"
+                    Flags="ValidateOnValueChanged"
+                    DecorationFlags="Trim"
+                    RegexPattern="^[\S]*$"
+                    MinimumLength="8"/>
+            </Entry.Behaviors>
+        </Entry>
+
+        <Label Text="Confirm password:"
+               TextColor="Black"
+               Grid.Row="3"
+               Grid.Column="0"
+               VerticalTextAlignment="Center"/>
+
+        <Entry Placeholder="Enter password"
+               Text="{Binding ConPassword}"
+               BackgroundColor="Transparent"
+               Grid.Row="3"
+               Grid.Column="1"
+               IsPassword="True"
+               IsSpellCheckEnabled="False"
+               IsTextPredictionEnabled="False"
+               MaxLength="20">
+            <Entry.Behaviors>
+                <toolkit:TextValidationBehavior
+                    InvalidStyle="{StaticResource InvalidEntryStyle}"
+                    ValidStyle="{StaticResource ValidEntryStyle}"
+                    Flags="ValidateOnValueChanged"
+                    DecorationFlags="Trim"
+                    RegexPattern="^[\S]*$"
+                    MinimumLength="8"/>
+            </Entry.Behaviors>
+        </Entry>
+
+        <Label Text="{Binding InvalidLabelText}"
+               MaxLines="2"
+               TextColor="Red"
+               Grid.Row="4"
+               Grid.RowSpan="2"
+               Grid.ColumnSpan="2"
+               LineBreakMode="WordWrap"
+               IsVisible="{Binding InvalidLabelVisibility}"
+              />
 
         <Button Text="Create"
                 Command="{Binding AddCommand}"
-                Grid.Row="4"
+                Grid.Row="6"
+                Grid.ColumnSpan="2"
                 />
 
 
     </Grid>
-    -->
-     
-    
-    
+
+
+
 </ContentPage>

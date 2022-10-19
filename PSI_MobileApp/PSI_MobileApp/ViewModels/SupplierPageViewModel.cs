@@ -11,6 +11,8 @@ namespace PSI_MobileApp.ViewModels
 {
     public partial class SupplierPageViewModel : ObservableObject
     {
+        static bool isRuning;
+
         private AccountDataSerializer<Profile> _dataSerializer;
         private ObservableCollection<Profile> _searchResult;
         private List<string> _cuisineTags = Enum.GetNames(typeof(Cuisines)).ToList();
@@ -64,11 +66,47 @@ namespace PSI_MobileApp.ViewModels
             _dataSerializer = new AccountDataSerializer<Profile>("C:\\Users\\jorun\\source\\repos\\psi1-project\\psi\\PSI_MobileApp\\PSI_MobileApp\\Resources\\DataFiles\\ProfileData.json");
             Profiles = _dataSerializer.List;
             SearchResults = Profiles;
+            TimeSpanHandler();
             //_dataSerializer.Add(new Profile { Name = "test5", Email = "email5", PhoneNumber = "number5", Rating = 5 });
         }
 
-        
-        
+        async void TimeSpanHandler()
+        {
+
+            await Task.Run(async () =>
+            {
+                if (!isRuning)
+                {
+                    var timer = new PeriodicTimer(TimeSpan.FromSeconds(1));
+                    isRuning = true;
+                    while (await timer.WaitForNextTickAsync())
+                    {
+                        foreach (var j in Profiles)
+                        {
+                            if (j.Advertisements == null)
+                                j.Advertisements = new();
+
+                            foreach (var i in j.Advertisements.ToList())
+                            {
+                                if (i.PickupTimeSpan.Equals(TimeSpan.Zero))
+                                {
+                                    j.Advertisements.Remove(i);
+                                }
+                                else
+                                {
+                                    i.PickupTimeSpan = i.PickupTimeSpan.Subtract(TimeSpan.FromSeconds(1));
+                                }
+
+
+                            }
+
+                        }
+                    }
+                }
+            });
+        }
+
+
     }
 
 }

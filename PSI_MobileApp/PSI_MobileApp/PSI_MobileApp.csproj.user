@@ -17,9 +17,6 @@
     <MauiXaml Update="NewUserPage.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
-    <MauiXaml Update="SearchPage.xaml">
-      <SubType>Designer</SubType>
-    </MauiXaml>
     <MauiXaml Update="SupplierDemoView.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
