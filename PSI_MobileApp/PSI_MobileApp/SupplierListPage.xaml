@@ -6,7 +6,7 @@
              Title="Supplier List"
              xmlns:viewmodel="clr-namespace:PSI_MobileApp.ViewModels"
              xmlns:controls="clr-namespace:PSI_MobileApp"
-             BackgroundColor="SandyBrown">
+             >
 
     <StackLayout>
         <SearchBar x:Name="searchBar"

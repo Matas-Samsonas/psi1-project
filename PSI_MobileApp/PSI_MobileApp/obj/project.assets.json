@@ -27045,24 +27045,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\jorun\\.nuget\\packages\\": {},
+    "C:\\Users\\Rokas\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\jorun\\Source\\Repos\\testFix\\PSI_MobileApp\\PSI_MobileApp\\PSI_MobileApp.csproj",
-      "projectName": "PSI_MobileApp",
-      "projectPath": "C:\\Users\\jorun\\Source\\Repos\\testFix\\PSI_MobileApp\\PSI_MobileApp\\PSI_MobileApp.csproj",
-      "packagesPath": "C:\\Users\\jorun\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\jorun\\Source\\Repos\\testFix\\PSI_MobileApp\\PSI_MobileApp\\obj\\",
+      "projectUniqueName": "C:\\Users\\Rokas\\source\\repos\\merges-psi-project\\PSI_MobileApp\\PSI_MobileApp\\PSI_MobileApp(Old).csproj",
+      "projectName": "PSI_MobileApp(Old)",
+      "projectPath": "C:\\Users\\Rokas\\source\\repos\\merges-psi-project\\PSI_MobileApp\\PSI_MobileApp\\PSI_MobileApp(Old).csproj",
+      "packagesPath": "C:\\Users\\Rokas\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Rokas\\source\\repos\\merges-psi-project\\PSI_MobileApp\\PSI_MobileApp\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\jorun\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Rokas\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],

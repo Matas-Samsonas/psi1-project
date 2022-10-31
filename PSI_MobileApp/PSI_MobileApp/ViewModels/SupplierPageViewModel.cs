@@ -63,7 +63,7 @@ namespace PSI_MobileApp.ViewModels
 
         public SupplierPageViewModel()
         {
-            _dataSerializer = new AccountDataSerializer<Profile>("C:\\Users\\jorun\\source\\repos\\psi1-project\\psi\\PSI_MobileApp\\PSI_MobileApp\\Resources\\DataFiles\\ProfileData.json");
+            _dataSerializer = new AccountDataSerializer<Profile>("C:\\Users\\Rokas\\source\\repos\\merges-psi-project\\PSI_MobileApp\\PSI_MobileApp\\Resources\\DataFiles\\ProfileData.json");
             Profiles = _dataSerializer.List;
             SearchResults = Profiles;
             TimeSpanHandler();

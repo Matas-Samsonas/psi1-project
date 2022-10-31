@@ -1,1 +1,0 @@
-C:\Users\jorun\Source\Repos\testFix\PSI_MobileApp\PSI_MobileApp\PSI_MobileApp.csproj;x64

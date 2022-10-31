@@ -4,9 +4,9 @@ namespace PSI_MobileApp;
 
 public partial class NewUserPage : ContentPage
 {
-	/*public NewUserPage(NewUserViewModel vm)
+	public NewUserPage(NewUserViewModel vm)
 	{
 		InitializeComponent();
 		BindingContext = vm;
-	}*/
+	}
 }

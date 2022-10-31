@@ -4,6 +4,11 @@
     "PhoneNumber": "number2",
     "Name": "test2",
     "Rating": 2.0,
+    "Address": {
+      "City": "Vilnius",
+      "StreetNumber": 15,
+      "StreetName" :  "Didlaukio g."
+    },
     "Cuisines": [
       "European",
       "Kebab"

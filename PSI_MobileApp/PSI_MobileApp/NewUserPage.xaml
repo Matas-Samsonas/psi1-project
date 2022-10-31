@@ -12,7 +12,7 @@
             <Setter Property="TextColor" Value="Red" />
         </Style>
         <Style x:Key="ValidEntryStyle" TargetType="Entry">
-            <Setter Property="TextColor" Value="Black" />
+            <Setter Property="TextColor" Value="White" />
         </Style>
     </ContentPage.Resources>
 
@@ -34,7 +34,7 @@
         </Grid.RowDefinitions>
 
         <Label Text="Username:"
-               TextColor="Black"
+               TextColor="White"
                Grid.Row="0"
                Grid.Column="0"
                VerticalTextAlignment="Center"/>
@@ -59,7 +59,7 @@
 
 
         <Label Text="Email:"
-               TextColor="Black"
+               TextColor="White"
                Grid.Row="1"
                Grid.Column="0"
                VerticalTextAlignment="Center"/>
@@ -82,7 +82,7 @@
 
 
         <Label Text="Password:"
-               TextColor="Black"
+               TextColor="White"
                Grid.Row="2"
                Grid.Column="0"
                VerticalTextAlignment="Center"/>
@@ -108,7 +108,7 @@
         </Entry>
 
         <Label Text="Confirm password:"
-               TextColor="Black"
+               TextColor="White"
                Grid.Row="3"
                Grid.Column="0"
                VerticalTextAlignment="Center"/>
