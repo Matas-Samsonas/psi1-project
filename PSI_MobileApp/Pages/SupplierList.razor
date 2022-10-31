@@ -1,0 +1,87 @@
+﻿@page "/supplierlist"
+@using AccountDataSerializer
+@using ProfileClasses
+@using System.Collections.ObjectModel
+
+<h3>SupplierList</h3>
+
+@if (Profiles == null)
+{
+	<p><em>Loading...</em></p>
+}
+else
+{
+    <div>
+        <input class="form-control" type="text" placeholder="Search"
+               @bind="Search"
+               @oninput="(e) =>  SearchCommand(e.Value.ToString())" />
+
+
+    </div>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Rating</th>
+				<th>Email</th>
+				<th>Phone number</th>
+                <th>Cuisines</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var supplier in SearchResults)
+			{
+                <tr>
+                    <td>@supplier.Name</td>
+					<td>@supplier.Rating</td>
+					<td>@supplier.Email</td>
+					<td>@supplier.PhoneNumber</td>
+                    <td>
+                        @foreach (var cuisine in supplier.Cuisines)
+                        {
+                            @cuisine.ToString()<br>
+                        }
+                    </td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+@code {
+    private AccountDataSerializer<Profile> _dataSerializer;
+    private ObservableCollection<Profile> _searchResult;
+    public ObservableCollection<Profile> SearchResults
+    {
+        get
+        { return _searchResult; }
+        set
+        {
+            _searchResult = value;
+
+            //onpropertychanged();
+        }
+    }
+
+    public ObservableCollection<Profile> Profiles
+    {
+        get; private set;
+    }
+
+    public SupplierList()
+    {
+        _dataSerializer = new AccountDataSerializer<Profile>("C:\\Users\\Rokas\\Desktop\\PSI\\migrating\\PSI_MobileApp\\Resources\\DataFiles\\ProfileData.json");
+        Profiles = _dataSerializer.List;
+        SearchResults = Profiles;
+
+    }
+
+    public string Search { get; set; }
+
+    public void SearchCommand(string search)
+    {
+        SearchResults = DataSearch.getSearchResults<Profile>(Profiles, searchQuery: search);
+    }
+
+}

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ProfileClasses"
+             x:Class="PSI_MobileApp.SupplierListPage"
+             Title="Supplier List"
+             xmlns:viewmodel="clr-namespace:PSI_MobileApp.ViewModels"
+             xmlns:controls="clr-namespace:PSI_MobileApp"
+             >
+
+    <StackLayout>
+        <SearchBar x:Name="searchBar"
+                   BackgroundColor="Grey"
+                   PlaceholderColor="Transparent"
+                   Placeholder="Enter text..."
+                   SearchCommand="{Binding searchCommand}"
+                   SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"
+                   >
+
+        </SearchBar>
+        <CollectionView x:Name="tagCollection"
+                        ItemsSource="{Binding CuisineTags}"
+                        ItemsLayout="HorizontalList"
+                        SelectionMode="Single"
+                        SelectionChangedCommand="{Binding OnTagClicked}"
+                        SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference tagCollection}}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Label Text="{Binding}">
+                    </Label>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button Text="Remove tag"
+                Command="{Binding RemoveTag}"
+                CommandParameter="{x:Reference tagCollection}">
+        </Button>
+        <ListView ItemsSource="{Binding SearchResults}" ItemTapped="ListView_ItemTapped">
+            <ListView.ItemTemplate>
+                <DataTemplate >
+                    <ViewCell>
+                        <controls:SupplierDemoView SupplierEmail="{Binding Email}"
+                                                   SupplierPhoneNumber="{Binding PhoneNumber}"
+                                                   SupplierRating="{Binding Rating}"
+                                                   SupplierName="{Binding Name}">
+                        </controls:SupplierDemoView>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            
+        </ListView>
+    </StackLayout>
+
+
+
+</ContentPage>

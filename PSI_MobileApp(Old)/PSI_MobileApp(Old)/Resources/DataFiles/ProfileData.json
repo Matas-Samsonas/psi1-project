@@ -1,0 +1,73 @@
+[
+  {
+    "Email": "email2",
+    "PhoneNumber": "number2",
+    "Name": "test2",
+    "Rating": 2.0,
+    "Address": {
+      "City": "Vilnius",
+      "StreetNumber": 15,
+      "StreetName" :  "Didlaukio g."
+    },
+    "Cuisines": [
+      "European",
+      "Kebab"
+    ],
+    "Uuid": null
+  },
+  {
+    "Email": "email3",
+    "PhoneNumber": "number3",
+    "Name": "test3",
+    "Rating": 3.0,
+    "Cuisines": [
+      "European",
+      "Kebab"
+    ],
+    "Uuid": null
+  },
+  {
+    "Email": "email4",
+    "PhoneNumber": "number4",
+    "Name": "test4",
+    "Rating": 4.0,
+    "Cuisines": [
+      "European",
+      "Mexican"
+    ],
+    "Uuid": null
+  },
+  {
+    "Email": "email5",
+    "PhoneNumber": "number5",
+    "Name": "test5",
+    "Rating": 5.0,
+    "Cuisines": [
+      "European",
+      "Italian"
+    ],
+    "Uuid": null
+  },
+  {
+    "Email": "email5",
+    "PhoneNumber": "number5",
+    "Name": "test5",
+    "Rating": 5.0,
+    "Cuisines": [
+      "Traditional",
+      "Kebab"
+    ],
+    "Uuid": null
+  },
+  {
+    "Email": "email5",
+    "PhoneNumber": "number5",
+    "Name": "test5",
+    "Rating": 5.0,
+    "Cuisines": [
+      "European",
+      "Asian"
+    ],
+    "Uuid": null
+  }
+]
