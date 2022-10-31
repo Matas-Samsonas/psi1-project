@@ -2,8 +2,11 @@
 @using AccountDataSerializer
 @using ProfileClasses
 @using System.Collections.ObjectModel
+@inject StateContainer StateContainer
+@inject NavigationManager NavigationManager
+@implements IDisposable
 
-<h3>SupplierList</h3>
+<h3>Supplier List</h3>
 
 @if (Profiles == null)
 {
@@ -32,7 +35,7 @@ else
 		<tbody>
 			@foreach (var supplier in SearchResults)
 			{
-                <tr>
+                <tr @onclick="()=>GoToDetailOnClick(supplier)">
                     <td>@supplier.Name</td>
 					<td>@supplier.Rating</td>
 					<td>@supplier.Email</td>
@@ -82,6 +85,22 @@ else
     public void SearchCommand(string search)
     {
         SearchResults = DataSearch.getSearchResults<Profile>(Profiles, searchQuery: search);
+    }
+
+    public void OnInitialize()
+    {
+        StateContainer.OnChange += StateHasChanged;
+    }
+
+    public void GoToDetailOnClick(Profile profile)
+    {
+        StateContainer.Supplier = profile;
+        NavigationManager.NavigateTo("/supplierlist/supplierdetails");
+    }
+
+    public void Dispose()
+    {
+        StateContainer.OnChange -= StateHasChanged;
     }
 
 }

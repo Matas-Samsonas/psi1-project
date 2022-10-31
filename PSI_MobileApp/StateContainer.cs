@@ -1,26 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ProfileClasses;
 
 namespace PSI_MobileApp
 {
     public class StateContainer
     {
-#nullable enable
-        private string? savedString;
+        private Profile supplier;
 
-        public string Property
+        public Profile Supplier
         {
-            get => savedString ?? string.Empty;
+            get => supplier;
             set
             {
-                savedString = value;
+                supplier = value;
                 NotifyStateChanged();
             }
         }
-
+#nullable enable
         public event Action? OnChange;
 
         private void NotifyStateChanged() => OnChange?.Invoke();
