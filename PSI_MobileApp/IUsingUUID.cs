@@ -8,6 +8,6 @@ namespace PSI_MobileApp
 {
     public interface IUsingUUID
     {
-        public String Uuid { get; set; }
+        public Guid Uuid { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿
 using PSI_MobileApp;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProfileClasses
 {
@@ -8,15 +9,16 @@ namespace ProfileClasses
     {
         private string _userName;
         private string _password;
-        public string UserName { get; private set; }
-        public string Password { get; private set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
     }
 
     public class Profile : IUsingUUID
     {
-        private string _uuid;
+        private Guid _uuid;
         private string _email;
         private string _phoneNumber;
+        
         private string _name;
         private double _rating;
         private Address _address;
@@ -27,7 +29,7 @@ namespace ProfileClasses
         public string Name { get { return _name; } set { _name = value; } }
         public double Rating { get { return _rating; } set { _rating = value; } }
         public string[] Cuisines { get { return _cuisines; } set { _cuisines = value; } }
-        public string Uuid { get { return _uuid; } set { _uuid = value; } }
+        public Guid Uuid { get { return _uuid; } set { _uuid = value; } }
         public Address Address { get { return _address; } set { _address = value; } }
         public ObservableCollection<Advertisement> Advertisements { get { return _advertisements; } set { _advertisements = value; } }
         

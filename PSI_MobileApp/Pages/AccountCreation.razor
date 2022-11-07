@@ -1,0 +1,87 @@
+﻿@page "/createaccount"
+@using AccountDataSerializer
+@using ProfileClasses
+@using System.Collections.ObjectModel
+@inject StateContainer StateContainer
+@inject NavigationManager NavigationManager
+@implements IDisposable
+<h3>Create new account</h3>
+<EditForm Model="@filter" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <table>
+        <tr>
+            <td class="labelcell">
+                <div class="label">
+                    <label for="username"> Username:</label>
+                </div>
+            </td>
+
+            <td>
+                <input type="text" @bind-value="filter.Username" id="username" name="name">
+            </td>
+
+        </tr>
+        <tr>
+            <td class="labelcell">
+                <div class="label">
+                    <label for="password"> Password:</label>
+                </div>
+            </td>
+
+            <td>
+                <input type="password" @bind-value="filter.Password" id="password" name="pass">
+            </td>
+
+        </tr>
+
+        <tr>
+            <td class="labelcell">
+                <div class="label">
+                    <label for="confirmPassowrd"> Confirm Password: </label>
+                </div>
+            </td>
+
+            <td>
+                <input type="password" @bind-value="filter.Confirm" id="confirm" name="confirmation">
+            </td>
+        </tr>
+        <tr>
+            <td class="labelcell">
+                <div class="label">
+                    <label for="email_address">Email Address:</label>
+                </div>
+            </td>
+            <td>
+                <input type="email" @bind-value="filter.Email" id="email_address" name="email">
+            </td>
+        </tr>
+    </table>
+
+    <input type="submit" class="btn btn-primary" value="Save" />
+</EditForm>
+
+@code {
+    public ProfileFilter filter = new();
+    public void HandleValidSubmit()
+    {
+        AccountDataSerializer<Profile> serializer = new AccountDataSerializer<Profile>("C:\\Users\\Matas\\source\\repos\\psi1-project-new\\PSI_MobileApp\\ProfileData.json");
+        Profile profile = new();
+        profile.Email = filter.Email;
+        do
+        {
+            profile.Uuid = Guid.NewGuid();
+        }
+        while (serializer.GetFirstById(profile.Uuid) != null);
+
+        String[] list = { };
+        profile.Cuisines = list;
+        serializer.Add(profile);
+        NavigationManager.NavigateTo("Counter");
+    }
+
+    public void Dispose()
+    {
+        StateContainer.OnChange -= StateHasChanged;
+    }
+}
