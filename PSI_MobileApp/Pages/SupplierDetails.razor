@@ -56,7 +56,7 @@ else
             }
         </tbody>
     </table>*@
-    <MudTable Items="StateContainer.Supplier.Advertisements" OnRowClick="RowClickEvent" Hover="true" @ref="mudTable" RowClassFunc="SelectAdvertisement" T="Advertisement" Breakpoint="Breakpoint.Sm">
+    <MudTable Items="StateContainer.Supplier.Advertisements" OnRowClick="RowClickEvent" Hover="true" @ref="mudTable" RowClassFunc="@SelectAdvertisement" T="Advertisement" Breakpoint="Breakpoint.Sm">
         <HeaderContent>
             <MudTh>Name</MudTh>
             <MudTh>Time Of Making</MudTh>
@@ -77,7 +77,7 @@ else
     <MudButton Variant="Variant.Filled" OnClick="RemoveOrderCommand">
         Remove order
     </MudButton>
-    <MudButton Variant="Variant.Filled">
+    <MudButton Variant="Variant.Filled" OnClick="BookOrderCommand">
         Book order
     </MudButton>
 }
@@ -86,16 +86,19 @@ else
     private MudTable<Advertisement> mudTable;
     private List<string> clickedEvents = new();
     private Advertisement SelectedAdvertisement { get; set; }
+    private int selectedRowNumber = -1; 
 
-    public string SelectAdvertisement(Advertisement advert, int row)
+    public string SelectAdvertisement(Advertisement advert, int rowNumber)
     {
-        if (SelectedAdvertisement == advert)
+        if (selectedRowNumber == rowNumber)
         {
+            selectedRowNumber = -1;
             SelectedAdvertisement = null;
             return String.Empty;
         }
-        else if (SelectedAdvertisement != null && mudTable.SelectedItem.Equals(SelectedAdvertisement))
+        else if (mudTable.SelectedItem != null && mudTable.SelectedItem.Equals(advert))
         {
+            selectedRowNumber = rowNumber;
             SelectedAdvertisement = advert;
             return "selected";
         }
@@ -103,7 +106,7 @@ else
         {
             return String.Empty;
         }
-         
+
     }
 
     public async Task AddOrderCommand()
@@ -122,11 +125,23 @@ else
 
     private void RowClickEvent(TableRowClickEventArgs<Advertisement> tableRowClickEventArgs)
     {
-        clickedEvents.Add("Row has been clicked");
+
     }
 
-    public void RemoveOrderCommand()
+    private void RemoveOrderCommand()
     {
         StateContainer.Supplier.Advertisements.Remove(SelectedAdvertisement);
+    }
+
+    private void BookOrderCommand()
+    {
+        if (SelectedAdvertisement != null)
+        {
+            var item = StateContainer.Supplier.Advertisements.FirstOrDefault(i => i.Equals(SelectedAdvertisement));
+            if (item != null)
+            {
+                item.IsReserved = !item.IsReserved;
+            }
+        }
     }
 }
