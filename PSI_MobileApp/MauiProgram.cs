@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components.WebView.Maui;
 using Microsoft.Extensions.DependencyInjection;
+using MudBlazor.Services;
 using PSI_MobileApp.Data;
 using PSI_MobileApp.Pages;
 
@@ -16,7 +17,7 @@ public static class MauiProgram
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 			});
-
+		builder.Services.AddMudServices();
 		builder.Services.AddMauiBlazorWebView();
 		#if DEBUG
 		builder.Services.AddBlazorWebViewDeveloperTools();

@@ -1,7 +1,21 @@
 ﻿@page "/supplierlist/supplierdetails"
 @inject StateContainer StateContainer
-
+@inject IDialogService DialogService
 <h3>Supplier Details</h3>
+
+<style>
+    .selected {
+        background-color: #1E88E5 !important;
+    }
+
+        .selected > td {
+            color: white !important;
+        }
+
+            .selected > td .mud-input {
+                color: white !important;
+            }
+</style>
 
 @if (StateContainer.Supplier == null)
 {
@@ -17,31 +31,102 @@ else
         Cuisines: @foreach (var cuisine in StateContainer.Supplier.Cuisines){ @(cuisine + " ")} <br>
     </p>
 
-    <table class="table">
+    @*<table class="table">
         <thead>
             <tr>
                 <th>Name</th>
                 <th>Time Of Making</th>
                 <th>Pickup Time</th>
+                <th>Is Reserved</th>
             </tr>
         </thead>
         <tbody>
             @if (StateContainer.Supplier.Advertisements != null)
             {
-                foreach (var addv in StateContainer.Supplier.Advertisements)
+                foreach (var adv in StateContainer.Supplier.Advertisements)
                 {
-                    <tr>
-                        <td>@addv.MealName</td>
-                        <td>@addv.TimeOfMaking</td>
-                        <td>@addv.PickupTimeSpan</td>
+                    string colour = (adv == SelectedAdvertisement) ? "orange" : "white";
+                    <tr @onclick="((e) => SelectAdvertisement(adv))" style="color:Background:@colour">
+                        <td>@adv.MealName</td>
+                        <td>@adv.TimeOfMaking</td>
+                        <td>@adv.PickupTimeSpan</td>
+                        <td>@adv.IsReserved</td>
                     </tr>
                 }
             }
         </tbody>
-    </table>
+    </table>*@
+    <MudTable Items="StateContainer.Supplier.Advertisements" OnRowClick="RowClickEvent" Hover="true" @ref="mudTable" RowClassFunc="SelectAdvertisement" T="Advertisement" Breakpoint="Breakpoint.Sm">
+        <HeaderContent>
+            <MudTh>Name</MudTh>
+            <MudTh>Time Of Making</MudTh>
+            <MudTh>Pickup Time</MudTh>
+            <MudTh>Is Reserved</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Name">@context.MealName</MudTd>
+            <MudTd DataLabel="Time Of Making">@context.TimeOfMaking</MudTd>
+            <MudTd DataLabel="Pickup Time">@context.PickupTimeSpan</MudTd>
+            <MudTd DataLabel="Is Reserved">@context.IsReserved</MudTd>
+        </RowTemplate>
 
+    </MudTable>
+    <MudButton Variant="Variant.Filled" OnClick="AddOrderCommand">
+        Add order
+    </MudButton>
+    <MudButton Variant="Variant.Filled" OnClick="RemoveOrderCommand">
+        Remove order
+    </MudButton>
+    <MudButton Variant="Variant.Filled">
+        Book order
+    </MudButton>
 }
 
 @code {
-    
+    private MudTable<Advertisement> mudTable;
+    private List<string> clickedEvents = new();
+    private Advertisement SelectedAdvertisement { get; set; }
+
+    public string SelectAdvertisement(Advertisement advert, int row)
+    {
+        if (SelectedAdvertisement == advert)
+        {
+            SelectedAdvertisement = null;
+            return String.Empty;
+        }
+        else if (SelectedAdvertisement != null && mudTable.SelectedItem.Equals(SelectedAdvertisement))
+        {
+            SelectedAdvertisement = advert;
+            return "selected";
+        }
+        else
+        {
+            return String.Empty;
+        }
+         
+    }
+
+    public async Task AddOrderCommand()
+    {
+        DialogOptions noHeader = new DialogOptions() { NoHeader = true };
+
+        var dialog = DialogService.Show<AddOrderDialog>("", noHeader);
+        var res = await dialog.Result;
+        if (!res.Cancelled)
+        {
+            if (StateContainer.Supplier.Advertisements == null)
+                StateContainer.Supplier.Advertisements = new();
+            StateContainer.Supplier.Advertisements.Add(res.Data as Advertisement);
+        }
+    }
+
+    private void RowClickEvent(TableRowClickEventArgs<Advertisement> tableRowClickEventArgs)
+    {
+        clickedEvents.Add("Row has been clicked");
+    }
+
+    public void RemoveOrderCommand()
+    {
+        StateContainer.Supplier.Advertisements.Remove(SelectedAdvertisement);
+    }
 }
