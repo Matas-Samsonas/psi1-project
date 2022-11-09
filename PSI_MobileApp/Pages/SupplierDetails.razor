@@ -31,31 +31,6 @@ else
         Cuisines: @foreach (var cuisine in StateContainer.Supplier.Cuisines){ @(cuisine + " ")} <br>
     </p>
 
-    @*<table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Time Of Making</th>
-                <th>Pickup Time</th>
-                <th>Is Reserved</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (StateContainer.Supplier.Advertisements != null)
-            {
-                foreach (var adv in StateContainer.Supplier.Advertisements)
-                {
-                    string colour = (adv == SelectedAdvertisement) ? "orange" : "white";
-                    <tr @onclick="((e) => SelectAdvertisement(adv))" style="color:Background:@colour">
-                        <td>@adv.MealName</td>
-                        <td>@adv.TimeOfMaking</td>
-                        <td>@adv.PickupTimeSpan</td>
-                        <td>@adv.IsReserved</td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>*@
     <MudTable Items="StateContainer.Supplier.Advertisements" OnRowClick="RowClickEvent" Hover="true" @ref="mudTable" RowClassFunc="@SelectAdvertisement" T="Advertisement" Breakpoint="Breakpoint.Sm">
         <HeaderContent>
             <MudTh>Name</MudTh>

@@ -27,8 +27,7 @@ else
 			<tr>
 				<th>Name</th>
 				<th>Rating</th>
-				<th>Email</th>
-				<th>Phone number</th>
+                <th>Available Orders</th>
                 <th>Cuisines</th>
 			</tr>
 		</thead>
@@ -38,8 +37,11 @@ else
                 <tr @onclick="()=>GoToDetailOnClick(supplier)">
                     <td>@supplier.Name</td>
 					<td>@supplier.Rating</td>
-					<td>@supplier.Email</td>
-					<td>@supplier.PhoneNumber</td>
+                    <td>@if (supplier.Advertisements != null)
+                        {
+                            @supplier.Advertisements.Count
+                        } else { @(0) }
+                    </td>
                     <td>
                         @foreach (var cuisine in supplier.Cuisines)
                         {
