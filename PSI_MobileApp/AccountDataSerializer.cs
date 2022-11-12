@@ -2,10 +2,9 @@ using System.Collections.ObjectModel;
 using Newtonsoft.Json;
 // ReSharper disable StringCompareIsCultureSpecific.1
 namespace AccountDataSerializer;
-
+using ClassLibrary;
 using ProfileClasses;
 using PSI_MobileApp;
-
 public class AccountDataSerializer<T> where T : class, IUsingUUID
 {
     private string _path;
@@ -33,12 +32,12 @@ public class AccountDataSerializer<T> where T : class, IUsingUUID
 
     public T GetFirstById(Guid id)
     {
-        return _list.First(instance => instance.Uuid == id);
+        return _list.First(instance => instance.Id == id);
     }
 
     public ObservableCollection<T> GetAllById(Guid id)
     {
-        return new ObservableCollection<T>(_list.Where(instance => instance.Uuid == id).ToList());
+        return new ObservableCollection<T>(_list.Where(instance => instance.Id == id).ToList());
     }
 
     public void Delete(T instanceToDelete)

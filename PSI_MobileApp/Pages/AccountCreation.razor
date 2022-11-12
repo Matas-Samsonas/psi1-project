@@ -1,7 +1,10 @@
 ﻿@page "/createaccount"
 @using AccountDataSerializer
+@using Newtonsoft.Json
 @using ProfileClasses
 @using System.Collections.ObjectModel
+@using System.Text.Json
+@using ClassLibrary
 @inject StateContainer StateContainer
 @inject NavigationManager NavigationManager
 @implements IDisposable
@@ -65,19 +68,22 @@
     public ProfileFilter filter = new();
     public void HandleValidSubmit()
     {
-        AccountDataSerializer<Profile> serializer = new AccountDataSerializer<Profile>("C:\\Users\\Matas\\source\\repos\\psi1-project-new\\PSI_MobileApp\\ProfileData.json");
+        //AccountDataSerializer<Profile> serializer = new AccountDataSerializer<Profile>("C:\\Users\\Matas\\source\\repos\\psi1-project-new\\PSI_MobileApp\\ProfileData.json");
         Profile profile = new();
+        profile.Name = "Name";
+        Address address = new Address();
+        address.streetNumber = 47;
+        address.streetName = "Didlaukio";
+        address.city = "Vilnius";
+        profile.TypedAddress = address;
         profile.Email = filter.Email;
-        do
-        {
-            profile.Uuid = Guid.NewGuid();
-        }
-        while (serializer.GetFirstById(profile.Uuid) != null);
-
-        String[] list = { };
-        profile.Cuisines = list;
-        serializer.Add(profile);
-        NavigationManager.NavigateTo("Counter");
+        profile.PhoneNumber = "123";
+        profile.Cuisines = " ";
+        profile.Id = Guid.NewGuid();
+        ProjectDatabaseContext context = new();
+        context.Add<Profile>(profile);
+        context.SaveChanges();
+        //NavigationManager.NavigateTo("Counter");
     }
 
     public void Dispose()

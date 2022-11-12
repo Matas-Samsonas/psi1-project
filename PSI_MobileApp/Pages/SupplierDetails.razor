@@ -13,8 +13,8 @@ else
         Name: @StateContainer.Supplier.Name <br>
         Email: @StateContainer.Supplier.Email <br>
         Phone number: @StateContainer.Supplier.PhoneNumber <br>
-        Address: @StateContainer.Supplier.Address.city, @StateContainer.Supplier.Address.streetName @StateContainer.Supplier.Address.streetName <br>
-        Cuisines: @foreach (var cuisine in StateContainer.Supplier.Cuisines){ @(cuisine + " ")} <br>
+        Address: @StateContainer.Supplier.TypedAddress.city, @StateContainer.Supplier.TypedAddress.streetName @StateContainer.Supplier.TypedAddress.streetName <br>
+        Cuisines: @foreach (var cuisine in StateContainer.Supplier.CuisineArray){ @(cuisine + " ")} <br>
     </p>
 
     <table class="table">
@@ -26,7 +26,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @if (StateContainer.Supplier.Advertisements != null)
+          <!--  @if (StateContainer.Supplier.Advertisements != null)
             {
                 foreach (var addv in StateContainer.Supplier.Advertisements)
                 {
@@ -36,7 +36,7 @@ else
                         <td>@addv.PickupTimeSpan</td>
                     </tr>
                 }
-            }
+            }-->
         </tbody>
     </table>
 

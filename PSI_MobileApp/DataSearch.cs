@@ -24,8 +24,8 @@ namespace PSI_MobileApp
                  where item.Name.Contains(searchQuery) 
                     || item.Email.Contains(searchQuery)
                     || item.PhoneNumber.Contains(searchQuery)
-                    || item.Rating.ToString().Contains(searchQuery)
-                    || item.Cuisines.Any(s => s.Contains(searchQuery))
+                    //|| item.Rating.ToString().Contains(searchQuery)
+                    //|| item.Cuisines.Any(s => s.Contains(searchQuery))
                  select item).ToObservableCollection();
             }
             
