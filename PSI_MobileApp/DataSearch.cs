@@ -22,8 +22,10 @@ namespace PSI_MobileApp
                 searchResult =
                 (from item in items
                  where item.Name.Contains(searchQuery) 
-                    || item.Rating.ToString().Contains(searchQuery)
-                    || item.Cuisines.Any(s => s.Contains(searchQuery))
+                    || item.Email.Contains(searchQuery)
+                    || item.PhoneNumber.Contains(searchQuery)
+                    //|| item.Rating.ToString().Contains(searchQuery)
+                    //|| item.Cuisines.Any(s => s.Contains(searchQuery))
                  select item).ToObservableCollection();
             }
             

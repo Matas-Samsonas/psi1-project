@@ -1,0 +1,33 @@
+﻿@page "/profile"
+@using AccountDataSerializer
+@using ProfileClasses
+@using System.Collections.ObjectModel
+@inject StateContainer StateContainer
+@inject NavigationManager NavigationManager
+@implements IDisposable
+<h3> </h3>
+@if(true)
+{
+    <button @onclick = "Login"> Login </button>
+    <button @onclick = "Register"> Register</button>
+}
+
+
+@code {
+
+
+    public void Register()
+    {
+        NavigationManager.NavigateTo("createaccount");
+    }
+
+    public void Login()
+    {
+        NavigationManager.NavigateTo("login");
+    }
+
+    public void Dispose()
+    {
+        StateContainer.OnChange -= StateHasChanged;
+    }
+}
