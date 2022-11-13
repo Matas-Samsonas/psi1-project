@@ -1,7 +1,7 @@
 ﻿@page "/supplierlist/supplierdetails"
 @inject StateContainer StateContainer
 @inject IDialogService DialogService
-<h3>Supplier Details</h3>
+<MudText Typo="Typo.h4">Supplier Details</MudText>
 
 <style>
     .selected {
@@ -19,17 +19,22 @@
 
 @if (StateContainer.Supplier == null)
 {
-    <p>The supplier was not passed correctly or still loading.</p>
+    <MudText Typo="Typo.h4">The supplier was not passed correctly or still loading.</MudText>
 }
 else
 {
-    <p>
-        Name: @StateContainer.Supplier.Name <br>
-        Email: @StateContainer.Supplier.Email <br>
-        Phone number: @StateContainer.Supplier.PhoneNumber <br>
-        Address: @StateContainer.Supplier.Address.City, @StateContainer.Supplier.Address.StreetName @StateContainer.Supplier.Address.StreetNumber <br>
-        Cuisines: @foreach (var cuisine in StateContainer.Supplier.Cuisines){ @(cuisine + " ")} <br>
-    </p>
+    
+    <MudText><b>Name:</b> @StateContainer.Supplier.Name</MudText>
+    <MudText><b>Email:</b> @StateContainer.Supplier.Email </MudText>
+    <MudText><b>Phone number:</b> @StateContainer.Supplier.PhoneNumber </MudText>
+    <MudText><b>Address:</b> @StateContainer.Supplier.Address.City, @StateContainer.Supplier.Address.StreetName @StateContainer.Supplier.Address.StreetNumber </MudText>
+    <MudText><b>Cuisines:</b> 
+        @foreach (var cuisine in StateContainer.Supplier.Cuisines)
+        {
+            @(cuisine + " ")
+        } 
+    </MudText>
+    
 
     <MudTable Items="StateContainer.Supplier.Advertisements" OnRowClick="RowClickEvent" Hover="true" @ref="mudTable" RowClassFunc="@SelectAdvertisement" T="Advertisement" Breakpoint="Breakpoint.Sm">
         <HeaderContent>
@@ -46,6 +51,7 @@ else
         </RowTemplate>
 
     </MudTable>
+
     <MudButton Variant="Variant.Filled" OnClick="AddOrderCommand">
         Add order
     </MudButton>
@@ -71,7 +77,7 @@ else
             SelectedAdvertisement = null;
             return String.Empty;
         }
-        else if (mudTable.SelectedItem != null && mudTable.SelectedItem.Equals(advert))
+        else if (mudTable.SelectedItem != null && mudTable.SelectedItem.Equals(advert) && SelectedAdvertisement != null)
         {
             selectedRowNumber = rowNumber;
             SelectedAdvertisement = advert;
@@ -100,7 +106,7 @@ else
 
     private void RowClickEvent(TableRowClickEventArgs<Advertisement> tableRowClickEventArgs)
     {
-
+        SelectedAdvertisement = tableRowClickEventArgs.Item;
     }
 
     private void RemoveOrderCommand()
