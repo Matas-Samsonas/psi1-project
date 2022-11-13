@@ -18,7 +18,13 @@
 
     void Submit()
     {
-        Advertisement adv = new Advertisement() { MealName = MealName, IsReserved = false, PickupTimeSpan = (TimeSpan)pickUpTimeLimit, TimeOfMaking = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second) };
+        Advertisement adv = new Advertisement() 
+        { 
+            MealName = MealName, 
+            IsReserved = false, 
+            PickupTimeSpan = (TimeSpan)pickUpTimeLimit, 
+            TimeOfMaking = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second) 
+        };
         MudDialog.Close(DialogResult.Ok<Advertisement>(adv));
     }
     void Cancel() => MudDialog.Cancel();
