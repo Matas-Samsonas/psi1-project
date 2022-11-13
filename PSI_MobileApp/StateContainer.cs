@@ -4,14 +4,14 @@ namespace PSI_MobileApp
 {
     public class StateContainer
     {
-        private Profile supplier;
+        private Guid id;
 
-        public Profile Supplier
+        public Guid Id
         {
-            get => supplier;
+            get => id;
             set
             {
-                supplier = value;
+                id = value;
                 NotifyStateChanged();
             }
         }

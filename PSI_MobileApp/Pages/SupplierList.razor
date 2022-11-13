@@ -37,12 +37,12 @@ else
 			{
                 <tr @onclick="()=>GoToDetailOnClick(supplier)">
                     <td>@supplier.Name</td>
-					<td>@supplier.Rating</td>
+					@*<td>@supplier.Rating</td>
                     <td>@if (supplier.Advertisements != null)
                         {
                             @supplier.Advertisements.Count
                         } else { @(0) }
-                    </td>
+                    </td>*@
                     <td>
                         @foreach (var cuisine in supplier.Cuisines)
                         {
@@ -99,7 +99,7 @@ else
 
     public void GoToDetailOnClick(Profile profile)
     {
-        StateContainer.Supplier = profile;
+        StateContainer.Id = profile.Id;
         NavigationManager.NavigateTo("/supplierlist/supplierdetails");
     }
 

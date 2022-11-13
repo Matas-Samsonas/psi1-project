@@ -12,7 +12,7 @@
 <EditForm Model="@filter" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
-    <table>
+    @*<table>
         <tr>
             <td class="labelcell">
                 <div class="label">
@@ -59,8 +59,11 @@
                 <input type="email" @bind-value="filter.Email" id="email_address" name="email">
             </td>
         </tr>
-    </table>
-
+    </table>*@
+    <MudTextField @bind-Value="filter.Username" Label="Name" Variant="Variant.Outlined" Margin="Margin.Dense"/>
+    <MudTextField @bind-Value="filter.Password" Label="Password" Variant="Variant.Outlined" Margin="Margin.Dense" InputType="InputType.Password"/>
+    <MudTextField @bind-Value="filter.Confirm" Label="Confirm Password" Variant="Variant.Outlined" Margin="Margin.Dense" InputType="InputType.Password" />
+    <MudTextField @bind-Value="filter.Email" Label="Email" Variant="Variant.Outlined" Margin="Margin.Dense"/>
     <input type="submit" class="btn btn-primary" value="Save" />
 </EditForm>
 
@@ -70,11 +73,11 @@
     {
         //AccountDataSerializer<Profile> serializer = new AccountDataSerializer<Profile>("C:\\Users\\Matas\\source\\repos\\psi1-project-new\\PSI_MobileApp\\ProfileData.json");
         Profile profile = new();
-        profile.Name = "Name";
+        profile.Name = filter.Username;
         Address address = new Address();
-        address.streetNumber = 47;
-        address.streetName = "Didlaukio";
-        address.city = "Vilnius";
+        address.StreetNumber = 47;
+        address.StreetName = "Didlaukio";
+        address.City = "Vilnius";
         profile.TypedAddress = address;
         profile.Email = filter.Email;
         profile.PhoneNumber = "123";

@@ -1,4 +1,5 @@
-﻿<MudDialog Style="max-height:500px; overflow-y: scroll">
+﻿@using ClassLibrary
+<MudDialog Style="max-height:500px; overflow-y: scroll">
     <DialogContent>
         <MudContainer>
             <MudTextField T="string" Label="Dish name" Margin="Margin.Normal" @bind-Value="MealName"/>
@@ -18,10 +19,11 @@
 
     void Submit()
     {
-        Advertisement adv = new Advertisement() 
-        { 
-            MealName = MealName, 
-            IsReserved = false, 
+        Advertisement adv = new Advertisement()
+        {
+            MealName = MealName,
+            IsReserved = false,
+            Tags = "[]",
             PickupTimeSpan = (TimeSpan)pickUpTimeLimit, 
             TimeOfMaking = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second) 
         };
