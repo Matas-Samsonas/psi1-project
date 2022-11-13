@@ -1,4 +1,4 @@
-﻿@page "/createaccount"
+﻿@page "/usercreateaccount"
 @using AccountDataSerializer
 @using Newtonsoft.Json
 @using ProfileClasses
@@ -9,7 +9,8 @@
 @inject NavigationManager NavigationManager
 @implements IDisposable
 <h3>Create new account</h3>
-<EditForm Model="@filter" OnValidSubmit="@HandleValidSubmit">
+
+ <EditForm Model="@filter" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <table>
@@ -60,7 +61,6 @@
             </td>
         </tr>
     </table>
-
     <input type="submit" class="btn btn-primary" value="Save" />
 </EditForm>
 
@@ -70,20 +70,23 @@
     {
         //AccountDataSerializer<Profile> serializer = new AccountDataSerializer<Profile>("C:\\Users\\Matas\\source\\repos\\psi1-project-new\\PSI_MobileApp\\ProfileData.json");
         Profile profile = new();
-        profile.Name = "Name";
-        Address address = new Address();
-        address.streetNumber = 47;
-        address.streetName = "Didlaukio";
-        address.city = "Vilnius";
-        profile.TypedAddress = address;
+        Account account = new();
+        profile.Name = filter.Username;
         profile.Email = filter.Email;
-        profile.PhoneNumber = "123";
-        profile.Cuisines = " ";
         profile.Id = Guid.NewGuid();
-        ProjectDatabaseContext context = new();
-        context.Add<Profile>(profile);
-        context.SaveChanges();
-        //NavigationManager.NavigateTo("Counter");
+        account.Id = profile.Id;
+        account.Password = filter.Password;
+        account.UserName = filter.Username;
+        StateContainer.TempAccount = account;
+        StateContainer.TempProfile = profile;
+        if(StateContainer.CreatingDistributor)
+        {
+            NavigationManager.NavigateTo("inputcontactdata");
+        }
+        else
+        {
+            NavigationManager.NavigateTo("choosecuisines");
+        }
     }
 
     public void Dispose()

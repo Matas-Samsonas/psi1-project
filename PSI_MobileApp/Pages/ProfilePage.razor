@@ -6,19 +6,24 @@
 @inject NavigationManager NavigationManager
 @implements IDisposable
 <h3> </h3>
-@if(true)
+@if(StateContainer.CurrentAccount != null)
 {
-    <button @onclick = "Login"> Login </button>
-    <button @onclick = "Register"> Register</button>
+    <h3> Test </h3>
+}
+else
+{
+    <MudButton @onclick="Login"> Login </MudButton>
+    <MudButton @onclick="Register"> Register</MudButton>
 }
 
 
+
 @code {
-
-
     public void Register()
     {
-        NavigationManager.NavigateTo("createaccount");
+        NavigationManager.NavigateTo("chooseaccounttype");
+        StateContainer.TempAccount = new();
+        StateContainer.TempProfile = new();
     }
 
     public void Login()

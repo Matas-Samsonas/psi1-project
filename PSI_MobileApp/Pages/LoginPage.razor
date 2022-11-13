@@ -1,12 +1,13 @@
 ﻿@page "/login"
 @using AccountDataSerializer
+@using ClassLibrary
 @using ProfileClasses
 @using System.Collections.ObjectModel
 @inject StateContainer StateContainer
 @inject NavigationManager NavigationManager
 @implements IDisposable
 <h3> Login </h3>
-<form>
+ <form>
     <table>
         <tr>
             <td class="labelcell">
@@ -31,15 +32,26 @@
         </tr>
 
     </table>
-
-</form>
+    <MudButton OnClick="HandleValidSubmit"> Login </MudButton>
+ </form>
 
 
 
 @code {
-
     public string Username;
     public string Password;
+
+    public void HandleValidSubmit()
+    {
+        using (ProjectDatabaseContext context = new())
+        {
+            StateContainer.CurrentAccount = context.Accounts.Where(elem => elem.Password == Password && elem.UserName == Username).FirstOrDefault();
+        }
+        if(StateContainer.CurrentAccount != null){
+            NavigationManager.NavigateTo("");
+        }
+        
+    }
 
     public void Dispose()
     {

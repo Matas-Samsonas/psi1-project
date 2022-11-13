@@ -1,0 +1,69 @@
+﻿@page "/inputcontactdata"
+@using AccountDataSerializer
+@using Newtonsoft.Json
+@using ProfileClasses
+@using System.Collections.ObjectModel
+@using System.Text.Json
+@using ClassLibrary
+@inject StateContainer StateContainer
+@inject NavigationManager NavigationManager
+@implements IDisposable
+<h3>Input Contact Data</h3>
+
+<EditForm Model="@filter" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <table>
+        <tr>
+            <td class="labelcell">
+                <div class="label">
+                    <label for="Establisment Name"> Establisment Name:</label>
+                </div>
+            </td>
+
+            <td>
+                <input type="text" @bind-value="filter.DistributorName" id="username" name="name">
+            </td>
+
+        </tr>
+        <tr>
+            <td class="labelcell">
+                <div class="label">
+                    <label for="Phone Number"> Phone Number:</label>
+                </div>
+            </td>
+
+            <td>
+                <input type="text" @bind-value="filter.DistributorPhone" id="phonenumber" name="number">
+            </td>
+
+        </tr>
+        <tr>
+            <td>Address:</td>
+            <td><MudTextField @bind-Value="filter.DistributorCityName" Label="City Name" Variant="Variant.Text" Margin="Margin.Dense"></MudTextField></td>
+            <td> <MudTextField @bind-Value="filter.DistributorStreetName" Label="Street Name" Variant="Variant.Text" Margin="Margin.Dense"></MudTextField></td>
+            <td><MudTextField @bind-Value="filter.DistributorStreetNumber" Label="Street Number" Variant="Variant.Text" Margin="Margin.Dense"></MudTextField></td>
+        </tr>
+    </table>
+    <input type="submit" class="btn btn-primary" value="Save" />
+</EditForm>
+
+@code {
+    public DistributorModel filter = new();
+    public void HandleValidSubmit()
+    {
+        Address address = new();
+        address.streetNumber = (int)filter.DistributorStreetNumber;
+        address.streetName = filter.DistributorStreetName;
+        address.city = filter.DistributorCityName;
+        StateContainer.TempProfile.Name = filter.DistributorName;
+        StateContainer.TempProfile.PhoneNumber = filter.DistributorPhone;
+        StateContainer.TempProfile.TypedAddress = address;
+        NavigationManager.NavigateTo("choosecuisines");
+    }
+
+    public void Dispose()
+    {
+        StateContainer.OnChange -= StateHasChanged;
+    }
+}

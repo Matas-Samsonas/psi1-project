@@ -12,6 +12,7 @@ namespace PSI_MobileApp
     {
         [Required]
         [StringLength(20, ErrorMessage = "Name is too long.")]
+        [IsUniqueUsername]
         public string Username { get; set; }
         [Required]
         [EmailAddress]
