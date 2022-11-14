@@ -14,7 +14,7 @@ namespace ClassLibrary
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Server=localhost;Database={Insert database name};Port={Insert Port};User Id={Insert Username};Password={Insert password}");
+            optionsBuilder.UseNpgsql("");
         }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Profile> Profiles { get; set; }

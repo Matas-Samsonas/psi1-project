@@ -26,7 +26,9 @@ namespace ProfileClasses
         private Address _address;
         private Cuisines[] _cuisines;
         private ObservableCollection<Distributor> _subscriptions;
+        private ObservableCollection<Advertisement> _reservations;
 
+        public virtual ObservableCollection<Advertisement> Reservations { get { return _reservations; } set { _reservations = value; } }
         public virtual ObservableCollection<Distributor> Subscriptions { get { return _subscriptions; } set { _subscriptions = value; } }
         public string Email { get { return _email; } set { _email = value; } }
         public string? PhoneNumber { get { return _phoneNumber; } set { _phoneNumber = value; } }
