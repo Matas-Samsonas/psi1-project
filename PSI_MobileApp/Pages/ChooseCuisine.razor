@@ -1,0 +1,53 @@
+﻿@page "/choosecuisines"
+@using AccountDataSerializer
+@using Newtonsoft.Json
+@using ProfileClasses
+@using System.Collections.ObjectModel
+@using System.Text.Json
+@using ClassLibrary
+@using System.Linq
+@inject StateContainer StateContainer
+@inject NavigationManager NavigationManager
+@implements IDisposable
+@if(StateContainer.CreatingDistributor)
+{
+    <h3>Select which Cuisines does your Establishment serve.</h3>
+}
+else
+{
+    <h3>Select which Cuisines do You prefer.</h3>
+}
+<MudSelect T="string" Label="Cuisines" MultiSelection="true" @bind-Value="cuisine" @bind-SelectedValues="cuisines">
+@foreach (var kitchen in Kitchens)
+{
+            <MudSelectItem T="string" Value="@kitchen">@kitchen</MudSelectItem>
+}
+</MudSelect>
+<MudButton OnClick="Check" Variant="Variant.Filled"> Confirm </MudButton>
+@code {
+    public string cuisine;
+    public IEnumerable<string> cuisines { get; set; } = new HashSet<string>() { };
+    public string[] Kitchens = (Enum.GetNames(typeof(Cuisines))).SkipLast(1).ToArray();
+    public void Check()
+    {
+        if(cuisines.Count() == 0)
+        {
+            Cuisines[] cuisines = { Cuisines.None };
+            StateContainer.TempProfile.CuisineArray = cuisines;
+        }
+        else
+        {
+            List<Cuisines> list = new List<Cuisines>();
+            foreach(var elem in cuisines)
+            {
+                list.Add((Cuisines)Enum.Parse(typeof(Cuisines), elem));
+            }
+            StateContainer.TempProfile.CuisineArray = list.ToArray();
+        }
+        NavigationManager.NavigateTo("finishcreation");
+    }
+    public void Dispose()
+    {
+        StateContainer.OnChange -= StateHasChanged;
+    }
+}

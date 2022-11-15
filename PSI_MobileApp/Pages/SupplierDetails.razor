@@ -1,0 +1,47 @@
+﻿@page "/supplierlist/supplierdetails"
+@inject StateContainer StateContainer
+
+<h3>Supplier Details</h3>
+
+@if (StateContainer.Supplier == null)
+{
+    <p>The supplier was not passed correctly or still loading.</p>
+}
+else
+{
+    <p>
+        Name: @StateContainer.Supplier.Name <br>
+        Email: @StateContainer.Supplier.Email <br>
+        Phone number: @StateContainer.Supplier.PhoneNumber <br>
+        Address: @StateContainer.Supplier.TypedAddress.city, @StateContainer.Supplier.TypedAddress.streetName @StateContainer.Supplier.TypedAddress.streetName <br>
+        Cuisines: @foreach (var cuisine in StateContainer.Supplier.CuisineArray){ @(cuisine + " ")} <br>
+    </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Time Of Making</th>
+                <th>Pickup Time</th>
+            </tr>
+        </thead>
+        <tbody>
+          <!--  @if (StateContainer.Supplier.Advertisements != null)
+            {
+                foreach (var addv in StateContainer.Supplier.Advertisements)
+                {
+                    <tr>
+                        <td>@addv.MealName</td>
+                        <td>@addv.TimeOfMaking</td>
+                        <td>@addv.PickupTimeSpan</td>
+                    </tr>
+                }
+            }-->
+        </tbody>
+    </table>
+
+}
+
+@code {
+    
+}

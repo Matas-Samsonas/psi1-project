@@ -1,0 +1,30 @@
+﻿@page "/chooseaccounttype"
+@using AccountDataSerializer
+@using ProfileClasses
+@using System.Collections.ObjectModel
+@inject StateContainer StateContainer
+@inject NavigationManager NavigationManager
+@implements IDisposable
+
+<h3>What type of account do you want to create?</h3>
+<MudButton @onclick="Customer" Variant="Variant.Filled"> Customer </MudButton>
+<MudButton @onclick="Supplier" Variant="Variant.Filled"> Supplier</MudButton>
+
+@code {
+
+    public void Supplier()
+    {
+        StateContainer.CreatingDistributor = true;
+        NavigationManager.NavigateTo("usercreateaccount");
+    }
+
+    public void Customer()
+    {
+        StateContainer.CreatingDistributor = false;
+        NavigationManager.NavigateTo("usercreateaccount");
+    }
+    public void Dispose()
+    {
+        StateContainer.OnChange -= StateHasChanged;
+    }
+}
