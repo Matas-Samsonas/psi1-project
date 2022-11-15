@@ -3,7 +3,8 @@
 @using System.Collections.ObjectModel
 @using Microsoft.EntityFrameworkCore
 @using PSI_MobileApp.Extensions
-@inject StateContainer StateContainer
+@inject IdStateContainer IdContainer
+@inject StateContainer ProfileContainer
 @inject IDialogService DialogService
 @implements IDisposable
 <MudText Typo="Typo.h4">Supplier Details</MudText>
@@ -22,7 +23,7 @@
             }
 </style>
 
-@if (StateContainer.Id == Guid.Empty)
+@if (IdContainer.Id == Guid.Empty)
 {
     <MudText Typo="Typo.h4">The supplier was not passed correctly or still loading.</MudText>
 }
@@ -34,9 +35,13 @@ else
     <MudText><b>Phone number:</b> @profile.PhoneNumber </MudText>
     <MudText><b>Address:</b> @profile.TypedAddress.City, @profile.TypedAddress.StreetName st. @profile.TypedAddress.StreetNumber</MudText>
     <MudText><b>Cuisines:</b> 
-        @foreach (var cuisine in profile.Cuisines)
+        @foreach (var cuisine in profile.CuisineArray)
         {
-            @(cuisine + " ")
+            var last = profile.CuisineArray.LastOrDefault();
+            if (cuisine != last)
+                @(cuisine + ", ")
+            else
+                @cuisine
         } 
     </MudText>
 
@@ -54,8 +59,8 @@ else
             <MudTd DataLabel="Name">@context.MealName</MudTd>
             <MudTd DataLabel="Time Of Making">@context.TimeOfMaking</MudTd>
             <MudTd DataLabel="Pickup Deadline">@context.PickupTimeSpan</MudTd>
-            <MudTd DataLabel="Price">@context.Price</MudTd>
-            <MudTd DataLabel="Is Reserved">@context.IsReserved</MudTd>
+            <MudTd DataLabel="Price">@context.Cost</MudTd>
+            <MudTd DataLabel="Is Reserved">@(context.Buyer != null)</MudTd>
         </RowTemplate>
     </MudTable>
 
@@ -79,20 +84,18 @@ else
 }
 
 @code {
-    private Task tsk;
     private ProjectDatabaseContext dbContext;
     private ObservableCollection<Advertisement> adverts;
     private MudTable<Advertisement> mudTable;
     private Advertisement SelectedAdvertisement { get; set; }
     private int selectedRowNumber = -1;
     private ProfileClasses.Profile profile;
-    private System.Threading.Timer? timer;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
         dbContext = new();
-        profile = dbContext.Profiles.Where(p => p.Id == StateContainer.Id).FirstOrDefault();
+        profile = dbContext.Profiles.Where(p => p.Id == IdContainer.Id).FirstOrDefault();
         adverts = dbContext.Advertisements.Where(a => a.Distributor.Id == profile.Id).ToObservableCollection();
     }
 
@@ -128,20 +131,28 @@ else
         {
             var adv = res.Data as Advertisement;
             adv.Id = Guid.NewGuid();
-            var search = dbContext.Distributors.Where(d => d.Id == StateContainer.Id).FirstOrDefault();
+            var search = dbContext.Distributors.Where(d => d.Id == IdContainer.Id).FirstOrDefault();
             var tmp = new ObservableCollection<ProfileClasses.Profile>();
             tmp.Add(profile);
             if (search != null)
+            {
+                search.Advertisements = new ObservableCollection<Advertisement>();
+                profile.Subscriptions = new ObservableCollection<ProfileClasses.Distributor>();
+                profile.Subscriptions.Add(search);
+                profile.Reservations = new ObservableCollection<Advertisement>();
+                search.Subscribers = tmp;
                 adv.Distributor = search;
+                adv.Buyer = dbContext.Profiles.Where(p => p.Id == ProfileContainer.CurrentAccount.Id).FirstOrDefault();
+            }
             else
             {
                 var disti = new ProfileClasses.Distributor()
                     {
-                        Id = StateContainer.Id,
+                        Id = IdContainer.Id,
                         Rating = 5,
                         RatingAmount = 100,
                         Subscribers = tmp,
-                        Advertisements = new ObservableCollection<Advertisement>(dbContext.Advertisements.Where(a => a.Distributor.Id == StateContainer.Id))
+                        Advertisements = new ObservableCollection<Advertisement>(dbContext.Advertisements.Where(a => a.Distributor.Id == IdContainer.Id))
                     };
                 dbContext.Add<ProfileClasses.Distributor>(disti);
                 dbContext.SaveChanges();
@@ -170,7 +181,7 @@ else
     {
         if (SelectedAdvertisement != null)
         {
-            dbContext.Advertisements.FirstOrDefault(i => i.Equals(SelectedAdvertisement)).IsReserved = !dbContext.Advertisements.FirstOrDefault(i => i.Equals(SelectedAdvertisement)).IsReserved;
+            dbContext.Advertisements.FirstOrDefault(i => i.Equals(SelectedAdvertisement)).Buyer = dbContext.Profiles.Where(p=> p.Id == ProfileContainer.CurrentAccount.Id).FirstOrDefault();
             await dbContext.SaveChangesAsync();
             await mudTable.ReloadServerData();
         }
@@ -205,10 +216,10 @@ else
                 data = data.OrderByDirection(state.SortDirection, o => o.PickupTimeSpan);
                 break;
             case "price":
-                data = data.OrderByDirection(state.SortDirection, o => o.Price);
+                data = data.OrderByDirection(state.SortDirection, o => o.Cost);
                 break;
             case "reserved":
-                data = data.OrderByDirection(state.SortDirection, o => o.IsReserved);
+                data = data.OrderByDirection(state.SortDirection, o => (o.Buyer != null));
                 break;
         }
 

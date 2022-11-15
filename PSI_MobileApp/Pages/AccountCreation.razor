@@ -5,15 +5,16 @@
 @using System.Collections.ObjectModel
 @using System.Text.Json
 @using ClassLibrary
+@implements IDisposable
 @inject StateContainer StateContainer
 @inject NavigationManager NavigationManager
-@implements IDisposable
+
 <h3>Create new account</h3>
 
  <EditForm Model="@filter" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
-    @*<table>
+    <table>
         <tr>
             <td class="labelcell">
                 <div class="label">

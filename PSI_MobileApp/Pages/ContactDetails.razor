@@ -53,9 +53,9 @@
     public void HandleValidSubmit()
     {
         Address address = new();
-        address.streetNumber = (int)filter.DistributorStreetNumber;
-        address.streetName = filter.DistributorStreetName;
-        address.city = filter.DistributorCityName;
+        address.StreetNumber = (int)filter.DistributorStreetNumber;
+        address.StreetName = filter.DistributorStreetName;
+        address.City = filter.DistributorCityName;
         StateContainer.TempProfile.Name = filter.DistributorName;
         StateContainer.TempProfile.PhoneNumber = filter.DistributorPhone;
         StateContainer.TempProfile.TypedAddress = address;

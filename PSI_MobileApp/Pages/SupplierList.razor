@@ -6,6 +6,7 @@
 @using ProfileClasses
 @using System.Collections.ObjectModel
 @inject StateContainer StateContainer
+@inject IdStateContainer IdContainer
 @inject NavigationManager NavigationManager
 @implements IDisposable
 
@@ -30,7 +31,7 @@ else
 			<tr>
 				<th>Name</th>
 				<th>Rating</th>
-                <th>Available Orders</th>
+                <th>Phone number</th>
                 <th>Cuisines</th>
 			</tr>
 		</thead>
@@ -40,7 +41,6 @@ else
                 <tr @onclick="()=>GoToDetailOnClick(supplier)">
                     <td>@supplier.Name</td>
 					<td>@(context.Distributors.Where(d => d.Id == supplier.Id).FirstOrDefault().Rating)</td>
-					<td>@supplier.Email</td>
 					<td>@supplier.PhoneNumber</td>
                     <td>
                         @foreach (var cuisine in supplier.CuisineArray)
@@ -55,7 +55,7 @@ else
 }
 
 @code {
-    private AccountDataSerializer<Profile> _dataSerializer;
+   // private AccountDataSerializer<Profile> _dataSerializer;
     private ObservableCollection<Profile> _searchResult;
     ProjectDatabaseContext context;
     public ObservableCollection<Profile> SearchResults
@@ -99,7 +99,7 @@ else
 
     public void GoToDetailOnClick(Profile profile)
     {
-        StateContainer.Supplier = profile;
+        IdContainer.Id = profile.Id;
         NavigationManager.NavigateTo("/supplierlist/supplierdetails");
     }
 

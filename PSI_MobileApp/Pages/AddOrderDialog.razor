@@ -25,11 +25,11 @@
         Advertisement adv = new Advertisement()
             {
                 MealName = MealName,
-                IsReserved = false,
+                Buyer = null,
                 Tags = "[]",
                 PickupTimeSpan = (TimeSpan)pickUpTimeLimit,
                 TimeOfMaking = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second),
-                Price = Price
+                Cost = Price
     };
         MudDialog.Close(DialogResult.Ok<Advertisement>(adv));
     }
