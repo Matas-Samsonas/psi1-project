@@ -1,4 +1,4 @@
-﻿@page "/createaccount"
+﻿@page "/usercreateaccount"
 @using AccountDataSerializer
 @using Newtonsoft.Json
 @using ProfileClasses
@@ -9,7 +9,8 @@
 @inject NavigationManager NavigationManager
 @implements IDisposable
 <h3>Create new account</h3>
-<EditForm Model="@filter" OnValidSubmit="@HandleValidSubmit">
+
+ <EditForm Model="@filter" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
     @*<table>
@@ -59,12 +60,8 @@
                 <input type="email" @bind-value="filter.Email" id="email_address" name="email">
             </td>
         </tr>
-    </table>*@
-    <MudTextField @bind-Value="filter.Username" Label="Name" Variant="Variant.Outlined" Margin="Margin.Dense"/>
-    <MudTextField @bind-Value="filter.Password" Label="Password" Variant="Variant.Outlined" Margin="Margin.Dense" InputType="InputType.Password"/>
-    <MudTextField @bind-Value="filter.Confirm" Label="Confirm Password" Variant="Variant.Outlined" Margin="Margin.Dense" InputType="InputType.Password" />
-    <MudTextField @bind-Value="filter.Email" Label="Email" Variant="Variant.Outlined" Margin="Margin.Dense"/>
-    <input type="submit" class="btn btn-primary" value="Save" />
+    </table>
+    <input type="submit" class="btn btn-primary" value="Confirm" />
 </EditForm>
 
 @code {
@@ -73,20 +70,23 @@
     {
         //AccountDataSerializer<Profile> serializer = new AccountDataSerializer<Profile>("C:\\Users\\Matas\\source\\repos\\psi1-project-new\\PSI_MobileApp\\ProfileData.json");
         Profile profile = new();
+        Account account = new();
         profile.Name = filter.Username;
-        Address address = new Address();
-        address.StreetNumber = 47;
-        address.StreetName = "Didlaukio";
-        address.City = "Vilnius";
-        profile.TypedAddress = address;
         profile.Email = filter.Email;
-        profile.PhoneNumber = "123";
-        profile.Cuisines = " ";
         profile.Id = Guid.NewGuid();
-        ProjectDatabaseContext context = new();
-        context.Add<Profile>(profile);
-        context.SaveChanges();
-        //NavigationManager.NavigateTo("Counter");
+        account.Id = profile.Id;
+        account.Password = filter.Password;
+        account.UserName = filter.Username;
+        StateContainer.TempAccount = account;
+        StateContainer.TempProfile = profile;
+        if(StateContainer.CreatingDistributor)
+        {
+            NavigationManager.NavigateTo("inputcontactdata");
+        }
+        else
+        {
+            NavigationManager.NavigateTo("choosecuisines");
+        }
     }
 
     public void Dispose()

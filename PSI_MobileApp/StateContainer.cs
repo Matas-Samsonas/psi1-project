@@ -4,14 +4,43 @@ namespace PSI_MobileApp
 {
     public class StateContainer
     {
-        private Guid id;
-
-        public Guid Id
+        private Profile supplier;
+        private bool creatingDistributor = false;
+        private Profile tempProfile;
+        private Account tempAccount;
+        private Account currentAccount = null;
+        public Account CurrentAccount
         {
-            get => id;
+            get { return currentAccount; }
+            set { currentAccount = value; }
+        }
+        public bool CreatingDistributor
+        {
+            get { return creatingDistributor; }
+            set { creatingDistributor = value; }
+        }
+        public Account TempAccount
+        {
+            get => tempAccount;
             set
             {
-                id = value;
+                tempAccount = value;
+            }
+        }
+        public Profile TempProfile
+        {
+            get => tempProfile;
+            set
+            {
+                tempProfile = value;
+            }
+        }
+        public Profile Supplier
+        {
+            get => supplier;
+            set
+            {
+                supplier = value;
                 NotifyStateChanged();
             }
         }

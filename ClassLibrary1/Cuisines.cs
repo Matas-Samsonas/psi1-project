@@ -2,7 +2,6 @@
 
 namespace ClassLibrary
 {
-    [Serializable]
     public enum Cuisines
     {
         European,
@@ -11,7 +10,8 @@ namespace ClassLibrary
         Italian,
         Traditional,
         FastFood,
-        Kebab
+        Kebab,
+        None
     }
 
 
