@@ -2,8 +2,10 @@
 <MudDialog Style="max-height:500px; overflow-y: scroll">
     <DialogContent>
         <MudContainer>
-            <MudTextField T="string" Label="Dish name" Margin="Margin.Normal" @bind-Value="MealName"/>
-            <MudTimePicker Label="Pick up time limit" PickerVariant="PickerVariant.Static" @bind-Time="pickUpTimeLimit" />
+            <MudTextField T="string" Label="Dish name" Margin="Margin.Normal" @bind-Value="MealName" Required="true" RequiredError="Please enter name."/>
+            <MudTextField T="double" Label="Price" Margin="Margin.Normal" @bind-Value="Price" Required="true" RequiredError="Please enter name."/>
+            <MudTimePicker Label="Pickup time" PickerVariant="PickerVariant.Static" @bind-Time="pickUpTimeLimit" Required="true" RequiredError="Please choose a time of day."/>
+            @*<MudDatePicker Label="Pickup date" PickerVariant="PickerVariant.Static" @bind-Date="pickUpTimeLimit" DateFormat="YYYY-MM-DD" MinDate="DateTime.Now.AddDays(-1)" Required="true" RequiredError="Plese choose a date."/>*@
         </MudContainer>
     </DialogContent>
     <DialogActions>
@@ -15,18 +17,20 @@
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public string MealName { get; set; }
+    [Parameter] public double Price { get; set; }
     TimeSpan? pickUpTimeLimit = new TimeSpan(00, 00, 00);
 
     void Submit()
     {
         Advertisement adv = new Advertisement()
-        {
-            MealName = MealName,
-            IsReserved = false,
-            Tags = "[]",
-            PickupTimeSpan = (TimeSpan)pickUpTimeLimit, 
-            TimeOfMaking = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second) 
-        };
+            {
+                MealName = MealName,
+                IsReserved = false,
+                Tags = "[]",
+                PickupTimeSpan = (TimeSpan)pickUpTimeLimit,
+                TimeOfMaking = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second),
+                Price = Price
+    };
         MudDialog.Close(DialogResult.Ok<Advertisement>(adv));
     }
     void Cancel() => MudDialog.Cancel();

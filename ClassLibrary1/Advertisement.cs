@@ -14,6 +14,7 @@ public partial class Advertisement : IUsingUUID
     private Cuisines[] _tags;
     private TimeSpan timeOfMaking;
     private Distributor _distributor;
+    private double _price;
 
     public virtual Distributor Distributor { get { return _distributor; } set { _distributor = value; } } 
 
@@ -22,6 +23,6 @@ public partial class Advertisement : IUsingUUID
     public TimeSpan PickupTimeSpan { get { return pickupTimeSpan; } set {pickupTimeSpan = value; } }
     public string Tags { get { return JsonSerializer.Serialize(_tags); } set {_tags = JsonSerializer.Deserialize<Cuisines[]>(value); } }
     public TimeSpan TimeOfMaking { get { return timeOfMaking; } set { timeOfMaking = value; } }
-
     public Guid Id { get { return _id; } set { _id = value; } }
+    public double Price { get { return _price; } set { _price = value; } }
 }

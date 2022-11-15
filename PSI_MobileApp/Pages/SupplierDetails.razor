@@ -1,8 +1,11 @@
 ﻿@page "/supplierlist/supplierdetails"
 @using ClassLibrary
 @using System.Collections.ObjectModel
+@using Microsoft.EntityFrameworkCore
+@using PSI_MobileApp.Extensions
 @inject StateContainer StateContainer
 @inject IDialogService DialogService
+@implements IDisposable
 <MudText Typo="Typo.h4">Supplier Details</MudText>
 
 <style>
@@ -37,47 +40,60 @@ else
         } 
     </MudText>
 
-
-    <MudTable Items="dbContext.Advertisements.Where(a => a.Distributor.Id == StateContainer.Id)" OnRowClick="RowClickEvent" Hover="true" @ref="mudTable" RowClassFunc="@SelectAdvertisement" T="Advertisement" Breakpoint="Breakpoint.Sm">
+@*  <MudTable ServerData="@(new Func<TableState, Task<TableData<Advertisement>>>(ServerReload))" Items="dbContext.Advertisements.Where(a => a.Distributor.Id == StateContainer.Id)" OnRowClick="RowClickEvent" Hover="true" @ref="mudTable" RowClassFunc="@SelectAdvertisement" T="Advertisement" Breakpoint="Breakpoint.Sm">
+*@
+    <MudTable ServerData="@(new Func<TableState, Task<TableData<Advertisement>>>(ServerReload))"  OnRowClick="RowClickEvent" Hover="true" @ref="mudTable" RowClassFunc="@SelectAdvertisement" T="Advertisement" Breakpoint="Breakpoint.Sm">
         <HeaderContent>
-            <MudTh>Name</MudTh>
-            <MudTh>Time of making</MudTh>
-            <MudTh>Pickup Time</MudTh>
-            <MudTh>Is Reserved</MudTh>
+            <MudTh><MudTableSortLabel SortLabel="name" T="Advertisement">Name</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="making_time" T="Advertisement">Time of making</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="pickup_time" T="Advertisement">Pickup Time</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="price" T="Advertisement">Price</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="reserved" T="Advertisement">Is Reserved</MudTableSortLabel></MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd DataLabel="Name">@context.MealName</MudTd>
             <MudTd DataLabel="Time Of Making">@context.TimeOfMaking</MudTd>
-            <MudTd DataLabel="Pickup Time">@context.PickupTimeSpan</MudTd>
+            <MudTd DataLabel="Pickup Deadline">@context.PickupTimeSpan</MudTd>
+            <MudTd DataLabel="Price">@context.Price</MudTd>
             <MudTd DataLabel="Is Reserved">@context.IsReserved</MudTd>
         </RowTemplate>
     </MudTable>
 
-    <MudButton Variant="Variant.Filled" OnClick="AddOrderCommand">
-        Add order
-    </MudButton>
-    <MudButton Variant="Variant.Filled" OnClick="RemoveOrderCommand">
-        Remove order
-    </MudButton>
-    <MudButton Variant="Variant.Filled" OnClick="BookOrderCommand">
-        Book order
-    </MudButton>
+    @if (true) 
+            @*if the user is a provider*@
+    {
+        <MudButton Variant="Variant.Filled" OnClick="AddOrderCommand" >
+            Add order
+        </MudButton>
+        <MudButton Variant="Variant.Filled" OnClick="RemoveOrderCommand">
+            Remove order
+        </MudButton>
+    }
+    @if (true) @*if the user is a customer/regular user*@
+    {
+        <MudButton Variant="Variant.Filled" OnClick="BookOrderCommand">
+            Book order
+        </MudButton>
+    }
+    
 }
 
 @code {
+    private Task tsk;
     private ProjectDatabaseContext dbContext;
-    //private ObservableCollection<Advertisement> adverts;
+    private ObservableCollection<Advertisement> adverts;
     private MudTable<Advertisement> mudTable;
-    private List<string> clickedEvents = new();
     private Advertisement SelectedAdvertisement { get; set; }
     private int selectedRowNumber = -1;
     private ProfileClasses.Profile profile;
+    private System.Threading.Timer? timer;
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
         dbContext = new();
         profile = dbContext.Profiles.Where(p => p.Id == StateContainer.Id).FirstOrDefault();
-        //adverts = new ObservableCollection<Advertisement>(dbContext.Advertisements.Where(a => a.Id == StateContainer.Id));
+        adverts = dbContext.Advertisements.Where(a => a.Distributor.Id == profile.Id).ToObservableCollection();
     }
 
     public string SelectAdvertisement(Advertisement advert, int rowNumber)
@@ -111,7 +127,7 @@ else
         if (!res.Cancelled)
         {
             var adv = res.Data as Advertisement;
-            adv.Id = new Guid();
+            adv.Id = Guid.NewGuid();
             var search = dbContext.Distributors.Where(d => d.Id == StateContainer.Id).FirstOrDefault();
             var tmp = new ObservableCollection<ProfileClasses.Profile>();
             tmp.Add(profile);
@@ -119,20 +135,22 @@ else
                 adv.Distributor = search;
             else
             {
-                dbContext.Add<ProfileClasses.Distributor>(new ProfileClasses.Distributor() 
-                { 
-                    Id = StateContainer.Id, 
-                    Rating = 5, 
-                    RatingAmount = 100, 
-                    Subscribers = tmp, 
-                    Advertisements = new ObservableCollection<Advertisement>(dbContext.Advertisements.Where(a => a.Distributor.Id == StateContainer.Id))
-                });
+                var disti = new ProfileClasses.Distributor()
+                    {
+                        Id = StateContainer.Id,
+                        Rating = 5,
+                        RatingAmount = 100,
+                        Subscribers = tmp,
+                        Advertisements = new ObservableCollection<Advertisement>(dbContext.Advertisements.Where(a => a.Distributor.Id == StateContainer.Id))
+                    };
+                dbContext.Add<ProfileClasses.Distributor>(disti);
                 dbContext.SaveChanges();
             }
-            dbContext.Add<Advertisement>(res.Data as Advertisement);
-            dbContext.SaveChanges();
-
-            //adverts.Add(res.Data as Advertisement);
+            dbContext.Add<Advertisement>(adv as Advertisement);
+            
+            await dbContext.SaveChangesAsync();
+            await mudTable.ReloadServerData();
+            //adverts.Add(adv as Advertisement);
         }
     }
 
@@ -141,19 +159,60 @@ else
         SelectedAdvertisement = tableRowClickEventArgs.Item;
     }
 
-    private void RemoveOrderCommand()
+    private async Task RemoveOrderCommand()
     {
         dbContext.Advertisements.Remove(SelectedAdvertisement);
-        dbContext.SaveChanges();
-        //adverts.Remove(SelectedAdvertisement);
+        await dbContext.SaveChangesAsync();
+        await mudTable.ReloadServerData();
     }
 
-    private void BookOrderCommand()
+    private async Task BookOrderCommand()
     {
         if (SelectedAdvertisement != null)
         {
             dbContext.Advertisements.FirstOrDefault(i => i.Equals(SelectedAdvertisement)).IsReserved = !dbContext.Advertisements.FirstOrDefault(i => i.Equals(SelectedAdvertisement)).IsReserved;
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
+            await mudTable.ReloadServerData();
         }
+    }
+
+    public void Dispose()
+    {
+
+    }
+
+    private TimeSpan HandleTime(TimeSpan timeSpan, TimeSpan creationTime)
+    {
+        return (creationTime + timeSpan) - new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+    }
+
+    private IEnumerable<Advertisement> pagedData;
+    private int totalItems;
+    private async Task<TableData<Advertisement>> ServerReload(TableState state)
+    {
+        IEnumerable<Advertisement> data = await dbContext.Advertisements.Where(a => a.Distributor.Id == profile.Id).ToListAsync();
+        await Task.Delay(300);
+        totalItems = data.Count();
+        switch(state.SortLabel)
+        {
+            case "name":
+                data = data.OrderByDirection(state.SortDirection, o => o.MealName);
+                break;
+            case "making_time":
+                data = data.OrderByDirection(state.SortDirection, o => o.TimeOfMaking);
+                break;
+            case "pickup_time":
+                data = data.OrderByDirection(state.SortDirection, o => o.PickupTimeSpan);
+                break;
+            case "price":
+                data = data.OrderByDirection(state.SortDirection, o => o.Price);
+                break;
+            case "reserved":
+                data = data.OrderByDirection(state.SortDirection, o => o.IsReserved);
+                break;
+        }
+
+        pagedData = data.Skip(state.Page * state.PageSize).Take(state.PageSize).ToArray();
+        return new TableData<Advertisement>() { TotalItems = totalItems, Items = pagedData };
     }
 }
