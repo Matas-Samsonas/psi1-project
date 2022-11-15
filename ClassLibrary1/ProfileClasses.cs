@@ -45,17 +45,19 @@ namespace ProfileClasses
 
     public class Distributor : IUsingUUID
     {
-        private double _rating;
+        private int _rating;
         private int _ratingAmount;
         private Guid _id;
-        private ObservableCollection<Advertisement> _advertisements;
-        private ObservableCollection<Profile> _subscribers;
+        private ObservableCollection<Advertisement>? _advertisements;
+        private ObservableCollection<Profile>? _subscribers;
+        private string? _cuisines;
 
         public ObservableCollection<Profile>? Subscribers { get { return _subscribers; } set { _subscribers = value; } }
-        public double Rating { get { return _rating; } set { _rating = value; } }
+        public int Rating { get { return _rating; } set { _rating = value; } }
         public int RatingAmount { get { return _ratingAmount; } set { _ratingAmount = value; } }
         public Guid Id { get { return _id; } set { _id = value; } }
         public virtual ObservableCollection<Advertisement> Advertisements { get { return _advertisements; } set { _advertisements = value; } }
+        public string? Cuisines { get { return _cuisines; } set => _cuisines = value; }
     }
 
 }

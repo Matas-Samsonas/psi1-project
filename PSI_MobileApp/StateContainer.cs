@@ -4,7 +4,7 @@ namespace PSI_MobileApp
 {
     public class StateContainer
     {
-        private Profile supplier;
+        private Profile profile;
         private bool creatingDistributor = false;
         private Profile tempProfile;
         private Account tempAccount;
@@ -37,13 +37,14 @@ namespace PSI_MobileApp
         }
         public Profile Supplier
         {
-            get => supplier;
+            get => profile;
             set
             {
-                supplier = value;
+                profile = value;
                 NotifyStateChanged();
             }
         }
+
 #nullable enable
         public event Action? OnChange;
 

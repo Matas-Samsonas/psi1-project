@@ -1,0 +1,78 @@
+﻿@page "/subs"
+@using ClassLibrary;
+@using ProfileClasses
+@using System.Collections.ObjectModel
+@using AccountDataSerializer
+@inject StateContainer StateContainer
+@inject NavigationManager NavigationManager
+
+<h3>Subscriptions</h3>
+@if (Profile == null || Profile.Subscriptions == null)
+{
+	<p><em>Loading...</em></p>
+}
+else
+{
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Rating</th>
+                <th>Cuisines</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var supplier in Profile.Subscriptions)
+			{
+                <tr>
+					<td @onclick="()=>GoToDetailOnClick(DistributorProfiles.First(i => supplier.Id == i.Id))">@DistributorProfiles.First(i => supplier.Id == i.Id).Name</td>
+					<MudRating ReadOnly="true" Color="Color.Dark" SelectedValue=@supplier.Rating></MudRating>
+                    <td>
+                        @foreach (var cuisine in supplier.Cuisines)
+                        {
+                            @cuisine.ToString()<br>
+                        }
+                    </td>
+					<MudButton Variant="Variant.Filled" Color="Color.Secondary" class="btn btn-primary" @onclick="()=>Subscribe(supplier)">Unsubscribe</MudButton>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+@code {
+	public Profile Profile { get; set; }
+	public List<Profile> DistributorProfiles { get; set; }
+
+	public Subscriptions()
+	{
+		ProjectDatabaseContext context = new();
+		Profile = context.Profiles.ToList().First(i => i.Id == StateContainer.CurrentAccount.Id);
+		DistributorProfiles = context.Profiles.ToList();
+	}
+
+	public Subscriptions(Profile user, List<Profile> distributors)
+	{
+		Profile = user;
+		DistributorProfiles = distributors;
+	}
+
+	public void GoToDetailOnClick(Profile supplier)
+	{
+		StateContainer.Supplier = supplier;
+		NavigationManager.NavigateTo("/supplierlist/supplierdetails");
+	}
+
+	public void Subscribe(Distributor distributor)
+	{
+		if (!Profile.Subscriptions.Contains(distributor))
+		{
+			Profile.Subscriptions.Add(distributor);
+		}
+		else
+		{
+			Profile.Subscriptions.Remove(distributor);
+		}
+	}
+
+}

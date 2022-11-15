@@ -1,0 +1,48 @@
+﻿@page "/reservations"
+@using System.Collections.ObjectModel;
+@using ClassLibrary
+@using ProfileClasses
+@inject StateContainer StateContainer
+
+<h3>Reservations</h3>
+
+@if(Profile == null || UserReservations == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Meal Name</th>
+                <th>Distributor</th>
+                <th>Reserved until</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var reservation in UserReservations)
+            {
+                <tr>
+                    <td>@reservation.MealName</td>
+                    <td>@reservation.Distributor</td>
+                    <td>@reservation.PickupTimeSpan</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    public Profile Profile { get; set; }
+    public List<Advertisement> UserReservations { get; set; }
+
+    public Reservations()
+    {
+        ProjectDatabaseContext context = new();
+        Profile = context.Profiles.ToList().First(i => i.Id == StateContainer.CurrentAccount.Id);
+        UserReservations = context.Advertisements.Where(i => i.Buyer == Profile).ToList();
+    }
+
+}

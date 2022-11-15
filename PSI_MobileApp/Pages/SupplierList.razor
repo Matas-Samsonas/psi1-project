@@ -78,8 +78,8 @@ else
         ProjectDatabaseContext context = new();
         //_dataSerializer = new AccountDataSerializer<Profile>("C:\\Users\\Matas\\source\\repos\\psi1-project-new\\PSI_MobileApp\\ProfileData.json");
         //Profiles = _dataSerializer.List;
-        Profiles = new ObservableCollection<Profile>(context.Profiles.ToList());
-        SearchResults = new ObservableCollection<Profile> (context.Profiles.ToList());
+        Profiles = new(context.Profiles.ToList());
+        SearchResults = new(context.Profiles.ToList());
 
     }
 
