@@ -3,6 +3,7 @@
 @using ClassLibrary
 @using ProfileClasses
 @inject StateContainer StateContainer
+@implements IDisposable
 
 <h3>Reservations</h3>
 
@@ -40,9 +41,21 @@ else
 
     public Reservations()
     {
+        
+    }
+
+    public void OnInitialize()
+    {
+        StateContainer.OnChange += StateHasChanged;
+
         ProjectDatabaseContext context = new();
         Profile = context.Profiles.ToList().First(i => i.Id == StateContainer.CurrentAccount.Id);
         UserReservations = context.Advertisements.Where(i => i.Buyer == Profile).ToList();
+
+    }
+    public void Dispose()
+    {
+        StateContainer.OnChange -= StateHasChanged;
     }
 
 }

@@ -5,6 +5,7 @@
 @using AccountDataSerializer
 @inject StateContainer StateContainer
 @inject NavigationManager NavigationManager
+@implements IDisposable
 
 <h3>Subscriptions</h3>
 @if (Profile == null || Profile.Subscriptions == null)
@@ -33,7 +34,7 @@ else
                             @cuisine.ToString()<br>
                         }
                     </td>
-					<MudButton Variant="Variant.Filled" Color="Color.Secondary" class="btn btn-primary" @onclick="()=>Subscribe(supplier)">Unsubscribe</MudButton>
+					<MudButton Variant="Variant.Filled" Color="Color.Secondary" class="btn btn-primary" @onclick="()=>ChangeSubscriptionStatus(supplier)">Unsubscribe</MudButton>
 				</tr>
 			}
 		</tbody>
@@ -46,9 +47,7 @@ else
 
 	public Subscriptions()
 	{
-		ProjectDatabaseContext context = new();
-		Profile = context.Profiles.ToList().First(i => i.Id == StateContainer.CurrentAccount.Id);
-		DistributorProfiles = context.Profiles.ToList();
+		
 	}
 
 	public Subscriptions(Profile user, List<Profile> distributors)
@@ -63,7 +62,7 @@ else
 		NavigationManager.NavigateTo("/supplierlist/supplierdetails");
 	}
 
-	public void Subscribe(Distributor distributor)
+	public void ChangeSubscriptionStatus(Distributor distributor)
 	{
 		if (!Profile.Subscriptions.Contains(distributor))
 		{
@@ -73,6 +72,19 @@ else
 		{
 			Profile.Subscriptions.Remove(distributor);
 		}
+	}
+
+	public void OnInitialize()
+	{
+		StateContainer.OnChange += StateHasChanged;
+
+		ProjectDatabaseContext context = new();
+		Profile = context.Profiles.ToList().First(i => i.Id == StateContainer.CurrentAccount.Id);
+		DistributorProfiles = context.Profiles.ToList();
+	}
+	public void Dispose()
+	{
+		StateContainer.OnChange -= StateHasChanged;
 	}
 
 }
