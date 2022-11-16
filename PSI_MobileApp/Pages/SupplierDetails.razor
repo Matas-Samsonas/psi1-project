@@ -45,8 +45,6 @@ else
         } 
     </MudText>
 
-@*  <MudTable ServerData="@(new Func<TableState, Task<TableData<Advertisement>>>(ServerReload))" Items="dbContext.Advertisements.Where(a => a.Distributor.Id == StateContainer.Id)" OnRowClick="RowClickEvent" Hover="true" @ref="mudTable" RowClassFunc="@SelectAdvertisement" T="Advertisement" Breakpoint="Breakpoint.Sm">
-*@
     <MudTable ServerData="@(new Func<TableState, Task<TableData<Advertisement>>>(ServerReload))"  OnRowClick="RowClickEvent" Hover="true" @ref="mudTable" RowClassFunc="@SelectAdvertisement" T="Advertisement" Breakpoint="Breakpoint.Sm">
         <HeaderContent>
             <MudTh><MudTableSortLabel SortLabel="name" T="Advertisement">Name</MudTableSortLabel></MudTh>
@@ -134,31 +132,31 @@ else
             var search = dbContext.Distributors.Where(d => d.Id == IdContainer.Id).FirstOrDefault();
             var tmp = new ObservableCollection<ProfileClasses.Profile>();
             tmp.Add(profile);
-            if (search != null)
-            {
-                search.Advertisements = new ObservableCollection<Advertisement>();
-                profile.Subscriptions = new ObservableCollection<ProfileClasses.Distributor>();
-                profile.Subscriptions.Add(search);
-                profile.Reservations = new ObservableCollection<Advertisement>();
-                search.Subscribers = tmp;
-                adv.Distributor = search;
-                adv.Buyer = dbContext.Profiles.Where(p => p.Id == ProfileContainer.CurrentAccount.Id).FirstOrDefault();
-            }
-            else
-            {
-                var disti = new ProfileClasses.Distributor()
-                    {
-                        Id = IdContainer.Id,
-                        Rating = 5,
-                        RatingAmount = 100,
-                        Subscribers = tmp,
-                        Advertisements = new ObservableCollection<Advertisement>(dbContext.Advertisements.Where(a => a.Distributor.Id == IdContainer.Id))
-                    };
-                dbContext.Add<ProfileClasses.Distributor>(disti);
-                dbContext.SaveChanges();
-            }
+            //if (search != null)
+            //{
+            //    search.Advertisements = new ObservableCollection<Advertisement>();
+            //    profile.Subscriptions = new ObservableCollection<ProfileClasses.Distributor>();
+            //    profile.Subscriptions.Add(search);
+            //    profile.Reservations = new ObservableCollection<Advertisement>();
+            //    search.Subscribers = tmp;
+            adv.Distributor = search;
+            //    adv.Buyer = dbContext.Profiles.Where(p => p.Id == ProfileContainer.CurrentAccount.Id).FirstOrDefault();
+            //}
+            //else
+            //{
+            //    var disti = new ProfileClasses.Distributor()
+            //        {
+            //            Id = IdContainer.Id,
+            //            Rating = 5,
+            //            RatingAmount = 100,
+            //            Subscribers = tmp,
+            //            Advertisements = new ObservableCollection<Advertisement>(dbContext.Advertisements.Where(a => a.Distributor.Id == IdContainer.Id))
+            //        };
+            //    dbContext.Add<ProfileClasses.Distributor>(disti);
+            //    dbContext.SaveChanges();
+            //}
             dbContext.Add<Advertisement>(adv as Advertisement);
-            
+
             await dbContext.SaveChangesAsync();
             await mudTable.ReloadServerData();
             //adverts.Add(adv as Advertisement);
@@ -201,29 +199,31 @@ else
     private int totalItems;
     private async Task<TableData<Advertisement>> ServerReload(TableState state)
     {
-        IEnumerable<Advertisement> data = await dbContext.Advertisements.Where(a => a.Distributor.Id == profile.Id).ToListAsync();
+        var query = dbContext.Advertisements.Where(a => a.Distributor.Id == profile.Id);
+        //IEnumerable<Advertisement> data = await query.ToListAsync();
         await Task.Delay(300);
-        totalItems = data.Count();
+        
         switch(state.SortLabel)
         {
             case "name":
-                data = data.OrderByDirection(state.SortDirection, o => o.MealName);
+                query = query.OrderByDirection(state.SortDirection, o => o.MealName);
                 break;
             case "making_time":
-                data = data.OrderByDirection(state.SortDirection, o => o.TimeOfMaking);
+                query = query.OrderByDirection(state.SortDirection, o => o.TimeOfMaking);
                 break;
             case "pickup_time":
-                data = data.OrderByDirection(state.SortDirection, o => o.PickupTimeSpan);
+                query = query.OrderByDirection(state.SortDirection, o => o.PickupTimeSpan);
                 break;
             case "price":
-                data = data.OrderByDirection(state.SortDirection, o => o.Cost);
+                query = query.OrderByDirection(state.SortDirection, o => o.Cost);
                 break;
             case "reserved":
-                data = data.OrderByDirection(state.SortDirection, o => (o.Buyer != null));
+                query = query.OrderByDirection(state.SortDirection, o => (o.Buyer != null));
                 break;
         }
 
-        pagedData = data.Skip(state.Page * state.PageSize).Take(state.PageSize).ToArray();
+        totalItems = query.Count();
+        pagedData = await query.Skip(state.Page * state.PageSize).Take(state.PageSize).ToArrayAsync();
         return new TableData<Advertisement>() { TotalItems = totalItems, Items = pagedData };
     }
 }

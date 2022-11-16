@@ -7,17 +7,18 @@ namespace ClassLibrary;
 
 public partial class Advertisement : IUsingUUID
 {
+    // Notes:  entity framework in memory, test coverage 
     private Guid _id;
-    private string mealName;
+    private string mealName="";
     private TimeSpan pickupTimeSpan;
-    private Cuisines[] _tags;
+    private Cuisines[] _tags = {Cuisines.None};
     private TimeSpan timeOfMaking;
     private Distributor _distributor;
-    private Profile _buyer;
+    private Profile? _buyer;
     private double _cost;
 
     public virtual double Cost { get { return _cost; } set { _cost = value; } }
-    public virtual Profile Buyer { get { return _buyer; } set { _buyer = value; } }
+    public virtual Profile? Buyer { get { return _buyer; } set { _buyer = value; } }
     public virtual Distributor Distributor { get { return _distributor; } set { _distributor = value; } } 
     public string MealName { get { return mealName; } set {mealName = value; } }
     public TimeSpan PickupTimeSpan { get { return pickupTimeSpan; } set {pickupTimeSpan = value; } }

@@ -28,15 +28,15 @@ namespace ProfileClasses
         private ObservableCollection<Distributor> _subscriptions;
         private ObservableCollection<Advertisement> _reservations;
 
-        public virtual ObservableCollection<Advertisement> Reservations { get { return _reservations; } set { _reservations = value; } }
-        public virtual ObservableCollection<Distributor> Subscriptions { get { return _subscriptions; } set { _subscriptions = value; } }
+        public virtual ObservableCollection<Advertisement>? Reservations { get { return _reservations; } set { _reservations = value; } }
+        public virtual ObservableCollection<Distributor>? Subscriptions { get { return _subscriptions; } set { _subscriptions = value; } }
         public string Email { get { return _email; } set { _email = value; } }
         public string? PhoneNumber { get { return _phoneNumber; } set { _phoneNumber = value; } }
         public string Name { get { return _name; } set { _name = value; } }
         public string Cuisines { get { return JsonConvert.SerializeObject(_cuisines); } set { _cuisines = JsonConvert.DeserializeObject<Cuisines[]>(value); } }
 
         public Guid Id { get { return _id; } set { _id = value; } }
-        public string? Address { get { return JsonConvert.SerializeObject(_address); } set { _address = JsonConvert.DeserializeObject<Address>(value); } }
+        public string Address { get { return JsonConvert.SerializeObject(_address); } set { _address = JsonConvert.DeserializeObject<Address>(value); } }
 
         [NotMapped]
         public Address TypedAddress { get { return _address; } set { _address = value; } }
@@ -50,14 +50,14 @@ namespace ProfileClasses
         private double _rating;
         private int _ratingAmount;
         private Guid _id;
-        private ObservableCollection<Advertisement> _advertisements;
-        private ObservableCollection<Profile> _subscribers;
+        private ObservableCollection<Advertisement>? _advertisements;
+        private ObservableCollection<Profile>? _subscribers;
 
         public ObservableCollection<Profile>? Subscribers { get { return _subscribers; } set { _subscribers = value; } }
         public double Rating { get { return _rating; } set { _rating = value; } }
         public int RatingAmount { get { return _ratingAmount; } set { _ratingAmount = value; } }
         public Guid Id { get { return _id; } set { _id = value; } }
-        public virtual ObservableCollection<Advertisement> Advertisements { get { return _advertisements; } set { _advertisements = value; } }
+        public virtual ObservableCollection<Advertisement>? Advertisements { get { return _advertisements; } set { _advertisements = value; } }
     }
 
 }
