@@ -38,6 +38,7 @@ else
 		<tbody>
 			@foreach (var supplier in SearchResults)
 			{
+                
                 <tr @onclick="()=>GoToDetailOnClick(supplier)">
                     <td>@supplier.Name</td>
 					<td>@(context.Distributors.Where(d => d.Id == supplier.Id).FirstOrDefault().Rating)</td>
@@ -55,7 +56,7 @@ else
 }
 
 @code {
-   // private AccountDataSerializer<Profile> _dataSerializer;
+    // private AccountDataSerializer<Profile> _dataSerializer;
     private ObservableCollection<Profile> _searchResult;
     ProjectDatabaseContext context;
     public ObservableCollection<Profile> SearchResults
@@ -80,8 +81,9 @@ else
         context = new();
         //_dataSerializer = new AccountDataSerializer<Profile>("C:\\Users\\Matas\\source\\repos\\psi1-project-new\\PSI_MobileApp\\ProfileData.json");
         //Profiles = _dataSerializer.List;
-        Profiles = new ObservableCollection<Profile>(context.Profiles.ToList());
-        SearchResults = new ObservableCollection<Profile> (context.Profiles.ToList());
+        var distrib = context.Distributors.Select(d => d.Id).ToObservableCollection();
+        Profiles = new ObservableCollection<Profile>(context.Profiles.Where(p => distrib.Contains(p.Id)).ToList());
+        SearchResults = Profiles;
 
     }
 

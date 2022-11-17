@@ -23,9 +23,9 @@
             }
 </style>
 
-@if (IdContainer.Id == Guid.Empty)
+@if (IdContainer.Id == Guid.Empty && ExceptionMessage != string.Empty)
 {
-    <MudText Typo="Typo.h4">The supplier was not passed correctly or still loading.</MudText>
+    <MudText Typo="Typo.h4">The supplier was not passed correctly or still loading. @ExceptionMessage</MudText>
 }
 else
 {
@@ -51,33 +51,66 @@ else
             <MudTh><MudTableSortLabel SortLabel="making_time" T="Advertisement">Time of making</MudTableSortLabel></MudTh>
             <MudTh><MudTableSortLabel SortLabel="pickup_time" T="Advertisement">Pickup Time</MudTableSortLabel></MudTh>
             <MudTh><MudTableSortLabel SortLabel="price" T="Advertisement">Price</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortLabel="reserved" T="Advertisement">Is Reserved</MudTableSortLabel></MudTh>
+            @if (ProfileContainer.CurrentAccount != null)
+            {
+                if (ProfileContainer.CurrentAccount.Id == IdContainer.Id)
+                {
+                    <MudTh><MudTableSortLabel SortLabel="reserved" T="Advertisement">Is Reserved</MudTableSortLabel></MudTh>
+                }
+            }
         </HeaderContent>
         <RowTemplate>
-            <MudTd DataLabel="Name">@context.MealName</MudTd>
-            <MudTd DataLabel="Time Of Making">@context.TimeOfMaking</MudTd>
-            <MudTd DataLabel="Pickup Deadline">@context.PickupTimeSpan</MudTd>
-            <MudTd DataLabel="Price">@context.Cost</MudTd>
-            <MudTd DataLabel="Is Reserved">@(context.Buyer != null)</MudTd>
+            @if (context.Buyer == null)
+            {
+                <MudTd DataLabel="Name">@context.MealName</MudTd>
+                <MudTd DataLabel="Time Of Making">@context.TimeOfMaking.ToLocalTime().ToString("ddd, yyyy-MM-dd HH':'mm':'ss")</MudTd>
+                <MudTd DataLabel="Pickup Deadline">@context.PickupTimeSpan.ToLocalTime().ToString("ddd, yyyy-MM-dd HH':'mm':'ss")</MudTd>
+                <MudTd DataLabel="Price">@context.Cost Eur</MudTd>
+                if (ProfileContainer.CurrentAccount != null)
+                {
+                    if (ProfileContainer.CurrentAccount.Id == IdContainer.Id)
+                    {
+                        <MudTd DataLabel="Is Reserved">@(context.Buyer != null)</MudTd>
+                    }
+                }
+            }
+            else if ((ProfileContainer.CurrentAccount != null) && (context.Buyer.Id == ProfileContainer.CurrentAccount.Id || ProfileContainer.CurrentAccount.Id == IdContainer.Id))
+            {
+                <MudTd DataLabel="Name">@context.MealName</MudTd>
+                <MudTd DataLabel="Time Of Making">@context.TimeOfMaking.ToLocalTime().ToString("ddd, yyyy-MM-dd HH':'mm':'ss")</MudTd>
+                <MudTd DataLabel="Pickup Deadline">@context.PickupTimeSpan.ToLocalTime().ToString("ddd, yyyy-MM-dd HH':'mm':'ss")</MudTd>
+                <MudTd DataLabel="Price">@context.Cost Eur</MudTd>
+                if (ProfileContainer.CurrentAccount != null)
+                {
+                    if (ProfileContainer.CurrentAccount.Id == IdContainer.Id)
+                    {
+                        <MudTd DataLabel="Is Reserved">@(context.Buyer != null)</MudTd>
+                    }
+                }
+            }
         </RowTemplate>
     </MudTable>
+    @if (ProfileContainer.CurrentAccount != null)
+    {
+        if (ProfileContainer.CurrentAccount.Id == IdContainer.Id)
+        {
+            <MudButton Variant="Variant.Filled" OnClick="AddOrderCommand" >
+                Add order
+            </MudButton>
+            <MudButton Variant="Variant.Filled" OnClick="RemoveOrderCommand">
+                Remove order
+            </MudButton>
+        }
 
-    @if (true) 
-            @*if the user is a provider*@
-    {
-        <MudButton Variant="Variant.Filled" OnClick="AddOrderCommand" >
-            Add order
-        </MudButton>
-        <MudButton Variant="Variant.Filled" OnClick="RemoveOrderCommand">
-            Remove order
-        </MudButton>
-    }
-    @if (true) @*if the user is a customer/regular user*@
-    {
         <MudButton Variant="Variant.Filled" OnClick="BookOrderCommand">
             Book order
         </MudButton>
     }
+    else
+    {
+        <MudText>Please log in to book orders.</MudText>
+    }
+        
     
 }
 
@@ -88,13 +121,21 @@ else
     private Advertisement SelectedAdvertisement { get; set; }
     private int selectedRowNumber = -1;
     private ProfileClasses.Profile profile;
+    private string ExceptionMessage { get; set; }
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
         dbContext = new();
         profile = dbContext.Profiles.Where(p => p.Id == IdContainer.Id).FirstOrDefault();
-        adverts = dbContext.Advertisements.Where(a => a.Distributor.Id == profile.Id).ToObservableCollection();
+        try 
+        {
+            adverts = dbContext.Advertisements.Where(a => a.Distributor.Id == profile.Id).ToObservableCollection();
+        }
+        catch (Exception ex)
+        {
+            ExceptionMessage = ex.Message;
+        }
     }
 
     public string SelectAdvertisement(Advertisement advert, int rowNumber)
@@ -132,34 +173,10 @@ else
             var search = dbContext.Distributors.Where(d => d.Id == IdContainer.Id).FirstOrDefault();
             var tmp = new ObservableCollection<ProfileClasses.Profile>();
             tmp.Add(profile);
-            //if (search != null)
-            //{
-            //    search.Advertisements = new ObservableCollection<Advertisement>();
-            //    profile.Subscriptions = new ObservableCollection<ProfileClasses.Distributor>();
-            //    profile.Subscriptions.Add(search);
-            //    profile.Reservations = new ObservableCollection<Advertisement>();
-            //    search.Subscribers = tmp;
             adv.Distributor = search;
-            //    adv.Buyer = dbContext.Profiles.Where(p => p.Id == ProfileContainer.CurrentAccount.Id).FirstOrDefault();
-            //}
-            //else
-            //{
-            //    var disti = new ProfileClasses.Distributor()
-            //        {
-            //            Id = IdContainer.Id,
-            //            Rating = 5,
-            //            RatingAmount = 100,
-            //            Subscribers = tmp,
-            //            Advertisements = new ObservableCollection<Advertisement>(dbContext.Advertisements.Where(a => a.Distributor.Id == IdContainer.Id))
-            //        };
-            //    dbContext.Add<ProfileClasses.Distributor>(disti);
-            //    dbContext.SaveChanges();
-            //}
             dbContext.Add<Advertisement>(adv as Advertisement);
-
             await dbContext.SaveChangesAsync();
             await mudTable.ReloadServerData();
-            //adverts.Add(adv as Advertisement);
         }
     }
 
@@ -179,9 +196,23 @@ else
     {
         if (SelectedAdvertisement != null)
         {
-            dbContext.Advertisements.FirstOrDefault(i => i.Equals(SelectedAdvertisement)).Buyer = dbContext.Profiles.Where(p=> p.Id == ProfileContainer.CurrentAccount.Id).FirstOrDefault();
-            await dbContext.SaveChangesAsync();
-            await mudTable.ReloadServerData();
+            var buyer = dbContext.Advertisements.Where(i => i.Equals(SelectedAdvertisement));
+            if (buyer == null)
+            {
+                var currentProfile = dbContext.Profiles.Where(p => p.Id == ProfileContainer.CurrentAccount.Id);
+                buyer.FirstOrDefault().Buyer = currentProfile.FirstOrDefault();
+                await dbContext.SaveChangesAsync();
+                await mudTable.ReloadServerData();
+            }
+            else 
+            {
+                if (buyer.FirstOrDefault().Buyer.Id == ProfileContainer.CurrentAccount.Id)
+                {
+                    buyer.FirstOrDefault().Buyer = null;
+                    await dbContext.SaveChangesAsync();
+                    await mudTable.ReloadServerData();
+                }
+            }
         }
     }
 

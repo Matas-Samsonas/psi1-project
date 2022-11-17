@@ -28,30 +28,32 @@ namespace ClassLibrary.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("DistributorId")
+                    b.Property<Guid?>("BuyerId")
                         .HasColumnType("uuid");
 
-                    b.Property<bool>("IsReserved")
-                        .HasColumnType("boolean");
+                    b.Property<double>("Cost")
+                        .HasColumnType("double precision");
+
+                    b.Property<Guid>("DistributorId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("MealName")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<TimeSpan>("PickupTimeSpan")
-                        .HasColumnType("interval");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("double precision");
+                    b.Property<DateTime>("PickupTimeSpan")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Tags")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<TimeSpan>("TimeOfMaking")
-                        .HasColumnType("interval");
+                    b.Property<DateTime>("TimeOfMaking")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BuyerId");
 
                     b.HasIndex("DistributorId");
 
@@ -132,7 +134,6 @@ namespace ClassLibrary.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -142,11 +143,17 @@ namespace ClassLibrary.Migrations
 
             modelBuilder.Entity("ClassLibrary.Advertisement", b =>
                 {
+                    b.HasOne("ProfileClasses.Profile", "Buyer")
+                        .WithMany("Reservations")
+                        .HasForeignKey("BuyerId");
+
                     b.HasOne("ProfileClasses.Distributor", "Distributor")
                         .WithMany("Advertisements")
                         .HasForeignKey("DistributorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Buyer");
 
                     b.Navigation("Distributor");
                 });
@@ -169,6 +176,11 @@ namespace ClassLibrary.Migrations
             modelBuilder.Entity("ProfileClasses.Distributor", b =>
                 {
                     b.Navigation("Advertisements");
+                });
+
+            modelBuilder.Entity("ProfileClasses.Profile", b =>
+                {
+                    b.Navigation("Reservations");
                 });
 #pragma warning restore 612, 618
         }
