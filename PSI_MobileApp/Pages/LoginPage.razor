@@ -3,8 +3,8 @@
 @using ClassLibrary
 @using ProfileClasses
 @using System.Collections.ObjectModel
-@inject StateContainer StateContainer
 @inject NavigationManager NavigationManager
+@inject CurrentUserContainer CurrentUserContainer
 @implements IDisposable
 <h3> Login </h3>
  <form>
@@ -45,9 +45,10 @@
     {
         using (ProjectDatabaseContext context = new())
         {
-            StateContainer.CurrentAccount = context.Accounts.Where(elem => elem.Password == Password && elem.UserName == Username).FirstOrDefault();
+            CurrentUserContainer.UserId = context.Accounts.Where(elem => elem.Password == Password && elem.UserName == Username).Select(elem => elem.Id).FirstOrDefault();
         }
-        if(StateContainer.CurrentAccount != null){
+        if (CurrentUserContainer.UserId != null)
+        {
             NavigationManager.NavigateTo("");
         }
         
@@ -55,6 +56,6 @@
 
     public void Dispose()
     {
-        StateContainer.OnChange -= StateHasChanged;
+        CurrentUserContainer.OnChange -= StateHasChanged;
     }
 }

@@ -25,8 +25,8 @@ namespace ProfileClasses
         private string _name;
         private Address _address;
         private Cuisines[] _cuisines;
-        private ObservableCollection<Distributor> _subscriptions;
-        private ObservableCollection<Advertisement> _reservations;
+        private ObservableCollection<Distributor>? _subscriptions;
+        private ObservableCollection<Advertisement>? _reservations;
 
         public virtual ObservableCollection<Advertisement>? Reservations { get { return _reservations; } set { _reservations = value; } }
         public virtual ObservableCollection<Distributor>? Subscriptions { get { return _subscriptions; } set { _subscriptions = value; } }

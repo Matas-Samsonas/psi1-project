@@ -4,7 +4,7 @@
 @using Microsoft.EntityFrameworkCore
 @using PSI_MobileApp.Extensions
 @inject IdStateContainer IdContainer
-@inject StateContainer ProfileContainer
+@inject CurrentUserContainer CurrentUserContainer
 @inject IDialogService DialogService
 @implements IDisposable
 <MudText Typo="Typo.h4">Supplier Details</MudText>
@@ -94,7 +94,10 @@ else
         base.OnInitialized();
         dbContext = new();
         profile = dbContext.Profiles.Where(p => p.Id == IdContainer.Id).FirstOrDefault();
+        dbContext.Advertisements.Add(new Advertisement() { Cost = 2, Buyer = profile, Distributor = dbContext.Distributors.Where(p => p.Id == IdContainer.Id).FirstOrDefault(), MealName = "name", Id = Guid.NewGuid(), PickupTimeSpan = new(), TimeOfMaking = new() });
+        dbContext.SaveChanges();
         adverts = dbContext.Advertisements.Where(a => a.Distributor.Id == profile.Id).ToObservableCollection();
+ 
     }
 
     public string SelectAdvertisement(Advertisement advert, int rowNumber)
@@ -179,7 +182,7 @@ else
     {
         if (SelectedAdvertisement != null)
         {
-            dbContext.Advertisements.FirstOrDefault(i => i.Equals(SelectedAdvertisement)).Buyer = dbContext.Profiles.Where(p=> p.Id == ProfileContainer.CurrentAccount.Id).FirstOrDefault();
+            dbContext.Advertisements.FirstOrDefault(i => i.Equals(SelectedAdvertisement)).Buyer = CurrentUserContainer.GetUserProfile();
             await dbContext.SaveChangesAsync();
             await mudTable.ReloadServerData();
         }
