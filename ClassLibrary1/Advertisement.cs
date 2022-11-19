@@ -1,6 +1,7 @@
 ﻿
 
 using ProfileClasses;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
 
 namespace ClassLibrary; 
@@ -25,4 +26,7 @@ public partial class Advertisement : IUsingUUID
     public string Tags { get { return JsonSerializer.Serialize(_tags); } set {_tags = JsonSerializer.Deserialize<Cuisines[]>(value); } }
     public DateTime TimeOfMaking { get { return timeOfMaking; } set { timeOfMaking = value; } }
     public Guid Id { get { return _id; } set { _id = value; } }
+
+    [NotMapped]
+    public Cuisines[] TagsArray { get => _tags; set => _tags = value; }
 }

@@ -27,7 +27,7 @@
 {
     <MudText Typo="Typo.h4">The supplier was not passed correctly or still loading. @ExceptionMessage</MudText>
 }
-else
+else if (profile != null)
 {
     
     <MudText><b>Name:</b> @profile.Name</MudText>
@@ -63,8 +63,8 @@ else
             @if (context.Buyer == null)
             {
                 <MudTd DataLabel="Name">@context.MealName</MudTd>
-                <MudTd DataLabel="Time Of Making">@context.TimeOfMaking.ToLocalTime().ToString("ddd, yyyy-MM-dd HH':'mm':'ss")</MudTd>
-                <MudTd DataLabel="Pickup Deadline">@context.PickupTimeSpan.ToLocalTime().ToString("ddd, yyyy-MM-dd HH':'mm':'ss")</MudTd>
+                <MudTd DataLabel="Time Of Making">@HandleTime(context.TimeOfMaking)</MudTd>
+                <MudTd DataLabel="Pickup Deadline">@HandleTime(context.PickupTimeSpan)</MudTd>
                 <MudTd DataLabel="Price">@context.Cost Eur</MudTd>
                 if (ProfileContainer.CurrentAccount != null)
                 {
@@ -77,8 +77,8 @@ else
             else if ((ProfileContainer.CurrentAccount != null) && (context.Buyer.Id == ProfileContainer.CurrentAccount.Id || ProfileContainer.CurrentAccount.Id == IdContainer.Id))
             {
                 <MudTd DataLabel="Name">@context.MealName</MudTd>
-                <MudTd DataLabel="Time Of Making">@context.TimeOfMaking.ToLocalTime().ToString("ddd, yyyy-MM-dd HH':'mm':'ss")</MudTd>
-                <MudTd DataLabel="Pickup Deadline">@context.PickupTimeSpan.ToLocalTime().ToString("ddd, yyyy-MM-dd HH':'mm':'ss")</MudTd>
+                <MudTd DataLabel="Time Of Making">@HandleTime(context.TimeOfMaking)</MudTd>
+                <MudTd DataLabel="Pickup Deadline">@HandleTime(context.PickupTimeSpan)</MudTd>
                 <MudTd DataLabel="Price">@context.Cost Eur</MudTd>
                 if (ProfileContainer.CurrentAccount != null)
                 {
@@ -101,10 +101,12 @@ else
                 Remove order
             </MudButton>
         }
-
-        <MudButton Variant="Variant.Filled" OnClick="BookOrderCommand">
-            Book order
-        </MudButton>
+        if (ProfileContainer.CurrentAccount.Id != IdContainer.Id)
+        {
+            <MudButton Variant="Variant.Filled" OnClick="BookOrderCommand">
+                Book order
+            </MudButton>
+        }
     }
     else
     {
@@ -113,6 +115,14 @@ else
         
     
 }
+else
+{
+    <MudOverlay Visible="true" DarkBackground="true" Absolute="true">
+            <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+    </MudOverlay>
+}
+
+
 
 @code {
     private ProjectDatabaseContext dbContext;
@@ -123,11 +133,10 @@ else
     private ProfileClasses.Profile profile;
     private string ExceptionMessage { get; set; }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        base.OnInitialized();
         dbContext = new();
-        profile = dbContext.Profiles.Where(p => p.Id == IdContainer.Id).FirstOrDefault();
+        profile = await dbContext.Profiles.Where(p => p.Id == IdContainer.Id).FirstOrDefaultAsync();
         try 
         {
             adverts = dbContext.Advertisements.Where(a => a.Distributor.Id == profile.Id).ToObservableCollection();
@@ -140,22 +149,24 @@ else
 
     public string SelectAdvertisement(Advertisement advert, int rowNumber)
     {
-        if (selectedRowNumber == rowNumber)
+
+        if (selectedRowNumber == rowNumber) 
         {
             selectedRowNumber = -1;
             SelectedAdvertisement = null;
             return String.Empty;
         }
-        else if (mudTable.SelectedItem != null && mudTable.SelectedItem.Equals(advert) && SelectedAdvertisement != null)
+        else if (mudTable.SelectedItem != null && mudTable.SelectedItem.Equals(advert))
         {
             selectedRowNumber = rowNumber;
             SelectedAdvertisement = advert;
             return "selected";
         }
         else
-        {
+        {   
             return String.Empty;
         }
+
 
     }
 
@@ -171,10 +182,10 @@ else
             var adv = res.Data as Advertisement;
             adv.Id = Guid.NewGuid();
             var search = dbContext.Distributors.Where(d => d.Id == IdContainer.Id).FirstOrDefault();
-            var tmp = new ObservableCollection<ProfileClasses.Profile>();
-            tmp.Add(profile);
             adv.Distributor = search;
             dbContext.Add<Advertisement>(adv as Advertisement);
+            selectedRowNumber = -1;
+            mudTable.SetSelectedItem(null);
             await dbContext.SaveChangesAsync();
             await mudTable.ReloadServerData();
         }
@@ -182,56 +193,65 @@ else
 
     private void RowClickEvent(TableRowClickEventArgs<Advertisement> tableRowClickEventArgs)
     {
-        SelectedAdvertisement = tableRowClickEventArgs.Item;
+        //SelectedAdvertisement = tableRowClickEventArgs.Item;
     }
 
     private async Task RemoveOrderCommand()
     {
-        dbContext.Advertisements.Remove(SelectedAdvertisement);
-        await dbContext.SaveChangesAsync();
-        await mudTable.ReloadServerData();
+        if (dbContext.Advertisements.Contains(SelectedAdvertisement))
+        {
+            dbContext.Advertisements.Remove(SelectedAdvertisement);
+            await dbContext.SaveChangesAsync();
+            await mudTable.ReloadServerData();
+        }
     }
 
     private async Task BookOrderCommand()
     {
         if (SelectedAdvertisement != null)
         {
-            var buyer = dbContext.Advertisements.Where(i => i.Equals(SelectedAdvertisement));
+            var advert = dbContext.Advertisements.Where(i => i.Equals(SelectedAdvertisement));
+            var buyer = advert.FirstOrDefault().Buyer;
             if (buyer == null)
             {
                 var currentProfile = dbContext.Profiles.Where(p => p.Id == ProfileContainer.CurrentAccount.Id);
-                buyer.FirstOrDefault().Buyer = currentProfile.FirstOrDefault();
+                advert.FirstOrDefault().Buyer = currentProfile.FirstOrDefault();
+                selectedRowNumber = -1;
+                mudTable.SetSelectedItem(null);
                 await dbContext.SaveChangesAsync();
                 await mudTable.ReloadServerData();
             }
             else 
             {
-                if (buyer.FirstOrDefault().Buyer.Id == ProfileContainer.CurrentAccount.Id)
+                if (buyer.Id == ProfileContainer.CurrentAccount.Id)
                 {
-                    buyer.FirstOrDefault().Buyer = null;
+                    advert.FirstOrDefault().Buyer = null;
+                    selectedRowNumber = -1;
+                    mudTable.SetSelectedItem(null);
                     await dbContext.SaveChangesAsync();
                     await mudTable.ReloadServerData();
                 }
             }
+            SelectedAdvertisement = null;
+
         }
     }
 
     public void Dispose()
     {
-
+        IdContainer.OnChange -= StateHasChanged;
     }
 
-    private TimeSpan HandleTime(TimeSpan timeSpan, TimeSpan creationTime)
+    private string HandleTime(DateTime time)
     {
-        return (creationTime + timeSpan) - new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+        return time.ToLocalTime().ToString("ddd, yyyy-MM-dd HH':'mm':'ss");
     }
 
     private IEnumerable<Advertisement> pagedData;
     private int totalItems;
     private async Task<TableData<Advertisement>> ServerReload(TableState state)
     {
-        var query = dbContext.Advertisements.Where(a => a.Distributor.Id == profile.Id);
-        //IEnumerable<Advertisement> data = await query.ToListAsync();
+        var query = dbContext.Advertisements.Include(a => a.Buyer).Where(a => a.Distributor.Id == profile.Id);
         await Task.Delay(300);
         
         switch(state.SortLabel)

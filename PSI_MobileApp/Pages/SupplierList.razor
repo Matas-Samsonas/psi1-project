@@ -10,11 +10,14 @@
 @inject NavigationManager NavigationManager
 @implements IDisposable
 
+
 <h3>Supplier List</h3>
 
 @if (Profiles == null)
 {
-	<p><em>Loading...</em></p>
+	<MudOverlay Visible="true" DarkBackground="true" Absolute="true">
+            <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+    </MudOverlay>
 }
 else
 {
@@ -76,16 +79,15 @@ else
         get; private set;
     }
 
-    public SupplierList()
+    protected override async Task OnInitializedAsync()
     {
         context = new();
-        //_dataSerializer = new AccountDataSerializer<Profile>("C:\\Users\\Matas\\source\\repos\\psi1-project-new\\PSI_MobileApp\\ProfileData.json");
-        //Profiles = _dataSerializer.List;
-        var distrib = context.Distributors.Select(d => d.Id).ToObservableCollection();
-        Profiles = new ObservableCollection<Profile>(context.Profiles.Where(p => distrib.Contains(p.Id)).ToList());
+        var distrib = await context.Distributors.Select(d => d.Id).ToObservableCollecionAsync();
+        Profiles = await context.Profiles.Where(p => distrib.Contains(p.Id)).ToObservableCollecionAsync();
         SearchResults = Profiles;
-
+        StateContainer.OnChange += StateHasChanged;
     }
+
 
     public string Search { get; set; }
 
@@ -94,10 +96,6 @@ else
         SearchResults = DataSearch.getSearchResults<Profile>(Profiles, searchQuery: search);
     }
 
-    public void OnInitialize()
-    {
-        StateContainer.OnChange += StateHasChanged;
-    }
 
     public void GoToDetailOnClick(Profile profile)
     {

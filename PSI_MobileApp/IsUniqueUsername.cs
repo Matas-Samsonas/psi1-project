@@ -1,12 +1,6 @@
-﻿using AccountDataSerializer;
-using ClassLibrary;
-using ProfileClasses;
-using System;
-using System.Collections.Generic;
+﻿using ClassLibrary;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace PSI_MobileApp
 {
