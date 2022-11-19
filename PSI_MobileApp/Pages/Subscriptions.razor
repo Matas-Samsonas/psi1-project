@@ -3,8 +3,10 @@
 @using ProfileClasses
 @using System.Collections.ObjectModel
 @using AccountDataSerializer
+@using Microsoft.EntityFrameworkCore
 @inject StateContainer StateContainer
 @inject NavigationManager NavigationManager
+@inject IDbContextFactory<ProjectDatabaseContext> DbFactory
 @implements IDisposable
 
 <h3>Subscriptions</h3>
@@ -44,16 +46,11 @@ else
 @code {
 	public Profile Profile { get; set; }
 	public List<Profile> DistributorProfiles { get; set; }
+	private ProjectDatabaseContext _context;
 
 	public Subscriptions()
 	{
-		
-	}
 
-	public Subscriptions(Profile user, List<Profile> distributors)
-	{
-		Profile = user;
-		DistributorProfiles = distributors;
 	}
 
 	public void GoToDetailOnClick(Profile supplier)
@@ -74,17 +71,24 @@ else
 		}
 	}
 
-	public void OnInitialize()
+	protected override async Task OnInitializedAsync()
 	{
-		StateContainer.OnChange += StateHasChanged;
+		_context = DbFactory.CreateDbContext();
 
-		ProjectDatabaseContext context = new();
-		Profile = context.Profiles.ToList().First(i => i.Id == StateContainer.CurrentAccount.Id);
-		DistributorProfiles = context.Profiles.ToList();
+		if(_context != null && _context.Profiles != null)
+		{
+			StateContainer.OnChange += StateHasChanged;
+
+			Profile = _context.Profiles.ToList().First(i => i.Id == StateContainer.CurrentAccount.Id);
+			DistributorProfiles = _context.Profiles.ToList();
+		}
+		
+		await base.OnInitializedAsync();
 	}
 	public void Dispose()
 	{
 		StateContainer.OnChange -= StateHasChanged;
+		_context?.Dispose();
 	}
 
 }

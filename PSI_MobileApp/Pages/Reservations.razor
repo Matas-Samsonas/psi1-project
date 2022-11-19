@@ -2,7 +2,9 @@
 @using System.Collections.ObjectModel;
 @using ClassLibrary
 @using ProfileClasses
+@using Microsoft.EntityFrameworkCore
 @inject StateContainer StateContainer
+@inject IDbContextFactory<ProjectDatabaseContext> DbFactory
 @implements IDisposable
 
 <h3>Reservations</h3>
@@ -38,19 +40,24 @@ else
 
     public Profile Profile { get; set; }
     public List<Advertisement> UserReservations { get; set; }
+    private ProjectDatabaseContext _context;
+
 
     public Reservations()
     {
-        
+
     }
 
-    public void OnInitialize()
+    protected override async Task OnInitializedAsync()
     {
         StateContainer.OnChange += StateHasChanged;
 
-        ProjectDatabaseContext context = new();
-        Profile = context.Profiles.ToList().First(i => i.Id == StateContainer.CurrentAccount.Id);
-        UserReservations = context.Advertisements.Where(i => i.Buyer == Profile).ToList();
+        _context = DbFactory.CreateDbContext();
+
+        Profile = _context.Profiles.ToList().First(i => i.Id == StateContainer.CurrentAccount.Id);
+        UserReservations = _context.Advertisements.Where(i => i.Buyer == Profile).ToList();
+
+        await base.OnInitializedAsync();
 
     }
     public void Dispose()

@@ -3,8 +3,10 @@
 @using ClassLibrary
 @using ProfileClasses
 @using System.Collections.ObjectModel
+@using Microsoft.EntityFrameworkCore
 @inject StateContainer StateContainer
 @inject NavigationManager NavigationManager
+@inject IDbContextFactory<ProjectDatabaseContext> DbFactory
 @implements IDisposable
 
 <h3>Supplier List</h3>
@@ -55,8 +57,9 @@ else
 
 @code {
     private AccountDataSerializer<Profile> _dataSerializer;
-    private ObservableCollection<Profile> _searchResult;
-    public ObservableCollection<Profile> SearchResults
+    private List<Profile> _searchResult;
+    private ProjectDatabaseContext _context;
+    public List<Profile> SearchResults
     {
         get
         { return _searchResult; }
@@ -68,18 +71,15 @@ else
         }
     }
 
-    public ObservableCollection<Profile> Profiles
+    public List<Profile> Profiles
     {
         get; private set;
     }
 
     public SupplierList()
     {
-        ProjectDatabaseContext context = new();
         //_dataSerializer = new AccountDataSerializer<Profile>("C:\\Users\\Matas\\source\\repos\\psi1-project-new\\PSI_MobileApp\\ProfileData.json");
         //Profiles = _dataSerializer.List;
-        Profiles = new(context.Profiles.ToList());
-        SearchResults = new(context.Profiles.ToList());
 
     }
 
@@ -87,12 +87,19 @@ else
 
     public void SearchCommand(string search)
     {
-        SearchResults = DataSearch.getSearchResults<Profile>(Profiles, searchQuery: search);
+        SearchResults = (List<Profile>)DataSearch.getSearchResults<Profile>(Profiles, searchQuery: search);
     }
 
-    public void OnInitialize()
+    protected override async Task OnInitializedAsync()
     {
         StateContainer.OnChange += StateHasChanged;
+
+        _context = DbFactory.CreateDbContext();
+
+        Profiles = _context.Profiles.ToList();
+        SearchResults = _context.Profiles.ToList();
+
+        await base.OnInitializedAsync();
     }
 
     public void GoToDetailOnClick(Profile profile)

@@ -4,9 +4,7 @@ using ProfileClasses;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace PSI_MobileApp
 {
@@ -14,10 +12,11 @@ namespace PSI_MobileApp
     {
         public override bool IsValid(object value)
         {
-            using (ProjectDatabaseContext context = new())
+            using(var context = new ProjectDatabaseContext())
             {
                 return context.Accounts.All(elem => elem.UserName != (string)value);
             }
+                
         }
     }
 }

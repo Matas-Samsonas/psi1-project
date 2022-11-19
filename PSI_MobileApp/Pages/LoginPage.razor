@@ -3,8 +3,10 @@
 @using ClassLibrary
 @using ProfileClasses
 @using System.Collections.ObjectModel
+@using Microsoft.EntityFrameworkCore
 @inject StateContainer StateContainer
 @inject NavigationManager NavigationManager
+@inject IDbContextFactory<ProjectDatabaseContext> DbFactory
 @implements IDisposable
 <h3> Login </h3>
  <form>
@@ -43,7 +45,7 @@
 
     public void HandleValidSubmit()
     {
-        using (ProjectDatabaseContext context = new())
+        using (var context = DbFactory.CreateDbContext())
         {
             StateContainer.CurrentAccount = context.Accounts.Where(elem => elem.Password == Password && elem.UserName == Username).FirstOrDefault();
         }
