@@ -74,12 +74,12 @@
                 MudDialog.Close(DialogResult.Ok<Advertisement>(adv));
             }
         }
-        else if ((Price <= 0 && (PickUpDate + TimeSpan > DateTime.Now.Date + new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second))))
+        else if (Price <= 0 && (PickUpDate + TimeSpan > DateTime.Now.Date + DateTime.Now.TimeOfDay))
         {
             NumberCorrect = "The price needs to be Higher then 0.";
             TimeCorrect = string.Empty;
         }
-        else if ((Price > 0 && (PickUpDate + TimeSpan > DateTime.Now.Date + new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second))) || (Price > 0 && PickUpDate == null && TimeSpan == null))
+        else if ((Price > 0 && (PickUpDate + TimeSpan > DateTime.Now.Date + DateTime.Now.TimeOfDay)) || (Price > 0 && PickUpDate == null && TimeSpan == null))
         {
             TimeCorrect = "The date and time needs to be selected and Higher then current time.";
             NumberCorrect = string.Empty;
