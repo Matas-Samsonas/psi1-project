@@ -5,79 +5,38 @@
 @using System.Collections.ObjectModel
 @using System.Text.Json
 @using ClassLibrary
+@using System.ComponentModel.DataAnnotations
 @implements IDisposable
 @inject StateContainer StateContainer
 @inject NavigationManager NavigationManager
 
 <h3>Create new account</h3>
-
- <EditForm Model="@filter" OnValidSubmit="@HandleValidSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    <table>
-        <tr>
-            <td class="labelcell">
-                <div class="label">
-                    <label for="username"> Username:</label>
-                </div>
-            </td>
-
-            <td>
-                <input type="text" @bind-value="filter.Username" id="username" name="name">
-            </td>
-
-        </tr>
-        <tr>
-            <td class="labelcell">
-                <div class="label">
-                    <label for="password"> Password:</label>
-                </div>
-            </td>
-
-            <td>
-                <input type="password" @bind-value="filter.Password" id="password" name="pass">
-            </td>
-
-        </tr>
-
-        <tr>
-            <td class="labelcell">
-                <div class="label">
-                    <label for="confirmPassowrd"> Confirm Password: </label>
-                </div>
-            </td>
-
-            <td>
-                <input type="password" @bind-value="filter.Confirm" id="confirm" name="confirmation">
-            </td>
-        </tr>
-        <tr>
-            <td class="labelcell">
-                <div class="label">
-                    <label for="email_address">Email Address:</label>
-                </div>
-            </td>
-            <td>
-                <input type="email" @bind-value="filter.Email" id="email_address" name="email">
-            </td>
-        </tr>
-    </table>
-    <input type="submit" class="btn btn-primary" value="Confirm" />
-</EditForm>
+<!--<MudText> Test </MudText>-->
+<MudForm @bind-isValid = "@isValid">
+    <MudTextField T="string" Label="Username" @bind-Value="Username" Required="true" RequiredError="Field Username is required." /> <!-- Validation="@(new Func<string, bool>(IsUniqueUsername) {ErrorMessage = "Username is already in use."})" -->
+    <MudTextField T="string" Label="Password" @bind-Value="Password" Required="true" RequiredError="Field Password is required." />
+    <MudTextField T="string" Label="Confirm Password" @bind-Value="Confirm" Required="true" RequiredError="Field Confirm Password is required." />
+    <MudTextField T="string" Label="Email" @bind-Value="Email" Required="true" RequiredError="Field Email is required." Validation="@(new EmailAddressAttribute() {ErrorMessage = "The email address is invalid."})" />
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!isValid)" Class="ml-auto" @onclick = "HandleSubmit">Register</MudButton>
+</MudForm>
 
 @code {
-    public ProfileFilter filter = new();
-    public void HandleValidSubmit()
+    //private readonly IDbContextFactory<ProjectDatabaseContext> _dbFactory;
+    public bool isValid;
+    public string Username;
+    public string Password;
+    public string Email;
+    public string Confirm;
+    public void HandleSubmit()
     {
-        //AccountDataSerializer<Profile> serializer = new AccountDataSerializer<Profile>("C:\\Users\\Matas\\source\\repos\\psi1-project-new\\PSI_MobileApp\\ProfileData.json");
         Profile profile = new();
         Account account = new();
-        profile.Name = filter.Username;
-        profile.Email = filter.Email;
+        profile.Name = Username;
+        profile.Email = Email;
         profile.Id = Guid.NewGuid();
         account.Id = profile.Id;
-        account.Password = filter.Password;
-        account.UserName = filter.Username;
+        account.Password = Password;
+        account.UserName = Username;
         StateContainer.TempAccount = account;
         StateContainer.TempProfile = profile;
         if(StateContainer.CreatingDistributor)
@@ -86,7 +45,7 @@
         }
         else
         {
-            NavigationManager.NavigateTo("choosecuisines");
+            NavigationManager.NavigateTo("inputcontactdata");
         }
     }
 
@@ -94,4 +53,13 @@
     {
         StateContainer.OnChange -= StateHasChanged;
     }
+    /*
+     public bool IsUniqueUsername(string username)
+    {
+        using (var context = _dbFactory.CreateDbContext())
+        {
+            return context.Accounts.All(elem => elem.Username != username);
+        }
+    }
+    */
 }
