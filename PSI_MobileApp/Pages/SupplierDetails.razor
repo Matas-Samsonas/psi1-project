@@ -4,7 +4,7 @@
 @using Microsoft.EntityFrameworkCore
 @using PSI_MobileApp.Extensions
 @inject IdStateContainer IdContainer
-@inject StateContainer ProfileContainer
+@inject CurrentUserContainer ProfileContainer
 @inject IDialogService DialogService
 @implements IDisposable
 <MudText Typo="Typo.h4">Supplier Details</MudText>
@@ -51,12 +51,9 @@ else if (profile != null)
             <MudTh><MudTableSortLabel SortLabel="making_time" T="Advertisement">Time of making</MudTableSortLabel></MudTh>
             <MudTh><MudTableSortLabel SortLabel="pickup_time" T="Advertisement">Pickup Time</MudTableSortLabel></MudTh>
             <MudTh><MudTableSortLabel SortLabel="price" T="Advertisement">Price</MudTableSortLabel></MudTh>
-            @if (ProfileContainer.CurrentAccount != null)
+            @if (ProfileContainer.UserId == IdContainer.Id)
             {
-                if (ProfileContainer.CurrentAccount.Id == IdContainer.Id)
-                {
-                    <MudTh><MudTableSortLabel SortLabel="reserved" T="Advertisement">Is Reserved</MudTableSortLabel></MudTh>
-                }
+               <MudTh><MudTableSortLabel SortLabel="reserved" T="Advertisement">Is Reserved</MudTableSortLabel></MudTh>
             }
         </HeaderContent>
         <RowTemplate>
@@ -66,33 +63,27 @@ else if (profile != null)
                 <MudTd DataLabel="Time Of Making">@HandleTime(context.TimeOfMaking)</MudTd>
                 <MudTd DataLabel="Pickup Deadline">@HandleTime(context.PickupTimeSpan)</MudTd>
                 <MudTd DataLabel="Price">@context.Cost Eur</MudTd>
-                if (ProfileContainer.CurrentAccount != null)
+                if (ProfileContainer.UserId == IdContainer.Id)
                 {
-                    if (ProfileContainer.CurrentAccount.Id == IdContainer.Id)
-                    {
-                        <MudTd DataLabel="Is Reserved">@(context.Buyer != null)</MudTd>
-                    }
+                   <MudTd DataLabel="Is Reserved">@(context.Buyer != null)</MudTd>
                 }
             }
-            else if ((ProfileContainer.CurrentAccount != null) && (context.Buyer.Id == ProfileContainer.CurrentAccount.Id || ProfileContainer.CurrentAccount.Id == IdContainer.Id))
+            else if ((ProfileContainer.UserId != null) && (context.Buyer.Id == ProfileContainer.UserId || ProfileContainer.UserId == IdContainer.Id))
             {
                 <MudTd DataLabel="Name">@context.MealName</MudTd>
                 <MudTd DataLabel="Time Of Making">@HandleTime(context.TimeOfMaking)</MudTd>
                 <MudTd DataLabel="Pickup Deadline">@HandleTime(context.PickupTimeSpan)</MudTd>
                 <MudTd DataLabel="Price">@context.Cost Eur</MudTd>
-                if (ProfileContainer.CurrentAccount != null)
+                if (ProfileContainer.UserId == IdContainer.Id)
                 {
-                    if (ProfileContainer.CurrentAccount.Id == IdContainer.Id)
-                    {
-                        <MudTd DataLabel="Is Reserved">@(context.Buyer != null)</MudTd>
-                    }
+                    <MudTd DataLabel="Is Reserved">@(context.Buyer != null)</MudTd>
                 }
             }
         </RowTemplate>
     </MudTable>
-    @if (ProfileContainer.CurrentAccount != null)
+    @if (ProfileContainer.UserId != null)
     {
-        if (ProfileContainer.CurrentAccount.Id == IdContainer.Id)
+        if (ProfileContainer.UserId == IdContainer.Id)
         {
             <MudButton Variant="Variant.Filled" OnClick="AddOrderCommand" >
                 Add order
@@ -101,7 +92,7 @@ else if (profile != null)
                 Remove order
             </MudButton>
         }
-        if (ProfileContainer.CurrentAccount.Id != IdContainer.Id)
+        if (ProfileContainer.UserId != IdContainer.Id)
         {
             <MudButton Variant="Variant.Filled" OnClick="BookOrderCommand">
                 Book order
@@ -214,8 +205,8 @@ else
             var buyer = advert.FirstOrDefault().Buyer;
             if (buyer == null)
             {
-                var currentProfile = dbContext.Profiles.Where(p => p.Id == ProfileContainer.CurrentAccount.Id);
-                advert.FirstOrDefault().Buyer = currentProfile.FirstOrDefault();
+                var currentProfile = ProfileContainer.GetUserProfile(); //dbContext.Profiles.Where(p => p.Id == ProfileContainer.UserId);
+                advert.FirstOrDefault().Buyer = currentProfile;
                 selectedRowNumber = -1;
                 mudTable.SetSelectedItem(null);
                 await dbContext.SaveChangesAsync();
@@ -223,7 +214,7 @@ else
             }
             else 
             {
-                if (buyer.Id == ProfileContainer.CurrentAccount.Id)
+                if (buyer.Id == ProfileContainer.UserId)
                 {
                     advert.FirstOrDefault().Buyer = null;
                     selectedRowNumber = -1;
