@@ -9,7 +9,7 @@ namespace PSI_MobileApp
 {
     public class ExceptionLogger
     {
-        private string path = "C:\\Users\\Matas\\source\\repos\\psi1-project-new\\PSI_MobileApp\\Log.txt";
+        private string path = "C:\\Users\\Rokas\\source\\repos\\merges-psi-project\\PSI_MobileApp\\Log.txt";
         public void Log(Exception ex)
         {
             if(!File.Exists(path))
