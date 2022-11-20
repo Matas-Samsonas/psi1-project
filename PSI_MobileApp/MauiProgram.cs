@@ -24,6 +24,7 @@ public static class MauiProgram
 #endif
 		builder.Services.AddSingleton<WeatherForecastService>();
 		builder.Services.AddScoped<StateContainer>();
+		builder.Services.AddScoped<ExceptionLogger>();
         builder.Services.AddScoped<IdStateContainer>();
 		builder.Services.AddScoped<CurrentUserContainer>();
         return builder.Build();
