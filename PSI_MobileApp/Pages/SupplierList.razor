@@ -99,6 +99,7 @@ else
 
     public void GoToDetailOnClick(Profile profile)
     {
+        IdContainer.OnChange += StateHasChanged;
         IdContainer.Id = profile.Id;
         NavigationManager.NavigateTo("/supplierlist/supplierdetails");
     }
