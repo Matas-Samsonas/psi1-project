@@ -13,9 +13,9 @@
 <h3>Create new account</h3>
 <!--<MudText> Test </MudText>-->
 <MudForm @bind-isValid = "@isValid">
-    <MudTextField T="string" Label="Username" @bind-Value="Username" Required="true" RequiredError="Field Username is required." /> <!-- Validation="@(new Func<string, bool>(IsUniqueUsername) {ErrorMessage = "Username is already in use."})" -->
+    <MudTextField T="string" Label="Username" @bind-Value="Username" Required="true" RequiredError="Field Username is required." />  <!--Validation="@(new Func<string, string>(IsUniqueUsername))" -->
     <MudTextField T="string" Label="Password" @bind-Value="Password" Required="true" RequiredError="Field Password is required." />
-    <MudTextField T="string" Label="Confirm Password" @bind-Value="Confirm" Required="true" RequiredError="Field Confirm Password is required." />
+    <MudTextField T="string" Label="Confirm Password" @bind-Value="Confirm" Required="true" RequiredError="Field Confirm Password is required." Validation="@(new Func<string, string>(IsIdentical))" />
     <MudTextField T="string" Label="Email" @bind-Value="Email" Required="true" RequiredError="Field Email is required." Validation="@(new EmailAddressAttribute() {ErrorMessage = "The email address is invalid."})" />
     <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!isValid)" Class="ml-auto" @onclick = "HandleSubmit">Register</MudButton>
 </MudForm>
@@ -48,17 +48,28 @@
             NavigationManager.NavigateTo("inputcontactdata");
         }
     }
-
+    public string IsIdentical(string confirm)
+    {
+        if(String.Equals(confirm, Password))
+        {
+            return null;
+        }
+        return "Passwords do not match.";
+    }
     public void Dispose()
     {
         StateContainer.OnChange -= StateHasChanged;
     }
-    /*
-     public bool IsUniqueUsername(string username)
-    {
+    
+     /*public string IsUniqueUsername(string username)
+     {
         using (var context = _dbFactory.CreateDbContext())
         {
-            return context.Accounts.All(elem => elem.Username != username);
+            if(context.Accounts.All(elem => elem.Username != username))
+            {
+                return null;
+            }
+            return "Username is already in use.";
         }
     }
     */
