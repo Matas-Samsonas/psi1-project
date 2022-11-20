@@ -32,41 +32,66 @@ namespace PSI_MobileApp
         {
             return _userDistributor.Value;
         }
-        public Account GetAccountFromDB()
+        public Account GetAccountFromDB(ExceptionLogger logger)
         {
-            using (ProjectDatabaseContext context = new())
+            try
             {
-                return context.Accounts.Where(profile => profile.Id == this.UserId).FirstOrDefault();
+                using (ProjectDatabaseContext context = new())
+                {
+                    return context.Accounts.Where(profile => profile.Id == this.UserId).FirstOrDefault();
+                }
+            }
+            catch(Exception ex)
+            {
+                logger.Log(ex);
+                return null;
             }
         }
 
-        public Profile GetProfileFromDB()
+        public Profile GetProfileFromDB(ExceptionLogger logger)
         {
-            using (ProjectDatabaseContext context = new())
+            try
             {
-                return context.Profiles.Where(profile => profile.Id == this.UserId).FirstOrDefault();
+                using (ProjectDatabaseContext context = new())
+                {
+                    throw new NotFiniteNumberException();
+                    return context.Profiles.Where(profile => profile.Id == this.UserId).FirstOrDefault();
+                }
+            }
+            catch(Exception ex)
+            {
+                logger.Log(ex);
+                return null;
             }
         }
-        public Distributor GetDistributorFromDB()
+        public Distributor GetDistributorFromDB(ExceptionLogger logger)
         {
-            using (ProjectDatabaseContext context = new())
+            try
             {
-                return context.Distributors.Where(profile => profile.Id == this.UserId).FirstOrDefault();
+                using (ProjectDatabaseContext context = new())
+                {
+                    return context.Distributors.Where(profile => profile.Id == this.UserId).FirstOrDefault();
+                }
+            }
+            catch(Exception ex)
+            {
+                logger.Log(ex);
+                return null;
             }
         }
 
-        public void Logout()
+        public void Logout(ExceptionLogger logger)
         {
             UserId = null;
-            _userDistributor = new Lazy<Distributor>(delegate () { return GetDistributorFromDB(); }); ;
-            _userAccount = new Lazy<Account>(delegate () { return GetAccountFromDB(); });
-            _userProfile = new Lazy<Profile>(delegate () { return GetProfileFromDB(); });
+            _userDistributor = new Lazy<Distributor>(delegate () { return GetDistributorFromDB(logger); }); ;
+            _userAccount = new Lazy<Account>(delegate () { return GetAccountFromDB(logger); });
+            _userProfile = new Lazy<Profile>(delegate () { return GetProfileFromDB(logger); });
         }
-        public CurrentUserContainer()
+        public CurrentUserContainer(ExceptionLogger logger)
         {
-            this._userAccount = new Lazy<Account>(delegate () { return GetAccountFromDB(); });
-            this._userProfile = new Lazy<Profile>(delegate () { return GetProfileFromDB(); });
-            this._userDistributor = new Lazy<Distributor>(delegate () { return GetDistributorFromDB(); });
+            this._userAccount = new Lazy<Account>(delegate () { return GetAccountFromDB(logger); });
+            this._userProfile = new Lazy<Profile>(delegate () { return GetProfileFromDB(logger); });
+            this._userDistributor = new Lazy<Distributor>(delegate () { return GetDistributorFromDB(logger); });
 
         }
         public event Action? OnChange;

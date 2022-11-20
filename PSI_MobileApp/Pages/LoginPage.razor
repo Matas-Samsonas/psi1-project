@@ -5,6 +5,7 @@
 @using System.Collections.ObjectModel
 @inject CurrentUserContainer CurrentUserContainer
 @inject StateContainer StateContainer
+@inject ExceptionLogger Logger
 @inject NavigationManager NavigationManager
 @implements IDisposable
 <h3> Login </h3>
@@ -44,9 +45,16 @@
 
     public void HandleValidSubmit()
     {
-        using (ProjectDatabaseContext context = new())
+        try
         {
-            CurrentUserContainer.UserId = context.Accounts.Where(elem => elem.Password == Password && elem.UserName == Username).Select(elem => elem.Id).FirstOrDefault();
+            using (ProjectDatabaseContext context = new())
+            {
+                CurrentUserContainer.UserId = context.Accounts.Where(elem => elem.Password == Password && elem.UserName == Username).Select(elem => elem.Id).FirstOrDefault();
+            }
+        }
+        catch(Exception ex)
+        {
+            Logger.Log(ex);
         }
         if(CurrentUserContainer.UserId != null){
             NavigationManager.NavigateTo("");
