@@ -8,6 +8,7 @@
 @inject StateContainer StateContainer
 @inject IdStateContainer IdContainer
 @inject NavigationManager NavigationManager
+@inject ExceptionLogger Logger
 @implements IDisposable
 
 
@@ -82,8 +83,15 @@ else
     protected override async Task OnInitializedAsync()
     {
         context = new();
-        var distrib = await context.Distributors.Select(d => d.Id).ToObservableCollecionAsync();
-        Profiles = await context.Profiles.Where(p => distrib.Contains(p.Id)).ToObservableCollecionAsync();
+        try
+        {
+            var distrib = await context.Distributors.Select(d => d.Id).ToObservableCollecionAsync();
+            Profiles = await context.Profiles.Where(p => distrib.Contains(p.Id)).ToObservableCollecionAsync();
+        }
+        catch(Exception ex)
+        {
+            Logger.Log(ex);
+        }
         SearchResults = Profiles;
         StateContainer.OnChange += StateHasChanged;
     }
