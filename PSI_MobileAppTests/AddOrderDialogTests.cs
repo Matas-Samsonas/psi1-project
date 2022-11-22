@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor;
 using MudBlazor.Services;
+using ProfileClasses;
 using PSI_MobileApp;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace PSI_MobileAppTests
     {
 
         [Fact]
-        public async void Test1()
+        public async void CancelShouldWork()
         {
             using var Context = new TestContext();
             var configuration = new MudServicesConfiguration();
@@ -35,6 +36,7 @@ namespace PSI_MobileAppTests
                 .AddMudBlazorScrollSpy()
                 .AddMudPopoverService(configuration.PopoverOptions)
                 .AddMudEventManager();
+
             var comp = Context.RenderComponent<MudDialogProvider>();
             var service = Context.Services.GetService<IDialogService>() as DialogService;
             Assert.NotNull(service);
@@ -43,9 +45,13 @@ namespace PSI_MobileAppTests
             await comp.InvokeAsync(() => {dialogReference = service?.Show<PSI_MobileApp.Pages.AddOrderDialog>();});
             Assert.NotNull(dialogReference);
 
-           
+
+            comp.FindAll("button").Where(b => b.TextContent == "Cancel").First().Click();
+
+            var rv = await dialogReference.GetReturnValueAsync<Profile>();
+            Assert.Null(rv);
             // on hold
-           // Assert.Equal(2, comp.FindComponents<MudButton>().Count);
+            // Assert.Equal(2, comp.FindComponents<MudButton>().Count);
         }
     
 
