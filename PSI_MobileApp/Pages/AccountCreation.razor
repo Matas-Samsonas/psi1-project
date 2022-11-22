@@ -7,6 +7,7 @@
 @using ClassLibrary
 @using System.ComponentModel.DataAnnotations
 @implements IDisposable
+@inject ExceptionLogger ExceptionLogger
 @inject StateContainer StateContainer
 @inject NavigationManager NavigationManager
 
@@ -75,9 +76,16 @@
      {
         using (var context = _dbFactory.CreateDbContext())
         {
-            if(context.Accounts.All(elem => elem.Username != username))
+            try 
             {
-                return null;
+                if(context.Accounts.All(elem => elem.Username != username))
+                {
+                    return null;
+                }
+            }
+            catch(Exception ex)
+            {
+                Logger.Log(ex);
             }
             return "Username is already in use.";
         }

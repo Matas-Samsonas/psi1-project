@@ -68,7 +68,14 @@ else
                 
                 <tr @onclick="()=>GoToDetailOnClick(supplier)">
                     <td>@supplier.Name</td>
-					<td>@(context.Distributors.Where(d => d.Id == supplier.Id).FirstOrDefault().Rating)</td>
+                    @try
+                    {
+                        <td>@(context.Distributors.Where(d => d.Id == supplier.Id).FirstOrDefault().Rating)</td>
+                    }
+					catch(Exception ex)
+                    {
+                        Logger.Log(ex);
+                    }
 					<td>@supplier.PhoneNumber</td>
                     <td>
                         @foreach (var cuisine in supplier.CuisineArray)
