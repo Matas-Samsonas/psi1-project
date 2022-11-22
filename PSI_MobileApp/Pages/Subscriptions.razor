@@ -1,0 +1,94 @@
+﻿@page "/subs"
+@using ClassLibrary;
+@using ProfileClasses
+@using System.Collections.ObjectModel
+@using AccountDataSerializer
+@using Microsoft.EntityFrameworkCore
+@inject StateContainer StateContainer
+@inject NavigationManager NavigationManager
+@inject IDbContextFactory<ProjectDatabaseContext> DbFactory
+@implements IDisposable
+
+<h3>Subscriptions</h3>
+@if (Profile == null || Profile.Subscriptions == null)
+{
+	<p><em>Loading...</em></p>
+}
+else
+{
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Rating</th>
+                <th>Cuisines</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var supplier in Profile.Subscriptions)
+			{
+                <tr>
+					<td @onclick="()=>GoToDetailOnClick(DistributorProfiles.First(i => supplier.Id == i.Id))">@DistributorProfiles.First(i => supplier.Id == i.Id).Name</td>
+					<MudRating ReadOnly="true" Color="Color.Dark" SelectedValue=@supplier.Rating></MudRating>
+                    <td>
+                        @foreach (var cuisine in supplier.Cuisines)
+                        {
+                            @cuisine.ToString()<br>
+                        }
+                    </td>
+					<MudButton Variant="Variant.Filled" Color="Color.Secondary" class="btn btn-primary" @onclick="()=>ChangeSubscriptionStatus(supplier)">Unsubscribe</MudButton>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+@code {
+	public Profile Profile { get; set; }
+	public List<Profile> DistributorProfiles { get; set; }
+	private ProjectDatabaseContext _context;
+
+	public Subscriptions()
+	{
+
+	}
+
+	public void GoToDetailOnClick(Profile supplier)
+	{
+		StateContainer.Supplier = supplier;
+		NavigationManager.NavigateTo("/supplierlist/supplierdetails");
+	}
+
+	public void ChangeSubscriptionStatus(Distributor distributor)
+	{
+		if (!Profile.Subscriptions.Contains(distributor))
+		{
+			Profile.Subscriptions.Add(distributor);
+		}
+		else
+		{
+			Profile.Subscriptions.Remove(distributor);
+		}
+	}
+
+	protected override async Task OnInitializedAsync()
+	{
+		_context = DbFactory.CreateDbContext();
+
+		if(_context != null && _context.Profiles != null)
+		{
+			StateContainer.OnChange += StateHasChanged;
+
+			Profile = _context.Profiles.ToList().First(i => i.Id == StateContainer.CurrentAccount.Id);
+			DistributorProfiles = _context.Profiles.ToList();
+		}
+		
+		await base.OnInitializedAsync();
+	}
+	public void Dispose()
+	{
+		StateContainer.OnChange -= StateHasChanged;
+		_context?.Dispose();
+	}
+
+}

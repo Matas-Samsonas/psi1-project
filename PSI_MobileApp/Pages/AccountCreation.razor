@@ -40,7 +40,7 @@
         account.UserName = Username;
         StateContainer.TempAccount = account;
         StateContainer.TempProfile = profile;
-        if(StateContainer.CreatingDistributor)
+        if (StateContainer.CreatingDistributor)
         {
             NavigationManager.NavigateTo("inputcontactdata");
         }
@@ -51,7 +51,8 @@
     }
     public string IsIdentical(string confirm)
     {
-        if(String.Equals(confirm, Password))
+
+        if (String.Equals(confirm, Password))
         {
             return null;
         }
@@ -60,7 +61,7 @@
 
     public string ContainsWhitespace(string password)
     {
-        if(password.Any(character => Char.IsWhiteSpace(character)))
+        if (password.Any(character => Char.IsWhiteSpace(character)))
         {
             return "Password cannot contain spaces.";
         }

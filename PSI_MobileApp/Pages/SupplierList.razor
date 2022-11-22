@@ -5,10 +5,12 @@
 @using PSI_MobileApp.Extensions
 @using ProfileClasses
 @using System.Collections.ObjectModel
+@using Microsoft.EntityFrameworkCore
 @inject StateContainer StateContainer
 @inject IdStateContainer IdContainer
 @inject NavigationManager NavigationManager
 @inject ExceptionLogger Logger
+@inject IDbContextFactory<ProjectDatabaseContext> DbFactory
 @implements IDisposable
 
 
@@ -106,14 +108,14 @@ else
         }
     }
 
-    public ObservableCollection<Profile> Profiles
+    public List<Profile> Profiles
     {
         get; private set;
     }
 
     protected override async Task OnInitializedAsync()
     {
-        context = new();
+        context = DbFactory.CreateDbContext();
         try
         {
             var distrib = await context.Distributors.Select(d => d.Id).ToObservableCollecionAsync();
@@ -132,7 +134,7 @@ else
 
     public void SearchCommand(string search)
     {
-        SearchResults = DataSearch.getSearchResults<Profile>(Profiles, searchQuery: search);
+        SearchResults = (List<Profile>)DataSearch.getSearchResults<Profile>(Profiles, searchQuery: search);
     }
 
 

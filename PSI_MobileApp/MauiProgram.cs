@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components.WebView.Maui;
+﻿using ClassLibrary;
+using Microsoft.AspNetCore.Components.WebView.Maui;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
 using PSI_MobileApp.Data;
@@ -27,6 +29,7 @@ public static class MauiProgram
 		builder.Services.AddScoped<ExceptionLogger>();
         builder.Services.AddScoped<IdStateContainer>();
 		builder.Services.AddScoped<CurrentUserContainer>();
-        return builder.Build();
+		builder.Services.AddDbContextFactory<ProjectDatabaseContext>();
+		return builder.Build();
 	}
 }
