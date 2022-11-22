@@ -1,14 +1,12 @@
-﻿
 
 using ProfileClasses;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
 
-namespace ClassLibrary; 
+namespace ClassLibrary;
 
 public partial class Advertisement : IUsingUUID
 {
-    // Notes:  entity framework in memory, test coverage 
     private Guid _id;
     private string mealName="";
     private DateTime pickupTimeSpan;
