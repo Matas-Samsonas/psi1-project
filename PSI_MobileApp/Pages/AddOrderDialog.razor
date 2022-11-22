@@ -39,7 +39,7 @@
     public TimeSpan? TimeSpan { get; set; }
 
 
-    private async Task Submit()
+    public async Task Submit()
     {
         NumberCorrect = string.Empty;
         TimeCorrect = string.Empty;
@@ -90,6 +90,6 @@
             TimeCorrect = "The date and time needs to be selected and Higher then current time.";
         }
     }
-    void Cancel() => MudDialog.Cancel();
+    public void Cancel() => MudDialog.Cancel();
     
 }
