@@ -1,0 +1,38 @@
+﻿@page "/profile"
+@using AccountDataSerializer
+@using ProfileClasses
+@using System.Collections.ObjectModel
+@inject StateContainer StateContainer
+@inject NavigationManager NavigationManager
+@implements IDisposable
+<h3> </h3>
+@if(StateContainer.CurrentAccount != null)
+{
+    <h3> Test </h3>
+}
+else
+{
+    <MudButton @onclick="Login"> Login </MudButton>
+    <MudButton @onclick="Register"> Register</MudButton>
+}
+
+
+
+@code {
+    public void Register()
+    {
+        NavigationManager.NavigateTo("chooseaccounttype");
+        StateContainer.TempAccount = new();
+        StateContainer.TempProfile = new();
+    }
+
+    public void Login()
+    {
+        NavigationManager.NavigateTo("login");
+    }
+
+    public void Dispose()
+    {
+        StateContainer.OnChange -= StateHasChanged;
+    }
+}

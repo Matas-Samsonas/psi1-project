@@ -4,6 +4,8 @@ VisualStudioVersion = 17.0.31611.283
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PSI_MobileApp", "PSI_MobileApp.csproj", "{A9471B33-8EF3-4ED3-8CA8-B81DB6379B08}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClassLibrary", "..\ClassLibrary1\ClassLibrary.csproj", "{02A23C5E-DDE3-47EA-9665-4531920B0543}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -16,6 +18,10 @@ Global
 		{A9471B33-8EF3-4ED3-8CA8-B81DB6379B08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9471B33-8EF3-4ED3-8CA8-B81DB6379B08}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A9471B33-8EF3-4ED3-8CA8-B81DB6379B08}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{02A23C5E-DDE3-47EA-9665-4531920B0543}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02A23C5E-DDE3-47EA-9665-4531920B0543}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02A23C5E-DDE3-47EA-9665-4531920B0543}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02A23C5E-DDE3-47EA-9665-4531920B0543}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

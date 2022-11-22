@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Components.WebView.Maui;
+﻿using ClassLibrary;
+using Microsoft.AspNetCore.Components.WebView.Maui;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using MudBlazor.Services;
 using PSI_MobileApp.Data;
 using PSI_MobileApp.Pages;
 
@@ -18,11 +21,13 @@ public static class MauiProgram
 			});
 
 		builder.Services.AddMauiBlazorWebView();
-		#if DEBUG
-		builder.Services.AddBlazorWebViewDeveloperTools();
+        builder.Services.AddMudServices();
+#if DEBUG
+        builder.Services.AddBlazorWebViewDeveloperTools();
 #endif
 		builder.Services.AddSingleton<WeatherForecastService>();
 		builder.Services.AddScoped<StateContainer>();
+		builder.Services.AddDbContextFactory<ProjectDatabaseContext>();
 		return builder.Build();
 	}
 }

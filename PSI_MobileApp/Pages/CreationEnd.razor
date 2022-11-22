@@ -1,0 +1,55 @@
+﻿@page "/finishcreation"
+@using AccountDataSerializer
+@using Newtonsoft.Json
+@using ProfileClasses
+@using System.Collections.ObjectModel
+@using ClassLibrary
+@inject StateContainer StateContainer
+@inject NavigationManager NavigationManager
+@implements IDisposable
+@if(Add())
+{
+    <h3> Profile created successfully.</h3>
+}
+else
+{
+    <h3> Profile creation failed unexpectedly.</h3>
+}
+
+@code {
+
+    public bool Add()
+    {
+        try
+        {
+            using (ProjectDatabaseContext context = new())
+            {
+                context.Add(StateContainer.TempAccount);
+                context.Add(StateContainer.TempProfile);
+                if(StateContainer.CreatingDistributor)
+                {
+                    Distributor newDistributor = new();
+                    newDistributor.Id = StateContainer.TempAccount.Id;
+                    context.Add(newDistributor);
+                }
+                
+                context.SaveChanges();
+            }
+        }
+        catch(Exception ex)
+        {
+            return false;
+        }
+        return true;
+    }
+    public void Continue()
+    {
+        StateContainer.TempProfile = new();
+        StateContainer.TempAccount = new();
+        NavigationManager.NavigateTo("");
+    }
+    public void Dispose()
+    {
+        StateContainer.OnChange -= StateHasChanged;
+    }
+}

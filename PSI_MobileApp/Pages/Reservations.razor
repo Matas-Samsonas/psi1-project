@@ -1,0 +1,68 @@
+﻿@page "/reservations"
+@using System.Collections.ObjectModel;
+@using ClassLibrary
+@using ProfileClasses
+@using Microsoft.EntityFrameworkCore
+@inject StateContainer StateContainer
+@inject IDbContextFactory<ProjectDatabaseContext> DbFactory
+@implements IDisposable
+
+<h3>Reservations</h3>
+
+@if(Profile == null || UserReservations == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Meal Name</th>
+                <th>Distributor</th>
+                <th>Reserved until</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var reservation in UserReservations)
+            {
+                <tr>
+                    <td>@reservation.MealName</td>
+                    <td>@reservation.Distributor</td>
+                    <td>@reservation.PickupTimeSpan</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    public Profile Profile { get; set; }
+    public List<Advertisement> UserReservations { get; set; }
+    private ProjectDatabaseContext _context;
+
+
+    public Reservations()
+    {
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        StateContainer.OnChange += StateHasChanged;
+
+        _context = DbFactory.CreateDbContext();
+
+        Profile = _context.Profiles.ToList().First(i => i.Id == StateContainer.CurrentAccount.Id);
+        UserReservations = _context.Advertisements.Where(i => i.Buyer == Profile).ToList();
+
+        await base.OnInitializedAsync();
+
+    }
+    public void Dispose()
+    {
+        StateContainer.OnChange -= StateHasChanged;
+    }
+
+}
