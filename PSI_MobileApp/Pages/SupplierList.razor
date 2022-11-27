@@ -1,0 +1,162 @@
+﻿@page "/supplierlist"
+@using AccountDataSerializer
+@using ClassLibrary
+@using Microsoft.EntityFrameworkCore
+@using PSI_MobileApp.Extensions
+@using ProfileClasses
+@using System.Collections.ObjectModel
+@using Microsoft.EntityFrameworkCore
+@inject StateContainer StateContainer
+@inject IdStateContainer IdContainer
+@inject NavigationManager NavigationManager
+@inject ExceptionLogger Logger
+@inject IDbContextFactory<ProjectDatabaseContext> DbFactory
+@implements IDisposable
+
+
+<h3>Supplier List</h3>
+
+@if (Profiles == null)
+{ 
+    
+    <div>
+    <input class="form-control" type="text" placeholder="Search"
+            @bind="Search"
+            @oninput="(e) =>  SearchCommand(e.Value.ToString())" />
+    </div>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Rating</th>
+                <th>Phone number</th>
+                <th>Cuisines</th>
+			</tr>
+		</thead>
+    </table>
+
+    <MudOverlay Visible="true" DarkBackground="true" Absolute="true" >
+        <MudStack AlignItems="AlignItems.Center">
+            <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
+            <MudText>An error has occured while loading data.</MudText>
+            <MudText>@canNotConnectText</MudText>
+            <MudButton Variant="Variant.Outlined" OnClick="Refresh">Refresh</MudButton>
+       </MudStack>
+        
+    </MudOverlay>
+    
+}
+else
+{
+    <div>
+        <input class="form-control" type="text" placeholder="Search"
+               @bind="Search"
+               @oninput="(e) =>  SearchCommand(e.Value.ToString())" />
+    </div>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Rating</th>
+                <th>Phone number</th>
+                <th>Cuisines</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var supplier in SearchResults)
+			{
+                
+                <tr @onclick="()=>GoToDetailOnClick(supplier)">
+                    <td>@supplier.Name</td>
+                    @try
+                    {
+                        <td>@(context.Distributors.Where(d => d.Id == supplier.Id).FirstOrDefault().Rating)</td>
+                    }
+					catch(Exception ex)
+                    {
+                        Logger.Log(ex);
+                    }
+					<td>@supplier.PhoneNumber</td>
+                    <td>
+                        @foreach (var cuisine in supplier.CuisineArray)
+                        {
+                            @cuisine<br>
+                        }
+                    </td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+@code {
+    // private AccountDataSerializer<Profile> _dataSerializer;
+    private ObservableCollection<Profile> _searchResult;
+    ProjectDatabaseContext context;
+    private string canNotConnectText = string.Empty;
+    public ObservableCollection<Profile> SearchResults
+    {
+        get
+        { return _searchResult; }
+        set
+        {
+            _searchResult = value;
+
+            //onpropertychanged();
+        }
+    }
+
+    public List<Profile> Profiles
+    {
+        get; private set;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        context = DbFactory.CreateDbContext();
+        try
+        {
+            var distrib = await context.Distributors.Select(d => d.Id).ToObservableCollecionAsync();
+            Profiles = await context.Profiles.Where(p => distrib.Contains(p.Id)).ToObservableCollecionAsync();
+        }
+        catch(Exception ex)
+        {
+            Logger.Log(ex);
+        }
+        SearchResults = Profiles;
+        StateContainer.OnChange += StateHasChanged;
+    }
+
+
+    public string Search { get; set; }
+
+    public void SearchCommand(string search)
+    {
+        SearchResults = (List<Profile>)DataSearch.getSearchResults<Profile>(Profiles, searchQuery: search);
+    }
+
+
+    public void GoToDetailOnClick(Profile profile)
+    {
+        IdContainer.OnChange += StateHasChanged;
+        IdContainer.Id = profile.Id;
+        NavigationManager.NavigateTo("/supplierlist/supplierdetails");
+    }
+
+    public void Dispose()
+    {
+        StateContainer.OnChange -= StateHasChanged;
+        context.Dispose();
+    }
+
+    public void Refresh()
+    {
+        if (context.Database.CanConnect())
+            NavigationManager.NavigateTo("/supplierlist",true);
+        else{
+            canNotConnectText = "Can not connect to database. Please check your internet connection and try again.";
+        }
+    }
+}

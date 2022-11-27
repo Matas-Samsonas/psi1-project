@@ -1,0 +1,52 @@
+﻿@page "/inputcontactdata"
+@using AccountDataSerializer
+@using Newtonsoft.Json
+@using ProfileClasses
+@using System.Collections.ObjectModel
+@using System.Text.Json
+@using ClassLibrary
+@using System.ComponentModel.DataAnnotations
+@inject StateContainer StateContainer
+@inject NavigationManager NavigationManager
+@implements IDisposable
+<h3>Input Contact Data</h3>
+
+<MudForm @bind-isValid="@isValid">
+    @if(StateContainer.CreatingDistributor)
+    {
+        <MudTextField T="string" Label="Establisment Name" @bind-Value="DistributorName" Required="true" RequiredError="Please enter the name of Your Establishment!" />
+    }
+    <MudTextField T="string" Label="Phone Number" @bind-Value="Phone" Required="false" Validation="@(new PhoneAttribute() {ErrorMessage = "This is not a valid Phone Number."})"/>
+    <MudTextField T="string" Label="City" @bind-Value="City" Required="true" RequiredError="Field City is required." />
+    <MudTextField T="string" Label="Street Name" @bind-Value="StreetName" Required="true" RequiredError="Field Street Name is required." />
+    <MudTextField T="int?" Label="Street Number" @bind-Value="StreetNumber" Required="true" RequiredError="Field Street Number is required." Validation="@(new RangeAttribute(1, 1000000) {ErrorMessage = "A Street Number can not be negative or zero."})" />
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!isValid)" Class="ml-auto" @onclick="HandleValidSubmit">Register</MudButton>
+</MudForm>
+
+@code {
+    public string Phone;
+    public string City;
+    public string StreetName;
+    public int? StreetNumber;
+    public bool isValid;
+    public string DistributorName = string.Empty;
+    public void HandleValidSubmit()
+    {
+        Address address = new();
+        if(StateContainer.CreatingDistributor)
+        {
+            StateContainer.TempProfile.Name = DistributorName;
+        }
+        address.StreetNumber = (int)StreetNumber;
+        address.StreetName = StreetName;
+        address.City = City;
+        StateContainer.TempProfile.PhoneNumber = Phone;
+        StateContainer.TempProfile.TypedAddress = address;
+        NavigationManager.NavigateTo("choosecuisines");
+    }
+
+    public void Dispose()
+    {
+        StateContainer.OnChange -= StateHasChanged;
+    }
+}

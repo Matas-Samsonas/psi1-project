@@ -1,0 +1,71 @@
+﻿@page "/login"
+@using AccountDataSerializer
+@using ClassLibrary
+@using ProfileClasses
+@using System.Collections.ObjectModel
+@inject CurrentUserContainer CurrentUserContainer
+@using Microsoft.EntityFrameworkCore
+@inject StateContainer StateContainer
+@inject ExceptionLogger Logger
+@inject NavigationManager NavigationManager
+@inject IDbContextFactory<ProjectDatabaseContext> DbFactory
+@implements IDisposable
+<h3> Login </h3>
+ <form>
+    <table>
+        <tr>
+            <td class="labelcell">
+                <div class="label">
+                    <label for="username"> Username:</label>
+                </div>
+            </td>
+            <td>
+                <input type="text" @bind-value="Username" id="username" name="name">
+            </td>
+        </tr>
+        <tr>
+            <td class="labelcell">
+                <div class="label">
+                    <label for="password"> Password: </label>
+                </div>
+            </td>
+            <td>
+                <input type="text" @bind-value="Password" id="password" name="pass">
+            </td>
+
+        </tr>
+
+    </table>
+    <MudButton OnClick="HandleValidSubmit" Variant="Variant.Filled"> Login </MudButton>
+ </form>
+
+
+
+@code {
+    public string Username;
+    public string Password;
+
+    public void HandleValidSubmit()
+    {
+        try
+        {
+            using (var context = DbFactory.CreateDbContext())
+            {
+                CurrentUserContainer.UserId = context.Accounts.Where(elem => elem.Password == Password && elem.UserName == Username).Select(elem => elem.Id).FirstOrDefault();
+            }
+        }
+        catch(Exception ex)
+        {
+            Logger.Log(ex);
+        }
+        if(CurrentUserContainer.UserId != null){
+            NavigationManager.NavigateTo("");
+        }
+        
+    }
+
+    public void Dispose()
+    {
+        StateContainer.OnChange -= StateHasChanged;
+    }
+}
